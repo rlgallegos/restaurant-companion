@@ -1,0 +1,36 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "name": "Orange Chicken",
+            "description": "A saucy saucy orange chicken",
+            "img": "https://www.modernhoney.com/wp-content/uploads/2018/01/Chinese-Orange-Chicken-2-1024x729.jpg",
+            "vegan": 0,
+            "vegetarian": 1,
+            "kosher": 1,
+            "ingredients": [
+                "Chicken",
+                "Orange",
+                "Sesame",
+                "Soy",
+                "Msg"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Orange Chicken",
+            "description": "A saucy saucy orange chicken",
+            "img": "https://www.modernhoney.com/wp-content/uploads/2018/01/Chinese-Orange-Chicken-2-1024x729.jpg",
+            "vegan": 0,
+            "vegetarian": 1,
+            "kosher": 1,
+            "ingredients": [
+                "Chicken",
+                "Orange",
+                "Sesame",
+                "Soy",
+                "Msg"
+            ]
+        }
+    ]
+}
