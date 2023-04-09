@@ -7,6 +7,7 @@ name = "pypi"
 gunicorn = "*"
 psycopg2-binary = "*"
 psycopg2 = "*"
+faker = "*"
 
 [dev-packages]
 

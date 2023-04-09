@@ -39,5 +39,32 @@
 
 img {
   width: 20vh;
+  height: 25vh;
+}
+
+.menu-display {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
+.menu-card {
+  width: 40vh;
   height: auto;
+}
+
+#allergy-side-bar {
+  display: inline;
+  float: left;
+  width: 10vh;
+  height: 85vh;
+}
+#nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 2vh 15vh 2vh;
 }
