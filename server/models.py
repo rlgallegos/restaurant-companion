@@ -15,9 +15,14 @@ class Restaurant(db.Model, SerializerMixin):
     # DB Setup
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, index=True)
-    hashed_password = db.Column(db.String)
+
+    serialize_rules = ('-users.restaurant',)
+    serialize_rules = ('-menu_items.restaurant',)
 
     menu_items = db.relationship('MenuItem', back_populates='restaurant')
+    users = db.relationship('User', back_populates='restaurant')
+
+
 
 class MenuItem(db.Model, SerializerMixin):
     __tablename__ = 'menu_items'
@@ -30,8 +35,14 @@ class MenuItem(db.Model, SerializerMixin):
     vegan = db.Column(db.Boolean)
     kosher = db.Column(db.Boolean)
 
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'))
-    ingredients = db.relationship('Ingredients', back_populates='menu_item')
+    serialize_rules = ('-restaurant.menu_items',)
+    serialize_rules = ('-ingredients.menu_item',)
+
+    restaurant = db.relationship('Restaurant', back_populates='menu_items')
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), index=True)
+
+    ingredients = db.relationship('Ingredient', back_populates='menu_item')
+
 
 class Ingredient(db.Model, SerializerMixin):
     __tablename__ = 'ingredients'
@@ -41,10 +52,23 @@ class Ingredient(db.Model, SerializerMixin):
     name = db.Column(db.String)
     removable = db.Column(db.Boolean)
 
+    serialize_rules = ('-menu_item.ingredients',)
+
+    menu_item = db.relationship('MenuItem', back_populates='ingredients')
     menu_item_id = db.Column(db.Integer, db.ForeignKey('menu_items.id'))
 
+class User(db.Model, SerializerMixin):
+    __tablename__ = 'users'
 
+    # DB Setup
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    hashed_password = db.Column(db.String)
 
+    serialize_rules = ('-restaurant.users',)
+    
+    restaurant = db.relationship('Restaurant', back_populates='users')
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'))
 
 
 
