@@ -3,16 +3,14 @@
 from random import randint, choice
 from faker import Faker
 from app import app
-from models import db, User, Restaurant, MenuItem, Ingredient
-from data_sets import pics, food, ingredient_names
+from models import db, User, Restaurant, MenuItem, Allergy, MenuItemAllergy
+from data_sets import food, ingredient_names
 
 with app.app_context():
     print('Deleting all records...')
-    # db.session.query(Ingredient)
-    # db.session.query(MenuItem)
-    # db.session.query(User)
-    # db.session.query(Restaurant)
-    Ingredient.query.delete()
+
+    MenuItemAllergy.query.delete()
+    Allergy.query.delete()
     MenuItem.query.delete()
     User.query.delete()
     Restaurant.query.delete()
@@ -24,12 +22,6 @@ with app.app_context():
 
     print('Creating restaurants...')
     restaurants = [Restaurant( name=fake.bs() ) for i in range(25)]
-    # restaurants = []
-    # for i in range(25):
-    #     restaurant = Restaurant(
-    #         name = fake.bs()
-    #     )
-    #     restaurants.append(restaurant)
 
     db.session.add_all(restaurants)
     db.session.commit()
@@ -48,25 +40,11 @@ with app.app_context():
     db.session.commit()
 
     print('Creating menu items...')
-    # food = ['Orange Chicken', 'Wasabi Crusted Filet', 'Grilled Branzino', 'Fried Rice', 'Lo Mein', 'Omakase', 'Vegetable Dumplings', 'Gyoza', 'Egg Rolls']
-    # pics = [
-    #     '/sample_pics/bokchoy.jpeg',
-    #     '/sample_pics/dumplings.jpeg',
-    #     '/sample_pics/fish.jpeg',
-    #     '/sample_pics/ribs.jpeg',
-    #     '/sample_pics/rice.jpeg',
-    #     '/sample_pics/roll.jpeg',
-    #     '/sample_pics/salmon.jpeg',
-    #     '/sample_pics/sashimi.jpeg',
-    #     '/sample_pics/soup.jpeg',
-    #     '/sample_pics/steak.jpeg'
-    # ]
     menu_items = []
     for i in range(300):
         menu_item = MenuItem(
             name = choice(food),
             description = fake.sentence(),
-            pic_path = choice(pics),
             vegan = fake.boolean(),
             kosher = fake.boolean(),
             restaurant = choice(restaurants)
@@ -76,15 +54,30 @@ with app.app_context():
     db.session.add_all(menu_items)
     db.session.commit()
 
-    print('Creating ingredients...')
-    ingredients = []
-    for i in range(2000):
-        ingredient = Ingredient(
-            name = choice(ingredient_names),
-            removable = fake.boolean(),
-            menu_item = choice(menu_items)
+    print('Creating allergies...')
+    allergies = []
+    for i in range(len(ingredient_names)):
+        allergy = Allergy(
+            name = ingredient_names[i],
+            removable = True,
         )
-        ingredients.append(ingredient)
+        allergies.append(allergy)
+        allergy2 = Allergy(
+            name = ingredient_names[i],
+            removable = False
+        )
+        allergies.append(allergy2)
         
-    db.session.add_all(ingredients)
+    db.session.add_all(allergies)
+    db.session.commit()
+
+    print('Creating menu_item_allergies...')
+    menu_item_allergies = []
+    for i in range(1000):
+        new_menu_item = MenuItemAllergy(
+            menu_item = choice(menu_items),
+            allergy = choice(allergies)
+        )
+        menu_item_allergies.append(new_menu_item)
+    db.session.add_all(menu_item_allergies)
     db.session.commit()

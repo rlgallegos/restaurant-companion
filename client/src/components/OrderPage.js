@@ -4,50 +4,67 @@ import OrderDetailCard from "./OrderDetailCard.js";
 
 
 
-function OrderPage({filters, orderList, setOrderList}) {
+function OrderPage({allergyList, setFilters, orderList, setOrderList, hasOrdered, setHasOrdered}) {
     const location = useLocation()
     const navigate = useNavigate()
 
-    function handleGoToMenu() {
-        navigate('/')
-    }
+    // console.log(orderList)
+    // console.log(location.state)
 
     useEffect(() => {
-        setOrderList([...orderList, location.state])
+        if (location.state) {
+            setOrderList([...orderList, location.state])
+            setFilters([])
+        }
     }, [])
 
-    console.log(orderList)
 
-    function handleDeleteIngredient(order, updatedIngredientList) {
-        // console.log(updatedIngredientList)
-        let indexToRemove = orderList.indexOf(order)
-        const newObj = {...order, item: {...order.item, ingredients: updatedIngredientList}}
+    // function handleDeleteAllergy(order, updatedAllergyList) {
+    //     let indexToRemove = orderList.indexOf(order)
+    //     const newObj = {...order, item: {...order.item, allergies: updatedAllergyList}}
 
+    //     // This part DOES switch out the objects
+    //     setOrderList((orderList) => {
+    //         return [
+    //             ...orderList.slice(0, indexToRemove),
+    //             newObj,
+    //             ...orderList.slice(indexToRemove + 1)
+    //         ]
+    //     })
+    // }
 
-        // This part DOES switch out the objects
-        setOrderList((orderList) => {
-            return [
-                ...orderList.slice(0, indexToRemove),
-                newObj,
-                ...orderList.slice(indexToRemove + 1)
-            ]
-        })
-
+    function handleClick() {
+        if (hasOrdered) {
+            //Here is where patch logic would go
+            fetch('/orders', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(orderList)
+            }).then(res => res.json())
+            .then(data => {
+                navigate('/complete-order', {state: data })
+            })
+        }
     }
-
 
 
     let uniqueID = 0
     let currentOrder = orderList.map(order => {
-        uniqueID++
-        return <OrderDetailCard key={uniqueID} onDeleteIngredient={handleDeleteIngredient} order={order} />
-    })
+            uniqueID++
+            return <OrderDetailCard allergyList={allergyList} key={uniqueID} order={order} />
+        })
+
 
     return (
         <div>
-            <h1>This is the Order Page</h1>
-            {currentOrder}
-            <button onClick={handleGoToMenu}>Back To Menu</button>
+            <button onClick={handleClick}>Translate</button>
+            <br></br>
+            {hasOrdered? currentOrder: <h3>You haven't ordered anything yet...</h3>}
+            <br></br>
+            {hasOrdered? <button onClick={handleClick}>Translate</button> : null}
+            
         </div>
     )
 }

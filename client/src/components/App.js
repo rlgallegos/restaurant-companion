@@ -1,46 +1,45 @@
 // import logo from '../logo.svg';
 import '../App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import MenuDisplay from './MenuDisplay';
-import FilterPage from './FilterPage';
+import CompleteOrderPage from './CompleteOrderPage';
 import ItemDetailsPage from './ItemDetailsPage';
 import OrderPage from './OrderPage';
-import ManageMenu from './ManageMenu';
+import ManagePage from './ManagePage';
 import Welcome from './Welcome';
-import { useNavigate } from "react-router-dom";
 
 import NavBar from './NavBar';
-
-
+import ManagePortal from './ManagePortal';
 
 function App() {
   const [menu, setMenu] = useState([])
   const [filters, setFilters] = useState([])
   const [orderList, setOrderList] = useState([])
   const [language, setLanguage] = useState('en')
-  // const navigate = useNavigate()
+  const [hasOrdered, setHasOrdered] = useState(false)
+  const [isDirect, setIsDirect] = useState(false)
+  const [allergyList, setAllergyList] = useState([])
 
-  // useEffect(() => {
-  //   if (!language) {
-  //     navigate('/welcome')
-  //   }
+  const navigate = useNavigate()
 
-  // }, [])
 
   useEffect(() => {
-    fetch(`/447/${language}/items`)
+    fetch(`/965/${language}/items`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
-        setMenu(data)
+        // console.log(data.menu_items)
+        // console.log(data.allergies)
+        setMenu(data.menu_items)
+        setAllergyList(data.allergies)
+        setFilters([])
       });
   }, [language]);
 
   function handleSetLanguage(langAbbrev) {
     setLanguage(langAbbrev)
   }
-
 
   return (
     <div className="App">
@@ -50,30 +49,30 @@ function App() {
       <main>
         <NavBar handleSetLanguage={handleSetLanguage} />
         <Routes>
-          {/* <Route 
-          path = '/welcome'
-          element = {<Welcome onSetLanguage={handleSetLanguage}/>}     
-          /> */}
           <Route 
           path = '/'
-          element = {<MenuDisplay filters={filters} setFilters={setFilters} menu={menu} />}     
+          element = {<MenuDisplay allergyList={allergyList} setIsDirect={setIsDirect} filters={filters} setFilters={setFilters} menu={menu} />}     
           />
           <Route 
-          path = '/filter'
-          element = {<FilterPage />}     
+          path = '/complete-order'
+          element = {isDirect ? <CompleteOrderPage language={language} orderList={orderList} /> : <Navigate to='/' />}     
           />
           <Route 
           path = '/item/:id'
-          element = {<ItemDetailsPage filters={filters} items={menu} />}     
+          element = {isDirect ? <ItemDetailsPage setIsDirect={setIsDirect} setHasOrdered={setHasOrdered} filters={filters} items={menu} /> : <Navigate to='/' />}     
           />
           <Route 
           path = '/order'
-          element = {<OrderPage orderList={orderList} setOrderList={setOrderList} />}     
+          element = {isDirect ? <OrderPage allergyList={allergyList} setFilters={setFilters} setIsDirect={setIsDirect} hasOrdered={hasOrdered} setHasOrdered={setHasOrdered} orderList={orderList} setOrderList={setOrderList} /> : <Navigate to='/' />}     
           />
-          {/* <Route 
-          path = '/manage/:name/items'
-          element = {<ManageMenu items={items} />}     
-          /> */}
+          <Route 
+          path = '/manage'
+          element = {<ManagePage />}     
+          />
+          <Route 
+          path = '/manage_portal/:id'
+          element = {<ManagePortal />}
+          />
         </Routes>
       </main>
     </div>

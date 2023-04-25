@@ -1,23 +1,17 @@
+import AllergySideBarElement from "./AllergySideBarElement"
 
+function AllergySideBar({ allergyList, filters, setFilters}) {
 
-function AllergySideBar({ filters, setFilters}) {
-
-    //Allergy entry deletion
-    function handleClick(e) {
-        console.log(e.target.textContent)
-        setFilters(filters.filter(filter => filter != e.target.textContent))
-    }
-    //Allergy list creation
     let uniqueId = 0
-    const allergy_list = filters.map(filter => {
+    const allergySidebarList = allergyList.map(allergy => {
         uniqueId++
-        return <p onClick={handleClick} key={uniqueId}>{filter}</p>
+        return <AllergySideBarElement key={uniqueId} filters={filters} setFilters={setFilters} allergy={allergy} />
     })
 
     return (
         <div id="allergy-side-bar">
             Allergy side bar
-            {allergy_list}
+            {allergyList && allergySidebarList}
         </div>
     )
 }

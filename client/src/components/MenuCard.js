@@ -12,7 +12,6 @@ function MenuCard( {item} ) {
     return (
         <div onClick={handleClick} className="menu-card">
             <h3>{item.name}</h3>
-            <img src={item.pic_path} alt="Delicious Food"/>
             <p>{item.description}</p>
         </div>
     )

@@ -1,16 +1,26 @@
+import { useEffect } from "react"
 import MenuCard from "./MenuCard"
 // import { useEffect } from 'react';
+import _ from 'lodash';
 
 
 function MenuCards( {menu, filters} ) {
 
     let cardList = []
+
     if (menu) {
-        let filtered_list = menu.filter(item => {
-            return !item.ingredients.some(ingredient => {
-                return filters.includes(ingredient.name)
+        //id's of items to be filtered
+        let idArray = []
+        filters.forEach(filter => {
+            idArray.push(filter.id)
+        })
+        //filter out the given ids
+        let filtered_list = menu.filter(item => {    
+            return !item.allergies.some(allergy => {
+                return idArray.includes(allergy.id)
             })
         })
+        //build the new list to be rendered
         cardList = filtered_list.map(item => {
             return <MenuCard key={item.id} item={item} />
         })

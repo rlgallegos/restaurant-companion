@@ -1,20 +1,16 @@
 import MenuCards from './MenuCards';
 import AllergySideBar from './AllergySideBar';
+import { useEffect } from 'react';
 
-function MenuDisplay( {menu, filters, setFilters} ) {
+function MenuDisplay( {menu, allergyList, filters, setFilters, setIsDirect} ) {
 
-    function handleSubmit(e) {
-        e.preventDefault()
-        setFilters([...filters, e.target[0].value.toLowerCase()])
-    }
+  useEffect(() => {
+    setIsDirect(true)
+  }, [])
 
     return (
         <div>
-            <AllergySideBar setFilters={setFilters} filters={filters} />
-            <form onSubmit={handleSubmit}>
-                <input type='text' />
-                <input type='submit' />
-            </form>
+            <AllergySideBar allergyList={allergyList} setFilters={setFilters} filters={filters} />
             <h1>Menu</h1>
             <MenuCards filters={filters} menu={menu} />
         </div>

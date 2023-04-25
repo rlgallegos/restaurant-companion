@@ -68,3 +68,10 @@ img {
   justify-content: space-evenly;
   margin: 2vh 15vh 2vh;
 }
+
+.allergy-removed {
+  background-color: red;
+}
+.allergy-intact {
+  background-color: green;
+}
