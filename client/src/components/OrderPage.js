@@ -8,8 +8,6 @@ function OrderPage({allergyList, setFilters, orderList, setOrderList, hasOrdered
     const location = useLocation()
     const navigate = useNavigate()
 
-    // console.log(orderList)
-    // console.log(location.state)
 
     useEffect(() => {
         if (location.state) {
@@ -19,19 +17,7 @@ function OrderPage({allergyList, setFilters, orderList, setOrderList, hasOrdered
     }, [])
 
 
-    // function handleDeleteAllergy(order, updatedAllergyList) {
-    //     let indexToRemove = orderList.indexOf(order)
-    //     const newObj = {...order, item: {...order.item, allergies: updatedAllergyList}}
 
-    //     // This part DOES switch out the objects
-    //     setOrderList((orderList) => {
-    //         return [
-    //             ...orderList.slice(0, indexToRemove),
-    //             newObj,
-    //             ...orderList.slice(indexToRemove + 1)
-    //         ]
-    //     })
-    // }
 
     function handleClick() {
         if (hasOrdered) {
@@ -44,7 +30,7 @@ function OrderPage({allergyList, setFilters, orderList, setOrderList, hasOrdered
                 body: JSON.stringify(orderList)
             }).then(res => res.json())
             .then(data => {
-                navigate('/complete-order', {state: data })
+                navigate('/user/complete-order', {state: data })
             })
         }
     }

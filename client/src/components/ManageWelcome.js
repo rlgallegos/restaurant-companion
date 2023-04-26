@@ -1,23 +1,12 @@
-
 import ManageSignup from './ManageSignup';
 import ManageLogin from './ManageLogin';
+
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-
-function ManagePage() {
+function ManageWelcome() {
     const [formType, setFormType] = useState(null)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        fetch('/check_session')
-        .then(res => {
-            if (res.ok) {
-                res.json().then(data => navigate(`/manage_portal/${data.restaurant.id}`))
-            }
-        })
-    }, [])
-
 
     function hanldeClick(e){
         switch(e.target.name) {
@@ -35,6 +24,7 @@ function ManagePage() {
 
     return (
         <div>
+            <h1>Sign Up or Log In Below:</h1>
             <div>
                 {formType}
             </div>
@@ -44,7 +34,7 @@ function ManagePage() {
                 {!formType != 'signup' && <button name='signup' onClick={hanldeClick} >SignupForm</button>}
             </div>
         </div>
-
+        
     )
 }
-export default ManagePage
+export default ManageWelcome

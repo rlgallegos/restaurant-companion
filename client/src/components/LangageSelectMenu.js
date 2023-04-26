@@ -21,15 +21,8 @@ function LanugageSelectMenu({onSetLanguage}) {
         <div>
             <form onSubmit={handleSubmit}>
                 <select name="language" defaultValue={'en'}>
-                    {/* <option disabled selected='selected'>Please Select From Below</option> */}
                     {optionList}
-                    {/* <option value="en">English</option>
-                    <option value="fr">French</option>
-                    <option value="es">Spanish</option>
-                    <option value="de">German</option>
-                    <option value="jp">Japanese</option> */}
                 </select>
-                <br></br>
                 <input type='submit' value='Translate Menu'></input>
             </form>
         </div>

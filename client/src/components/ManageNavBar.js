@@ -4,17 +4,15 @@ import { Link } from "react-router-dom";
 function ManageNavBar() {
 
 
-
-
     return (
-        <div className="nav-bar">
-            <Link to='items'>Menu Page</Link>
-            <Link to='items/add'>Add New Item</Link>
-            <Link to=''>Home</Link>
-            <Link to='users' >Users</Link>
+        <nav className="nav-bar">
+            <Link to='portal/:id/items'>Menu Page</Link>
+            <Link to='portal/:id/items/add'>Add New Item</Link>
+            <Link to='portal/:id'>Home</Link>
+            <Link to='portal/:id/users' >Users</Link>
+            <Link to='../user' ><b>User Portal</b></Link>
             <ManageLogoutButton />
-        </div>
-
+        </nav>
     )
 }
 export default ManageNavBar

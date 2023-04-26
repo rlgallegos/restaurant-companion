@@ -6,7 +6,7 @@ function MenuCard( {item} ) {
     //Functionality so ingredient list appears if you click?
     
     function handleClick() {
-        navigate(`/item/${item.id}`)
+        navigate(`/user/item/${item.id}`)
     }
 
     return (

@@ -21,7 +21,7 @@ function ItemDetailsPage({items, filters, setHasOrdered}) {
             notes: notes
         }
 
-        navigate('/order', {state: completed_item_object })
+        navigate('/user/order', {state: completed_item_object })
     }
     
     return (
