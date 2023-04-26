@@ -13,7 +13,7 @@ function ManagePortal() {
             if (res.ok) {
                 return res.json()
             } else {
-                navigate('/manage')
+                navigate('/manage/portal')
             }
         })
         .then(data => {
@@ -23,10 +23,9 @@ function ManagePortal() {
     }, [])
 
     return (
-        <>
-            <ManageNavBar />
+        <div>
             {restaurant ? <h1>Manager Portal for {restaurant.name}</h1> : <p>Loading...</p>}
-        </>
+        </div>
     )
 }
 export default ManagePortal

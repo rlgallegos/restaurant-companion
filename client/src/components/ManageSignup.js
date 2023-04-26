@@ -39,7 +39,7 @@ function ManageSignup() {
             }).then(res => res.json())
             .then(data => {
                 console.log(data)
-                navigate(`/manage_portal/${data.restaurant.id}`)
+                navigate(`/manage/portal/${data.restaurant.id}`)
             })
         }
     })
