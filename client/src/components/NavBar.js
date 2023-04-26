@@ -20,7 +20,7 @@ function NavBar({handleSetLanguage}) {
     }
 
     return (
-    <nav id='nav-bar'>
+    <nav className='nav-bar'>
         <div onClick={handleNav}>Home</div>
         <div onClick={handleNav}>Manager Portal</div>
         <div onClick={handleNav}>Order</div>

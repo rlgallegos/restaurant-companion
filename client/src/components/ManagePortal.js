@@ -1,8 +1,10 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 
+import ManageNavBar from "./ManageNavBar";
 
 function ManagePortal() {
+    const [restaurant, setRestaurant] = useState(null)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -14,11 +16,17 @@ function ManagePortal() {
                 navigate('/manage')
             }
         })
-        .then(data => console.log(data))
+        .then(data => {
+            console.log(data)
+            setRestaurant(data['restaurant'])
+        })
     }, [])
 
     return (
-        <p>Reached manager Portal</p>
+        <>
+            <ManageNavBar />
+            {restaurant ? <h1>Manager Portal for {restaurant.name}</h1> : <p>Loading...</p>}
+        </>
     )
 }
 export default ManagePortal

@@ -1,46 +1,59 @@
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
+import { useNavigate } from "react-router-dom";
 
 function ManageLogin() {
+    const navigate = useNavigate()
 
-    // //Formik Schema Logic
-    // const formSchema = yup.object().shape({
-    //     hourly_wage: yup
-    //     .number()
-    //     .positive()
-    //     .integer()
-    //     .required("Must enter a new value")
-    //     .typeError("Please enter a valid number")
-    //     });
+    //Formik Schema Logic
+    const formSchema = yup.object().shape({
+        username: yup.string().max(15).required('Please enter a username'),
+        password: yup.string().max(15).required("Please enter a password"),
+        });
 
     // //Formik Logic
-    // const formik = useFormik({
-    //     initialValues: {
-    //         hourly_wage: '' 
-    //     },
-    //     validationSchema: formSchema,
-    //     validateOnChange: false,
-    //     onSubmit: values => {
-    //         console.log(values)
-    //         fetch(`/income/${userID}`, {
-    //             method: "PATCH",
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(values)
-    //         })
-    //         .then(() => {
-    //             console.log('reached here')
-    //             navigate('/profile')
-    //         })
-    //     }
-    // })
-
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: ''
+        },
+        validationSchema: formSchema,
+        validateOnChange: false,
+        onSubmit: values => {
+            fetch('/login', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(values)
+            }).then(res => {
+                if (res.ok) {
+                    res.json().then(data => {
+                        console.log(data)
+                        navigate(`/manage_portal/${data.restaurant.id}`)
+                    })
+                }
+            })
+        }
+    })
 
 
     return (
-        <p>The Login Form</p>
+        <>
+            <h2>Login</h2>
+            <form onSubmit={formik.handleSubmit}>
+                <input type='text' name='username' value={formik.values.username} onChange={formik.handleChange} placeholder='Enter Username' />
+                <br />
+                <p style={{color: "red"}}>{formik.errors.username}</p>
+                <br />
+                <input type="password" name='password' value={formik.values.password} onChange={formik.handleChange} placeholder='Password' />
+                <p style={{color: "red"}}>{formik.errors.password}</p>
+                <br />
+                <br />
+                <input type="submit" value='Login'/>
+            </form>
+        </>
     )
 }
 export default ManageLogin

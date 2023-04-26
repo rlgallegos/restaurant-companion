@@ -1,3 +1,4 @@
+from models import Allergy
 
 # pics = [
 #     '/sample_pics/bokchoy.jpeg',
@@ -15,21 +16,28 @@
 food = ['Orange Chicken', 'Wasabi Crusted Filet', 'Grilled Branzino', 'Fried Rice', 'Lo Mein', 'Omakase', 'Vegetable Dumplings', 'Gyoza', 'Egg Rolls']
 
 ingredient_names = [
+    'gluten',
     'garlic',
     'fish',
     'onion',
     'msg',
-    'nuts',
     'peanuts',
     'soy',
     'sesame',
-    'sesame oil',
     'tree nuts',
     'shellfish',
     'shrimp',
     'dairy',
     'egg'
 ]
+
+for ingredient in ingredient_names:
+    new_allergy_object = Allergy(
+        name = ingredient,
+        removable = True
+    )
+
+
 
 allergy_dictionary = {
     'garlic': 'garlic',

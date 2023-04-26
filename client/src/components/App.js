@@ -8,6 +8,9 @@ import ItemDetailsPage from './ItemDetailsPage';
 import OrderPage from './OrderPage';
 import ManagePage from './ManagePage';
 import Welcome from './Welcome';
+import ManageMenuDisplay from './ManageMenuDisplay';
+import ManageAddItemForm from './ManageAddItemForm';
+import ManageUsers from './ManageUsers';
 
 import NavBar from './NavBar';
 import ManagePortal from './ManagePortal';
@@ -72,6 +75,18 @@ function App() {
           <Route 
           path = '/manage_portal/:id'
           element = {<ManagePortal />}
+          />
+          <Route
+          path = '/manage_portal/:id/items'
+          element = {<ManageMenuDisplay />} 
+          />
+          <Route
+          path = '/manage_portal/:id/items/add'
+          element = {<ManageAddItemForm />} 
+          />
+          <Route
+          path = '/manage_portal/:id/users'
+          element = {<ManageUsers />}
           />
         </Routes>
       </main>

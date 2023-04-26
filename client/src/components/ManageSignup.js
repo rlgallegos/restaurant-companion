@@ -1,9 +1,11 @@
 import { useFormik } from 'formik';
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
+
 
 
 function ManageSignup() {
-
+    const navigate = useNavigate()
 
     //Formik Schema Logic
     const formSchema = yup.object().shape({
@@ -35,7 +37,10 @@ function ManageSignup() {
                 },
                 body: JSON.stringify(values)
             }).then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => {
+                console.log(data)
+                navigate(`/manage_portal/${data.restaurant.id}`)
+            })
         }
     })
 
