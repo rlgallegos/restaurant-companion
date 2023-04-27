@@ -5,47 +5,40 @@ import ManagePortal from './ManagePortal';
 import ManageWelcome from './ManageWelcome';
 import ManageNavBar from './ManageNavBar';
 
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 
 function Manage() {
     const navigate = useNavigate()
+    const [restaurant, setRestaurant] = useState(null)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     useEffect(() => {
-        fetch('/check_session')
-        .then(res => {
-            if (res.ok) {
-                res.json().then(data => navigate(`/manage/portal/${data.restaurant.id}`))
-            } else {
-                navigate('/manage/welcome')
-            }
+        fetch('/restaurant')
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            setRestaurant(data)
         })
     }, [])
 
     return (
         <div>
             <ManageNavBar />
+            {restaurant ? <h1>Manager Portal for {restaurant.name}</h1> : null}
             <Routes>
-                <Route 
-                path = '/welcome'
-                element = {<ManageWelcome />}
-                />
-                <Route 
-                path = '/portal/:id'
-                element = {<ManagePortal />}
+                <Route
+                path = '/menu'
+                element = {restaurant ? <ManageMenuDisplay restaurant={restaurant}/> : <Navigate to='../../welcome'/>} 
                 />
                 <Route
-                path = '/portal/:id/items'
-                element = {<ManageMenuDisplay />} 
+                path = '/menu/add'
+                element = {restaurant ?  <ManageAddItemForm/> : <Navigate to='../../welcome'/>} 
                 />
                 <Route
-                path = '/portal/:id/items/add'
-                element = {<ManageAddItemForm />} 
-                />
-                <Route
-                path = '/portal/:id/users'
-                element = {<ManageUsers />}
+                path = '/users'
+                element = {restaurant ? <ManageUsers /> : <Navigate to='../../welcome'/>}
                 />
             </Routes>
         </div>

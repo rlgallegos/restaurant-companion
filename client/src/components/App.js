@@ -1,32 +1,35 @@
 // import logo from '../logo.svg';
 import '../App.css';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import MenuDisplay from './MenuDisplay';
-import CompleteOrderPage from './CompleteOrderPage';
-import ItemDetailsPage from './ItemDetailsPage';
-import OrderPage from './OrderPage';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Manage from './Manage';
 import Welcome from './Welcome';
-import ManageMenuDisplay from './ManageMenuDisplay';
-import ManageAddItemForm from './ManageAddItemForm';
-import ManageUsers from './ManageUsers';
 import User from './User';
-
-import NavBar from './NavBar';
-import ManagePortal from './ManagePortal';
+import ManageWelcome from './ManageWelcome';
 
 function App() {
+  const navigate = useNavigate()
+
+  function handleClick() {
+    navigate('/')
+  }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Welcome to Example Name</h1>
+      <header className="App-header" onClick={handleClick}>
+        <h1>Welcome to Nuts N' Bolts</h1>
       </header>
       <main>
         <Routes>
           <Route 
-          path = '/user/*'
+            path = '/'
+            element = {<Welcome />}
+          />
+          <Route 
+            path = '/welcome'
+            element = {<ManageWelcome />}
+          />
+          <Route 
+          path = '/user/:id/*'
           element = {<User />}     
           />
           <Route 

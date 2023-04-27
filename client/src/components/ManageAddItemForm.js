@@ -11,6 +11,7 @@ function ManageAddItemForm() {
     const [newItems, setNewItems] = useState([])
     const navigate = useNavigate()
     const params = useParams()
+    const [restID, setRestID] = useState(null)
 
     //Check logged in
     useEffect(() => {
@@ -19,12 +20,13 @@ function ManageAddItemForm() {
             if (res.ok) {
                 return res.json()
             } else {
-                navigate('/manage')
+                navigate('/welcome')
             }
         })
         .then(data => {
             if (data.restaurant.allergies) {
                 setAvailableAllergies(data.restaurant.allergies)
+                setRestID(data.restaurant.id)
             }
         })
     }, [])
@@ -47,7 +49,7 @@ function ManageAddItemForm() {
         validateOnChange: false,
         onSubmit: values => {
             console.log(params.id)
-            fetch(`/restaurants/${params.id}/items`, {
+            fetch(`/restaurants/${restID}/items`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -87,7 +89,7 @@ function ManageAddItemForm() {
                 <input type="submit" value='Add Item'/>
             </form>
             {newItems ? newItemList : <p>No new items added yet...</p>}
-            {newItems ? <ManageAllergyBar restID={params.id} setAvailableAllergies={setAvailableAllergies} availableAllergies={availableAllergies} /> : <p>No allergies listed yet for this restaurant</p>}
+            {newItems ? <ManageAllergyBar restID={restID} setAvailableAllergies={setAvailableAllergies} availableAllergies={availableAllergies} /> : <p>No allergies listed yet for this restaurant</p>}
         </div>
     )
 }

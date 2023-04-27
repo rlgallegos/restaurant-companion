@@ -15,7 +15,7 @@ function ManageUsers() {
             if (res.ok) {
                 return res.json()
             } else {
-                navigate('/manage/welcome')
+                navigate('/welcome')
             }
         }).then(data => {
             console.log(data)

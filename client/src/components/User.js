@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import MenuDisplay from './MenuDisplay';
 import CompleteOrderPage from './CompleteOrderPage';
@@ -17,13 +17,12 @@ function User() {
     const [allergyList, setAllergyList] = useState([])
   
     const navigate = useNavigate()
-  
+    const params = useParams()
   
     useEffect(() => {
-      fetch(`/965/${language}/items`)
+      fetch(`/${params.id}/${language}/items`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
           setMenu(data.menu_items)
           setAllergyList(data.allergies)
           setFilters([])

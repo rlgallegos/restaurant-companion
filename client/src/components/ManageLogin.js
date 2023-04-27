@@ -31,7 +31,7 @@ function ManageLogin() {
                 if (res.ok) {
                     res.json().then(data => {
                         console.log(data)
-                        navigate(`/manage/portal/${data.restaurant.id}`)
+                        navigate(`/manage`)
                     })
                 }
             })

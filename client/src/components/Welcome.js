@@ -1,13 +1,31 @@
-// import { useState } from 'react';
+import { useEffect, useState } from "react"
 
-import LanugageSelectMenu from "./LangageSelectMenu";
+import RestaurantCard from "./RestaurantCard"
 
-function Welcome({onSetLanguage}) {
+
+
+function Welcome({}) {
+    const [restaurants, setRestaurants] = useState()
+
+    useEffect(() => {
+        fetch('/restaurants')
+        .then(res => res.json())
+        .then(data => setRestaurants(data))
+    }, [])
+    console.log(restaurants)
+
+    let restaurantList = []
+    if (restaurants) {
+        restaurantList = restaurants.map(restaurant => {
+            return <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+        })
+    }
+
+
 
     return (
         <div>
-            <h1>Welcome to Website Name</h1>
-            <LanugageSelectMenu onSetLanguage={onSetLanguage} />
+            {restaurants && restaurantList}
         </div>
     )
 }

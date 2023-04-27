@@ -5,11 +5,11 @@ function ManageNavBar() {
 
     return (
         <nav className="nav-bar">
-            <Link to='portal/:id'>Home</Link>
-            <Link to='portal/:id/items'>Menu Page</Link>
-            <Link to='portal/:id/items/add'>Add New Item</Link>
-            <Link to='portal/:id/users' >Manage Users</Link>
-            <Link to='../user' ><b>User Portal</b></Link>
+            <Link to=''>Home</Link>
+            <Link to='menu'>Menu Page</Link>
+            <Link to='menu/add'>Add New Item</Link>
+            <Link to='users' >Manage Users</Link>
+            <Link to='/' ><b>User Portal</b></Link>
             <ManageLogoutButton />
         </nav>
     )

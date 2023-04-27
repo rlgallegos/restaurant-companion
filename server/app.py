@@ -28,6 +28,15 @@ translator = GoogleTranslator(source='en', target='en')
 
 # Restaurant Routes
 class Restaurants(Resource):
+
+    def get(self):
+        restaurants = Restaurant.query.all()
+        restaurant_list = [restaurant.to_dict(
+            only=('id', 'name')
+        ) for restaurant in restaurants]
+        return make_response(restaurant_list, 200)
+
+
     def post(self):
         data = request.get_json()
 
@@ -71,12 +80,16 @@ class Restaurants(Resource):
 api.add_resource(Restaurants, '/restaurants')
 
 class RestaurantById(Resource):
-    def get(self, restaurant_id):
-        restaurant = Restaurant.query.filter(Restaurant.id == restaurant_id).first()
+    def get(self):
+        user = User.query.filter(User.id == session.get('user_id')).first()
+        if not user:
+            return make_response({'error': 'Unauthorized'}, 401)
+
+        restaurant = Restaurant.query.filter(Restaurant.id == user.restaurant.id).first()
         restaurant_dict = restaurant.to_dict(rules=('-users',))
         return make_response(restaurant_dict, 200)
 
-api.add_resource(RestaurantById, '/restaurants/<int:restaurant_id>')
+api.add_resource(RestaurantById, '/restaurant')
 
 
 # Items Routes

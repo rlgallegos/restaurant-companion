@@ -13,7 +13,7 @@ function ManagePortal() {
             if (res.ok) {
                 return res.json()
             } else {
-                navigate('/manage/portal')
+                navigate('/welcome')
             }
         })
         .then(data => {
@@ -23,6 +23,10 @@ function ManagePortal() {
 
     return (
         <div>
+
+            Old Page Since Orphaned
+
+
             {restaurant ? <h1>Manager Portal for {restaurant.name}</h1> : <p>Loading...</p>}
         </div>
     )

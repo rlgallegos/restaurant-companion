@@ -5,6 +5,20 @@ import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 function ManageWelcome() {
+    useEffect(() => {
+        fetch('/check_session')
+        .then(res => {
+            if (res.ok) {
+                navigate('/manage')
+            }
+        })
+    }, [])
+
+
+
+
+
+
     const [formType, setFormType] = useState(null)
     const navigate = useNavigate()
 

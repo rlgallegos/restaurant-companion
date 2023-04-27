@@ -8,7 +8,7 @@ function ManageLogoutButton() {
             method: "DELETE",
         }).then(res => {
             if (res.ok) {
-                navigate('/manage/welcome')
+                navigate('/welcome')
             } else {
                 console.log(res.json())
             }

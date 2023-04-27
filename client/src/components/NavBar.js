@@ -7,7 +7,7 @@ function NavBar({handleSetLanguage}) {
         <nav className='nav-bar'>
             <Link to='menu-display'>Menu Page</Link>
             <Link to='order'>Current Order</Link>
-            <Link to='../manage/welcome'><b>Manager Portal</b></Link>
+            <Link to='../manage'><b>Manager Portal</b></Link>
             <LanugageSelectMenu onSetLanguage={handleSetLanguage} />
         </nav>
     )
