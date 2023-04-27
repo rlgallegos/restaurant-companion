@@ -24,7 +24,7 @@ class Restaurant(db.Model, SerializerMixin):
     name = db.Column(db.String, unique=True, index=True)
     password_hash = db.Column(db.String)
 
-    serialize_rules = ('-password_hash', '-menu_items.restaurant', '-users.restaurant', 'allergies', '-allergy_proxy')
+    serialize_rules = ('-users, ''-password_hash', '-menu_items.restaurant', '-users.restaurant', 'allergies', '-allergy_proxy')
 
     menu_items = db.relationship('MenuItem', back_populates='restaurant')
     users = db.relationship('User', back_populates='restaurant')
@@ -126,7 +126,7 @@ class User(db.Model, SerializerMixin):
     password_hash = db.Column(db.String)
     role = db.Column(db.String)
 
-    serialize_rules = ('-restaurant.users', '-password_hash')
+    serialize_rules = ('-password_hash',)
     
     restaurant = db.relationship('Restaurant', back_populates='users')
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'))

@@ -73,19 +73,8 @@ api.add_resource(Restaurants, '/restaurants')
 class RestaurantById(Resource):
     def get(self, restaurant_id):
         restaurant = Restaurant.query.filter(Restaurant.id == restaurant_id).first()
-        print(restaurant)
         restaurant_dict = restaurant.to_dict(rules=('-users',))
         return make_response(restaurant_dict, 200)
-
-    def post(self, restaurant_id):
-        
-
-        pass
-    def patch(self, restaurant_id):
-
-        pass
-    def delete(self, restaurant_id):
-        pass
 
 api.add_resource(RestaurantById, '/restaurants/<int:restaurant_id>')
 
@@ -168,22 +157,33 @@ class ItemByID(Resource):
 api.add_resource(ItemByID, '/restaurants/<int:restaurant_id>/items/<int:item_id>')
 
 
-# Allergy Routes
+# User Routes
+class Users(Resource):
+    def post(self):
+        data = request.get_json()
+        print(data)
+        new_user = User(
+            username = data['username'],
+            password_hash = data['password'],
+            restaurant_id = data['restID'],
+            role = data['role']
+        )
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+        except:
+            return make_response({'error': 'Failed to create resource'}, 422)
+        return make_response(new_user.to_dict(only=('username', 'role', 'id')), 201)
 
-# class Allergies(Resource):
-#     def post(self, restaurant_id):
-#         data = request.get_json()
-#         allergy_list = []
-#         new_allergy_removable = Allergy(
-#             name = data['name'],
-#             removable = True
-#         )
-#         new_allergy_unremovable = Allergy(
-#             name = data['name']
-#         )
+api.add_resource(Users, '/users')
 
-# api.add_resource(Allergies, '/restaurants/<int:restaurant_id>/allergies')
 
+# class UserByID(Resource):
+#     def get(self, id):
+#         user = User.query.filter(User.id == id).first()
+#         return make_response(user.to_dict(), 200)
+
+# api.add_resource(UserByID, '/users/<int:id>')
 
 # Authorization Routes
 

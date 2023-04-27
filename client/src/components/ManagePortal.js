@@ -17,7 +17,6 @@ function ManagePortal() {
             }
         })
         .then(data => {
-            console.log(data)
             setRestaurant(data['restaurant'])
         })
     }, [])
