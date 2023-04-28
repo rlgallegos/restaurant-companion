@@ -2,22 +2,12 @@ import { useState } from "react"
 import { useParams } from "react-router-dom"
 
 
-function ManageAddedItem({newItem, availableAllergies, setAvailableAllergies}) {
+function ManageAddedItem({newItem, availableAllergies, restaurant}) {
     const [allergyList, setAllergyList] = useState([])
     const params = useParams()
-
-    // An Import note for me in the future:
-    // Currently the allergies that exist for a restaurant are held in state,
-    // Given that they are a property set exclusively when an associated menuItem
-    // has them, it makes them impossible to create for a given restaurant,
-    // and thus ill-advised to post the database until the moment
-    // an associated menuItem is committed to the database
-    
-    // This means the logic in the  MenuAllergyBar component is good for copying,
-    // but will need to be transferred here
     
     function handleApplyChanges() {
-        fetch(`/restaurants/${params.id}/items/${newItem.id}`, {
+        fetch(`/restaurants/${restaurant.id}/items/${newItem.id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -87,7 +77,6 @@ function ManageAddedItem({newItem, availableAllergies, setAvailableAllergies}) {
                 </select>
                 <input type="submit" value="Add Allergy" />
             </form>
-
             {allergyList && <button onClick={handleApplyChanges}>Apply Changes</button>}
         </div>
     )

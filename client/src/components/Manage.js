@@ -12,14 +12,15 @@ import { useEffect, useState } from 'react';
 function Manage() {
     const navigate = useNavigate()
     const [restaurant, setRestaurant] = useState(null)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     useEffect(() => {
         fetch('/restaurant')
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            setRestaurant(data)
+        .then(res => {
+            if (res.ok) {
+                res.json().then(data => setRestaurant(data))
+            } else {
+                navigate('/welcome')
+            }
         })
     }, [])
 
@@ -30,15 +31,15 @@ function Manage() {
             <Routes>
                 <Route
                 path = '/menu'
-                element = {restaurant ? <ManageMenuDisplay restaurant={restaurant}/> : <Navigate to='../../welcome'/>} 
+                element = {restaurant && <ManageMenuDisplay restaurant={restaurant}/>} 
                 />
                 <Route
                 path = '/menu/add'
-                element = {restaurant ?  <ManageAddItemForm/> : <Navigate to='../../welcome'/>} 
+                element = {restaurant &&  <ManageAddItemForm restaurant={restaurant} setRestaurant={setRestaurant} />} 
                 />
                 <Route
                 path = '/users'
-                element = {restaurant ? <ManageUsers /> : <Navigate to='../../welcome'/>}
+                element = {restaurant && <ManageUsers restaurant={restaurant} />}
                 />
             </Routes>
         </div>

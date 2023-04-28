@@ -119,11 +119,11 @@ class ItemByID(Resource):
     def get(self, restaurant_id, item_id):
         pass
 
-
     def patch(self, restaurant_id, item_id):
         data = request.get_json()
         menu_item = MenuItem.query.filter(MenuItem.id == item_id).first()
         print(data)
+        print(menu_item.to_dict())
         new_allergy_list = []
         total_allergy_list = []
         for allergy in data:
@@ -153,16 +153,13 @@ class ItemByID(Resource):
                     db.session.add(new_allergy)
                     db.session.add(new_joint)
                     db.session.commit()
+                    print('saved in db')
                 except:
                     return make_response({'error': 'failed to create resource'}, 422)
-
 
         response_list = [allergy.to_dict() for allergy in menu_item.allergies]
         print(response_list)
         return make_response(response_list, 200)
-        
-
-
 
     def delete(self, restaurant_id, item_id):
         pass
@@ -172,6 +169,7 @@ api.add_resource(ItemByID, '/restaurants/<int:restaurant_id>/items/<int:item_id>
 
 # User Routes
 class Users(Resource):
+
     def post(self):
         data = request.get_json()
         print(data)
@@ -190,13 +188,37 @@ class Users(Resource):
 
 api.add_resource(Users, '/users')
 
+# Custom given the nature of the request
+@app.route('/<int:id>/users')
+def get_users(id):
+    if request.method == 'GET':
+        users = User.query.filter(User.restaurant_id == id).all()
+        user_list = [user.to_dict(only=('id', 'username', 'role', 'restaurant_id')) for user in users]
+        return make_response(user_list, 200)
 
-# class UserByID(Resource):
-#     def get(self, id):
-#         user = User.query.filter(User.id == id).first()
-#         return make_response(user.to_dict(), 200)
 
-# api.add_resource(UserByID, '/users/<int:id>')
+class UserByID(Resource):
+    def patch(self, id):
+        data = request.get_json()
+        print(data)
+        user = User.query.filter(User.id == id).first()
+        for attr in data:
+                if data[attr]:
+                    setattr(user, attr, data[attr])
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except:
+            return make_response({'error': 'Failed to update resource'}, 422)
+        return make_response(user.to_dict(only=('username', 'role')), 200)
+
+    # def get(self, id):
+    #     user = User.query.filter(User.id == id).first()
+    #     return make_response(user.to_dict(), 200)
+
+api.add_resource(UserByID, '/users/<int:id>')
+
+
 
 # Authorization Routes
 
