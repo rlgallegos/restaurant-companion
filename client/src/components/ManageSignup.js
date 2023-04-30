@@ -53,17 +53,21 @@ function ManageSignup() {
         <>
             <h2>Sign up a new restaurant</h2>
             <form onSubmit={formik.handleSubmit}>
+                <label>Restaurant Name:  </label>
                 <input type="text" name='restaurantName' value={formik.values.restaurantName} onChange={formik.handleChange} placeholder='Restaurant Name'/>
                 <br />
                 <p style={{color: "red"}}>{formik.errors.restaurantName}</p>
                 <br />
+                <label>Username:  </label>
                 <input type='text' name='username' value={formik.values.username} onChange={formik.handleChange} placeholder='Enter Account Administrator Username' />
                 <br />
                 <p style={{color: "red"}}>{formik.errors.username}</p>
                 <br />
+                <label>Password:  </label>
                 <input type="password" name='password' value={formik.values.password} onChange={formik.handleChange} placeholder='Password' />
                 <p style={{color: "red"}}>{formik.errors.password}</p>
                 <br />
+                <label>Confirm Password:  </label>
                 <input type="password" name='passwordCheck' value={formik.values.passwordCheck} onChange={formik.handleChange} placeholder='Re-Enter Password' />
                 <br />
                 <p style={{color: "red"}}>{formik.errors.passwordCheck}</p>

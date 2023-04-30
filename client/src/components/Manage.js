@@ -1,10 +1,9 @@
 import ManageMenuDisplay from './ManageMenuDisplay';
 import ManageAddItemForm from './ManageAddItemForm';
 import ManageUsers from './ManageUsers';
-import ManagePortal from './ManagePortal';
-import ManageWelcome from './ManageWelcome';
 import ManageNavBar from './ManageNavBar';
 import {basicAllergies} from './helpers.js';
+import ManageRestaurantEdit from './ManageRestaurantEdit';
 
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -37,7 +36,7 @@ function Manage() {
             <Routes>
                 <Route
                 path = '/menu'
-                element = {restaurant && <ManageMenuDisplay setRestaurant={setRestaurant} restaurant={restaurant}/>} 
+                element = {restaurant && <ManageMenuDisplay availableAllergies={availableAllergies} setAvailableAllergies={setAvailableAllergies} setRestaurant={setRestaurant} restaurant={restaurant}/>} 
                 />
                 <Route
                 path = '/menu/add'
@@ -46,6 +45,10 @@ function Manage() {
                 <Route
                 path = '/users'
                 element = {restaurant && <ManageUsers restaurant={restaurant} />}
+                />
+                <Route
+                path = '/restaurant'
+                element = {restaurant && <ManageRestaurantEdit setRestaurant={setRestaurant} restaurant={restaurant} />}
                 />
             </Routes>
         </div>

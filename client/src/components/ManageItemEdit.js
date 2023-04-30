@@ -13,6 +13,7 @@ function ManageItemEdit({menuItem, onUpdateItem}) {
         setIsEditing(!isEditing)
     }
 
+    //Fetch to Edit the attributes of a MenuItem
     //Formik Schema Logic
     const formSchema = yup.object().shape({
         name: yup.string().max(15),
@@ -40,12 +41,12 @@ function ManageItemEdit({menuItem, onUpdateItem}) {
                 body: JSON.stringify(values)
             }).then(res => res.json())
             .then(data => {
+                setItemAllergies([])
                 onUpdateItem(data)
                 formik.resetForm()
             })
         }
     })
-    
 
 
     let newList = menuItem.allergies.map(allergy => {

@@ -75,6 +75,8 @@ class Restaurants(Resource):
         session['role'] = new_user.role
         return make_response(new_restaurant.to_dict(), 201)
 
+
+
 api.add_resource(Restaurants, '/restaurants')
 
 class RestaurantById(Resource):
@@ -86,6 +88,36 @@ class RestaurantById(Resource):
         restaurant = Restaurant.query.filter(Restaurant.id == user.restaurant.id).first()
         restaurant_dict = restaurant.to_dict(rules=('-users',))
         return make_response(restaurant_dict, 200)
+
+    def patch(self):
+        data = request.get_json()
+
+        # Get Restaurant
+        restaurant = Restaurant.query.filter(Restaurant.id == data['restaurantID']).first()
+        if not restaurant:
+            return make_response({'error': 'Invalid Restaurant Name'}, 422)
+
+        # Validate Administrator Credentials
+        user = User.query.filter(User.username == data['username']).first()
+        if not user:
+            return make_response({'error': 'Invalid user credentials'}, 422)
+        if not user.role == 'administrator':
+            return make_response({'error': 'Unauthorized'}, 401)
+
+
+        for attr in data:
+            if not attr == 'restaurantID':
+                if data[attr]:
+                    setattr(restaurant, attr, data[attr])
+        try:
+            db.session.add(restaurant)
+            db.session.commit()
+        except:
+            return make_response({'error': 'Failed to update Resource'}, 422)
+
+        restaurant_dict = restaurant.to_dict(rules=('-users',))
+        return make_response(restaurant_dict, 200)
+
 
 api.add_resource(RestaurantById, '/restaurant')
 

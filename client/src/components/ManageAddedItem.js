@@ -1,17 +1,27 @@
-import { useState } from "react"
-import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
 
 
 function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvailableAllergies, restaurant}) {
     const [allergyList, setAllergyList] = useState([])
     const [currentAllergies, setCurrentAllergies] = useState([])
+    const [specAvailableAllergies, setSpecAvailableAllergies] = useState([])
 
+    useEffect(() => {
+        setSpecAvailableAllergies(availableAllergies)
+    }, [])
 
+    console.log('allergies available to this specific item')
+    console.log(availableAllergies)
     
 
     //This fetch is to add the allergies to a given MenuItem
 
-    function handleApplyChanges() {
+    function handleApplyChanges(e) {
+        console.log(e.target)
+        e.target.disabled = true
+        setTimeout(() => {
+            e.target.disabled = false
+        }, 5000)
 
         fetch(`/restaurants/${restaurant.id}/items/${newItem.id}`, {
             method: "POST",
@@ -19,46 +29,50 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(allergyList)
-        }).then(res => res.json())
-        .then(data => {
-            setAllergyList([])
-            setCurrentAllergies(data)
+        }).then(res => {
+            if (res.ok) {
+                res.json().then(data => {
 
-            // IMPORTANT NOTE, the fetch returns a COMPLETE LIST OF ALLERGIES for this menu_item
- 
-            const updateIndex = restaurant.menu_items.findIndex(item => {
-                return item.id === newItem.id
-            })
+                setAllergyList([])
+                setCurrentAllergies(data)
 
-            //restricting duplicate submissions
-            let idList = []
-            data.forEach(allergyObj => {
-                idList.push(allergyObj.id)
-            })
-
-            setAvailableAllergies(availableAllergies => {
-                return availableAllergies.filter(allergy => {
-                    return !idList.includes(allergy.id)
+                // IMPORTANT NOTE, the fetch returns a COMPLETE LIST OF ALLERGIES for this menu_item
+    
+                const updateIndex = restaurant.menu_items.findIndex(item => {
+                    return item.id === newItem.id
                 })
-            })
 
-            //Building the new menu_items array 
-            const newArray = [...restaurant.menu_items[updateIndex].allergies].concat(data)
-            const newMenuItem = {...restaurant.menu_items[updateIndex], allergies: newArray}
-            const newItemsArray = [...restaurant.menu_items]
-            newItemsArray.splice(updateIndex, 1, newMenuItem)
-            //Updating Restaurant Frontend
-            setRestaurant(restaurant => {
-                return {...restaurant, menu_items: restaurant.menu_items = newItemsArray}
+                //restricting duplicate submissions
+                let nameList = []
+                data.forEach(allergyObj => {
+                    nameList.push(allergyObj.name)
+                })
+
+                //remove options to another one
+                setSpecAvailableAllergies(specAvailableAllergies => {
+                    return specAvailableAllergies.filter(allergy => {
+                        return !nameList.includes(allergy.name)
+                    })
+                })
+
+
+                const newMenuItem = {...restaurant.menu_items[updateIndex], allergies: data}
+                const newItemsArray = [...restaurant.menu_items]
+                newItemsArray.splice(updateIndex, 1, newMenuItem)
+                //Updating Restaurant Frontend
+                setRestaurant(restaurant => {
+                    return {...restaurant, menu_items: restaurant.menu_items = newItemsArray}
+                })
+                    })
+                }
             })
-        })
     }
 
     function handleAddAllergyToList(e) {
         e.preventDefault()
         //find the correct object
         let dataList = e.target[0].value.split('-')
-        let foundObj = availableAllergies.find(allergy => {
+        let foundObj = specAvailableAllergies.find(allergy => {
             if (allergy.name == dataList[0]) {
                 if (allergy.removable && dataList[1] == 'removable'){
                     return true
@@ -79,11 +93,13 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
             setAllergyList([...allergyList, foundObj])
         }
     }
+    console.log('this is the allergyList')
+    console.log(allergyList)
 
     let allergyOptions = []
     let uniqueId = 0
-    if (availableAllergies) {
-        allergyOptions = availableAllergies.map(allergy => {
+    if (specAvailableAllergies) {
+        allergyOptions = specAvailableAllergies.map(allergy => {
             uniqueId++
             return <option key={uniqueId} value={allergy.removable ? (allergy.name + '-removable') : allergy.name + '-not'}>{allergy.removable ? (allergy.name + '- (removable)') : allergy.name + '- (not removable)'}</option>
         })
@@ -120,7 +136,7 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
             <form onSubmit={handleAddAllergyToList}>
                 <select>
                     <option disabled>Select allergy to add</option>
-                    {availableAllergies && allergyOptions}
+                    {specAvailableAllergies && allergyOptions}
                 </select>
                 <input type="submit" value="Add Allergy" />
             </form>
