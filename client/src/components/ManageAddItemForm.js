@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
 import ManageAddedItem from "./ManageAddedItem";
 import ManageAllergyBar from "./ManageAllergyBar";
 
-function ManageAddItemForm({restaurant, setRestaurant}) {
-    const [availableAllergies, setAvailableAllergies] = useState([])
-    const [newItems, setNewItems] = useState([])
-    const navigate = useNavigate()
+function ManageAddItemForm({restaurant, setRestaurant, availableAllergies, setAvailableAllergies}) {
 
-    useEffect(() => {
-        setAvailableAllergies(restaurant.allergies)
-    }, [])
+    const [newItems, setNewItems] = useState([])
+
+
+    //This Fetch is to add the MenuItem to the database
 
     //Formik Schema Logic
     const formSchema = yup.object().shape({
@@ -44,7 +41,6 @@ function ManageAddItemForm({restaurant, setRestaurant}) {
                         setNewItems([...newItems, data])
                         formik.resetForm()
                         setRestaurant({...restaurant, menu_items: [...restaurant.menu_items, data]})
-                        // setRefresh(!refresh)
                     })
                 }
             })
@@ -53,9 +49,10 @@ function ManageAddItemForm({restaurant, setRestaurant}) {
     let newItemList = []
     if (newItems) {
         newItemList = newItems.map(newItem => {
-            return <ManageAddedItem key={newItem.id} restaurant={restaurant} availableAllergies={availableAllergies} newItem={newItem} />
+            return <ManageAddedItem key={newItem.id} setRestaurant={setRestaurant} restaurant={restaurant} availableAllergies={availableAllergies} setAvailableAllergies={setAvailableAllergies} newItem={newItem} />
         })
     }
+
 
     return (
         <div>
@@ -66,8 +63,10 @@ function ManageAddItemForm({restaurant, setRestaurant}) {
                 <input type="textarea" name='description' value={formik.values.description} onChange={formik.handleChange} placeholder='Description' />
                 <p style={{color: "red"}}>{formik.errors.description}</p>
                 <br />
+                <label>Vegan</label>
                 <input type="checkbox" checked={formik.values.vegan} name="vegan" value={formik.values.vegan} onChange={formik.handleChange} />
                 <br />
+                <label>Kosher</label>
                 <input type="checkbox" checked={formik.values.kosher} name="kosher" value={formik.values.kosher} onChange={formik.handleChange}/>
                 <br />
                 <br />

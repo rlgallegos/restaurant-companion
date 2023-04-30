@@ -1,16 +1,17 @@
 import ManageItemEdit from "./ManageItemEdit"
 
-function ManageMenuCard({menuItem}) {
+function ManageMenuCard({menuItem, onUpdateItem, onDeleteItem}) { 
 
-    // let allergyList = []
-    // let uniqueId = 0
-    // if (menuItem) {
-    //     allergyList = menuItem.allergies.map(allergy => {
-    //         uniqueId++
-    //         return <li key={uniqueId}>{allergy.name}{allergy.removable ? '- Removable' : '- Not Removable'}</li>
-    //     })
-    // }
+    function handleClick() {
 
+        fetch(`/restaurants/${menuItem.restaurant_id}/items/${menuItem.id}`, {
+            method: "DELETE"
+        }).then(res => {
+            if (res.ok) {
+                onDeleteItem(menuItem.id)
+            }
+        })
+    }
 
     return (
         <div className="menu-card">
@@ -18,11 +19,9 @@ function ManageMenuCard({menuItem}) {
             <p>{menuItem.description}</p>
             <p>This item is {menuItem.kosher ? 'kosher' : 'not kosher'}</p>
             <p>This item is {menuItem.vegan ? 'vegan' : 'not vegan'}</p>
-            <h4>Allergies:</h4>
-            <ul>
-                {/* {menuItem && allergyList} */}
-            </ul>
-            <ManageItemEdit menuItem={menuItem} />
+
+            <ManageItemEdit onUpdateItem={onUpdateItem} menuItem={menuItem} />
+            <button onClick={handleClick}>Delete Item</button>
         </div>
     )
 

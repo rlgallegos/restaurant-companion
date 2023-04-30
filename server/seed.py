@@ -3,17 +3,20 @@
 from random import randint, choice
 from faker import Faker
 from app import app
-from models import db, User, Restaurant, MenuItem, Allergy, MenuItemAllergy
+from models import db, User, Restaurant, MenuItem, Allergy, MenuItemAllergy, Order, OrderItem, OrderItemAllergy
 from data_sets import food, ingredient_names
 
 with app.app_context():
     print('Deleting all records...')
-
+    OrderItemAllergy.query.delete()
     MenuItemAllergy.query.delete()
     Allergy.query.delete()
     MenuItem.query.delete()
     User.query.delete()
     Restaurant.query.delete()
+    OrderItem.query.delete()
+    Order.query.delete()
+
     # db.session.commit()
     
     
@@ -21,17 +24,17 @@ with app.app_context():
     fake = Faker()
 
     print('Creating restaurants...')
-    restaurants = [Restaurant( name=fake.bs() ) for i in range(25)]
+    restaurants = [Restaurant( name=fake.bs() ) for i in range(12)]
 
     db.session.add_all(restaurants)
     db.session.commit()
 
     print('Creating users...')
     users = []
-    for i in range(75):
+    for i in range(33):
         user = User(
-            name = fake.name(),
-            hashed_password = fake.password(length=25),
+            username = fake.name(),
+            password_hash = fake.password(length=25),
             restaurant = choice(restaurants)
         )
         users.append(user)
@@ -41,7 +44,7 @@ with app.app_context():
 
     print('Creating menu items...')
     menu_items = []
-    for i in range(300):
+    for i in range(150):
         menu_item = MenuItem(
             name = choice(food),
             description = fake.sentence(),
@@ -73,7 +76,7 @@ with app.app_context():
 
     print('Creating menu_item_allergies...')
     menu_item_allergies = []
-    for i in range(1000):
+    for i in range(500):
         new_menu_item = MenuItemAllergy(
             menu_item = choice(menu_items),
             allergy = choice(allergies)

@@ -1,12 +1,19 @@
 import { useState } from "react"
 
 
-function ManageItemEditAllergy({allergy}) {
+function ManageItemEditAllergy({allergy, itemAllergies, setItemAllergies}) {
     const [isIncluded, setIsIncluded] = useState(true)
-    console.log(allergy.id, allergy.name)
+
+    console.log(itemAllergies)
 
     function handleClick() {
         setIsIncluded(!isIncluded)
+        if (itemAllergies.includes(allergy)) {
+            setItemAllergies(itemAllergies.filter(itemAllergy=> itemAllergy != allergy))
+        } else {
+            setItemAllergies([...itemAllergies, allergy])
+        }
+        
     }
 
 

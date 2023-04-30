@@ -22,7 +22,8 @@ class Restaurant(db.Model, SerializerMixin):
     # DB Setup
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, index=True)
-    password_hash = db.Column(db.String)
+    url = db.Column(db.String)
+    email = db.Column(db.String)
 
     serialize_rules = ('-users, ''-password_hash', '-menu_items.restaurant', '-users.restaurant', 'allergies', '-allergy_proxy')
 
@@ -66,7 +67,7 @@ class MenuItem(db.Model, SerializerMixin):
     kosher = db.Column(db.Boolean)
 
     # serialize_rules = ('-restaurant.menu_items',)
-    serialize_rules = ('-allergies.menu_item', '-restaurant', '-restaurant_id', '-menu_item_allergies', '-restuarant.menu_items', 'allergies')
+    serialize_rules = ('-allergies.menu_item', '-restaurant', '-menu_item_allergies', '-restuarant.menu_items', 'allergies')
 
     restaurant = db.relationship('Restaurant', back_populates='menu_items')
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), index=True)
@@ -122,7 +123,7 @@ class User(db.Model, SerializerMixin):
 
     # DB Setup
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String)
+    username = db.Column(db.String, unique=True)
     password_hash = db.Column(db.String)
     role = db.Column(db.String)
 

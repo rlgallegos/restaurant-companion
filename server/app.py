@@ -40,19 +40,17 @@ class Restaurants(Resource):
     def post(self):
         data = request.get_json()
 
-        # # Associate Basic Allergies with current 
-        # allergy_list = []
-        # for ingredient in ingredient_names:
-        #     found_allergy = Allergy.query.filter(Allergy.name == ingredient).first()
-        #     allergy_list.append(found_allergy)
-
         # Initialize Restaurant
         rest =  Restaurant.query.filter(Restaurant.name == data['restaurantName']).first()
         if rest:
             return make_response({'error': 'Restaurant Name is already taken'}, 422)
+        user = User.query.filter(User.username == data['username']).first()
+        if user:
+            return make_response({'error': 'Username already taken'}, 422)
+
         new_restaurant = Restaurant(
             name = data['restaurantName'],
-            allergies = allergy_list
+            # allergies = allergy_list
         )
         try:
             db.session.add(new_restaurant)
@@ -98,6 +96,11 @@ class Items(Resource):
     def post(self, restaurant_id):
         restaurant = Restaurant.query.filter(Restaurant.id == restaurant_id).first()
         data = request.get_json()
+
+        item = MenuItem.query.filter(MenuItem.name == data['name'], restaurant.id == MenuItem.restaurant_id).first()
+        if item:
+            return make_response({'error': 'Cannot make two items with the exact same name'}, 422)
+
         new_item = MenuItem(
             name = data['name'],
             description = data['description'],
@@ -119,10 +122,14 @@ class ItemByID(Resource):
     def get(self, restaurant_id, item_id):
         pass
 
-    def patch(self, restaurant_id, item_id):
+    # This is the view for adding allergies onto the item
+
+    def post(self, restaurant_id, item_id):
         data = request.get_json()
         menu_item = MenuItem.query.filter(MenuItem.id == item_id).first()
+        print('All Data:')
         print(data)
+        print('Current MenuItem:')
         print(menu_item.to_dict())
         new_allergy_list = []
         total_allergy_list = []
@@ -134,35 +141,94 @@ class ItemByID(Resource):
                 ).first()
             # If the allergy already exists
             if existing_allergy:
+
+                # Persist Connection
                 new_joint = MenuItemAllergy(
                     menu_item = menu_item,
                     allergy = existing_allergy
                 )
+                try:
+                    db.session.add(new_joint)
+                    db.session.commit()
+                    print('saved pre-existing allergy"s connection in db')
+                except:
+                    return make_response({'error': 'Failed to create resource'}, 422)
+
             # If the allergy does not already exist
             if not existing_allergy:
+                # Create new Allergy
                 new_allergy = Allergy(
                     name = allergy['name'],
                     removable = allergy['removable']
                 )
+                try:
+                    db.session.add(new_allergy)
+                    db.session.commit()
+                except:
+                    return make_response({'error': 'Failed to add allergy'})
+    
+                # Persist information
                 new_joint = MenuItemAllergy(
                     menu_item = menu_item,
                     allergy = new_allergy
                 )
-                # Persist information
                 try:
                     db.session.add(new_allergy)
                     db.session.add(new_joint)
                     db.session.commit()
-                    print('saved in db')
+                    print('saved new allergy in db')
                 except:
-                    return make_response({'error': 'failed to create resource'}, 422)
+                    return make_response({'error': 'Failed to create resource'}, 422)
 
-        response_list = [allergy.to_dict() for allergy in menu_item.allergies]
-        print(response_list)
+        updated_item = MenuItem.query.filter(MenuItem.id == menu_item.id).first()
+        response_list = [allergy.to_dict() for allergy in updated_item.allergies]
+        # print(response_list)
         return make_response(response_list, 200)
 
+
+    def patch(self, restaurant_id, item_id):
+        data = request.get_json()
+        print(data)
+        menu_item = MenuItem.query.filter(MenuItem.id == item_id).first()
+
+        # Update the attributes
+        if data['description']:
+            menu_item.description = data['description']
+        if data['name']:
+            menu_item.name = data['name']
+        menu_item.kosher = data['kosher'] 
+        menu_item.vegan = data['vegan']
+
+
+        try:
+            db.session.add(menu_item)
+            db.session.commit()
+        except:
+            return make_response({'error': 'Failed to update Resource'}, 422)
+
+        # Update the allergies
+        for allergy in data['allergies']:
+            # Query for link
+            link_instance = MenuItemAllergy.query.filter(
+                allergy['id'] == MenuItemAllergy.allergy_id,
+                menu_item.id == MenuItemAllergy.menu_item_id
+            ).first()
+            print(link_instance)
+            try:
+                db.session.delete(link_instance)
+                db.session.commit()
+            except:
+                return make_response({'error': 'Failed to delete Resource'}, 422)
+        return make_response(menu_item.to_dict(), 200)
+
     def delete(self, restaurant_id, item_id):
-        pass
+        item = MenuItem.query.filter(MenuItem.id == item_id).first()
+        try:
+            db.session.delete(item)
+            db.session.commit()
+        except:
+            return make_response({'error': 'Failed to delete Resource'}, 422)
+        return make_response({}, 204)
 
 api.add_resource(ItemByID, '/restaurants/<int:restaurant_id>/items/<int:item_id>')
 
@@ -212,9 +278,6 @@ class UserByID(Resource):
             return make_response({'error': 'Failed to update resource'}, 422)
         return make_response(user.to_dict(only=('username', 'role')), 200)
 
-    # def get(self, id):
-    #     user = User.query.filter(User.id == id).first()
-    #     return make_response(user.to_dict(), 200)
 
 api.add_resource(UserByID, '/users/<int:id>')
 

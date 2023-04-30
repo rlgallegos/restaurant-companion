@@ -9,7 +9,7 @@ function ManageSignup() {
 
     //Formik Schema Logic
     const formSchema = yup.object().shape({
-        restaurantName: yup.string().max(15).required("Please enter a valid restaurant name"),
+        restaurantName: yup.string().max(25).required("Please enter a valid restaurant name"),
         username: yup.string().max(15).required('Please enter a username'),
         password: yup.string().max(15).required("Please enter a password"),
         passwordCheck: yup
@@ -29,17 +29,20 @@ function ManageSignup() {
         validationSchema: formSchema,
         validateOnChange: false,
         onSubmit: values => {
-            console.log(values)
             fetch('/restaurants', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(values)
-            }).then(res => res.json())
-            .then(data => {
-                console.log(data)
-                navigate(`/manage/portal/${data.restaurant.id}`)
+            }).then(res => {
+                if (res.ok){
+                    res.json(data => {
+                        navigate(`/manage/portal/${data.id}`)
+                    })
+                } else {
+                    navigate('/welcome')
+                }
             })
         }
     })

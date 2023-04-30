@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import languageList from './helpers'
+import { languageList } from './helpers'
 
 
 function LanugageSelectMenu({onSetLanguage}) {
