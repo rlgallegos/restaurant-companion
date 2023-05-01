@@ -4,7 +4,7 @@ import OrderDetailCard from "./OrderDetailCard.js";
 
 
 
-function OrderPage({allergyList, setFilters, orderList, setOrderList, hasOrdered, setHasOrdered}) {
+function OrderPage({ restID, allergyList, setFilters, orderList, setOrderList, hasOrdered, setHasOrdered}) {
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -16,12 +16,8 @@ function OrderPage({allergyList, setFilters, orderList, setOrderList, hasOrdered
         }
     }, [])
 
-
-
-
     function handleClick() {
         if (hasOrdered) {
-            //Here is where patch logic would go
             fetch('/orders', {
                 method: "POST",
                 headers: {
@@ -30,7 +26,7 @@ function OrderPage({allergyList, setFilters, orderList, setOrderList, hasOrdered
                 body: JSON.stringify(orderList)
             }).then(res => res.json())
             .then(data => {
-                navigate('/user/complete-order', {state: data })
+                navigate(`/user/${orderList[0].item.restaurant_id}/complete-order`, {state: data })
             })
         }
     }

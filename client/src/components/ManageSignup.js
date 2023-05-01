@@ -37,11 +37,10 @@ function ManageSignup() {
                 body: JSON.stringify(values)
             }).then(res => {
                 if (res.ok){
-                    res.json(data => {
+                    res.json().then(data => {
+                        console.log(data)
                         navigate(`/manage/portal/${data.id}`)
                     })
-                } else {
-                    navigate('/welcome')
                 }
             })
         }

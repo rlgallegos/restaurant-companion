@@ -1,28 +1,33 @@
 import os
-
 from flask import Flask, request, make_response, session
-from flask_migrate import Migrate
-from deep_translator import GoogleTranslator
+# from deep_translator import GoogleTranslator
+from googletrans import Translator
+
 from sqlalchemy.orm import noload
 from flask_restful import Api, Resource
 from data_sets import ingredient_names
+# from flask_bcrypt import Bcrypt
+from config import app, db
+
 # from flask_cors import CORS
 
 from models import db, Restaurant, MenuItem, Allergy, Order, OrderItem, OrderItemAllergy, User, MenuItemAllergy
 
-app = Flask(__name__)
-# CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://rlgallegos85:MzXYvPcBwXVyQy43aTFxA02hmyHEkWyB@dpg-cgngl8bldisfgrv47mpg-a.ohio-postgres.render.com/dbcapstone_yi94'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.json.compact = False
+# app = Flask(__name__)
+# # CORS(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://rlgallegos85:MzXYvPcBwXVyQy43aTFxA02hmyHEkWyB@dpg-cgngl8bldisfgrv47mpg-a.ohio-postgres.render.com/dbcapstone_yi94'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.json.compact = False
 
-migrate = Migrate(app, db)
-db.init_app(app)
+# migrate = Migrate(app, db)
+# db.init_app(app)
+# bcrypt = Bcrypt(app)
 api = Api(app)
+
 
 app.secret_key = 'bobbyisthebest'
 
-translator = GoogleTranslator(source='en', target='en')
+# translator = GoogleTranslator(source='en', target='en')
 
 # Manager / Restaurant Routes (RESTful)
 
@@ -50,15 +55,15 @@ class Restaurants(Resource):
 
         new_restaurant = Restaurant(
             name = data['restaurantName'],
-            # allergies = allergy_list
         )
         try:
             db.session.add(new_restaurant)
             db.session.commit()
         except:
+            print('error 1')
             return make_response({'error': 'Resource not created'}, 422)
 
-        # Initialize Administrator
+        # Initialize First Administrator
         new_user = User(
             username = data['username'],
             password_hash = data['password'],
@@ -70,11 +75,24 @@ class Restaurants(Resource):
             db.session.add(new_user)
             db.session.commit()
         except:
+            print('error 2')
             return make_response({'error': 'Resource not created'}, 422)
         session['user_id'] = new_user.id
         session['role'] = new_user.role
         return make_response(new_restaurant.to_dict(), 201)
 
+    def delete(self):
+        id = request.get_json()
+        restaurant = Restaurant.query.filter(Restaurant.id == id).first()
+        try:
+            db.session.delete(restaurant)
+            db.session.commit()
+        except:
+            return make_response({'error': 'Failed to delete Resource'}, 422)
+        session['user_id'] = None
+        session['role'] = None
+        
+        return make_response({}, 204)
 
 
 api.add_resource(Restaurants, '/restaurants')
@@ -101,8 +119,11 @@ class RestaurantById(Resource):
         user = User.query.filter(User.username == data['username']).first()
         if not user:
             return make_response({'error': 'Invalid user credentials'}, 422)
+        if not user.authenticate(data['password']):
+            return make_response({'error': 'Unauthorized'}, 401)
         if not user.role == 'administrator':
             return make_response({'error': 'Unauthorized'}, 401)
+
 
 
         for attr in data:
@@ -342,7 +363,7 @@ class Login(Resource):
         user = User.query.filter(User.username == data['username']).first()
         if not user:
             return make_response({'error': 'User not found'}, 422)
-        if not user.password_hash == data['password']:
+        if not user.authenticate(data['password']):
             return make_response({'error': 'Unauthorized'}, 401)
         session['user_id'] = user.id
         session['role'] = user.role
@@ -410,121 +431,17 @@ def menu(id, lang):
     if request.method == 'GET':
         restaurant = Restaurant.query.filter(Restaurant.id == id).first()
 
-        #If in english
+        # If in english
         if lang == 'en' and restaurant:
             return make_response(restaurant.to_dict(rules=('-users',)), 200)
 
-
-        
-        # # TRANSLATION ATTEMPT 3 (USING PROPERTIES)
-
-        # print('starting translation')
-        # for menu_item in restaurant.menu_items:
-        #     print('translating new menu item')
-        #     menu_item.name = menu_item.get_t_name(lang)
-        #     menu_item.description =menu_item.get_t_description(lang)
-        #     for allergy in menu_item.allergies:
-        #         print('translating allergy')
-        #         allergy.name = allergy.get_t_allergy(lang)
-
-    
-        # return restaurant.to_dict(), 200
-
-
-
-
-        # TRANSLATION ATTEMPT 2
-        translator.target = lang
-
-        # print(translator.translate_batch(restaurant.menu_item_names))
-   
-        # print(restaurant.allergy_names)
-        # print(restaurant.menu_item_names)
-        # terms = restaurant.allergy_names + restaurant.menu_item_names + restaurant.menu_item_descriptions
-        # print(terms)
-        # translated_terms = translator.translate_batch(terms)
-        # print(translated_terms)
-
-
-        allergy_word_list = restaurant.allergy_names
-        name_word_list = restaurant.menu_item_names
-        description_word_list = restaurant.menu_item_descriptions
-
-
-        # Create translation dictionary
-        print('creating allergy dictionary')
-        allergy_dictionary = {}
-        t_allergy_terms = translator.translate_batch(allergy_word_list)
-        print('finished translating allergy terms')
-        for i in range(len(t_allergy_terms)):
-            allergy_dictionary[allergy_word_list[i]] = t_allergy_terms[i]
-
-        print(allergy_word_list)
-
-        # for allergy in restaurant.terms:
-        #     print('translating dictionary entry')
-        #     allergy_dictionary[allergy.name] = translator.translate(allergy.name)
-
-        print('creating name dictionary')
-        name_dictionary = {}
-        t_name_terms = translator.translate_batch(name_word_list)
-        for i in range(len(t_name_terms)):
-            name_dictionary[name_word_list[i]] = t_name_terms[i]
-
-        print('creating description dictionary')
-        description_dictionary = {}
-        t_description_terms = translator.translate_batch(description_word_list)
-        for i in range(len(t_description_terms)):
-            description_dictionary[description_word_list[i]] = t_description_terms[i]
-
-
-    
-
-        print('applying allergy dictionary')
-        for allergy in restaurant.allergies:
-            allergy.name = allergy_dictionary[allergy.name]
-
-
-        print('applying name/description dictionary')
-        for menu_item in restaurant.menu_items:
-            menu_item.name = name_dictionary[menu_item.name]
-            menu_item.description = description_dictionary[menu_item.description]
-
-
-        # for menu_item in restaurant.menu_items:
-        #     print('translating menu item')
-        #     menu_item.name = translator.translate(menu_item.name)
-        #     menu_item.description = translator.translate(menu_item.description)
-
-
-
-
-        # TRANSLATION ATTEMPT 1
-
-
-            # for allergy in menu_item.allergies:
-            #     allergy.name = allergy_dictionary[allergy.name]
-        
-        # translated_dict = {}
-        # for key, value in allergy_dictionary.items():
-        #     translated_dict[key] = translator.translate(value)
-
-        # # Query for Menu Items and serialize
-        # menu_items = MenuItem.query.filter(MenuItem.restaurant_id == id).options(noload(MenuItem.restaurant)).all()
-        # menu_items_dict_list = [menu_item.to_dict() for menu_item in menu_items]
-
-        # # Translate all Menu Item attributes
-        # for menu_item in menu_items_dict_list:
-
-        #     menu_item['name'] = translator.translate(menu_item['name'])
-        #     menu_item['description'] = translator.translate(menu_item['description'])
-    
-        #     # Translate all Allergies
-        #     # for allergy_object in menu_item['allergies']:
-        #     #     allergy_object['name'] = translated_dict[allergy_object['name']]
-
-
-
+        # Google Translate
+        google_translator = Translator()
+        for item in restaurant.menu_items:
+            item.name = google_translator.translate(item.name, src='en', dest=lang).text
+            item.description = google_translator.translate(item.description, src='en', dest=lang).text
+            for allergy in item.allergies:
+                allergy.name = google_translator.translate(allergy.name, src='en', dest=lang).text
 
         response = make_response(restaurant.to_dict(rules=('-users',)), 200)
 

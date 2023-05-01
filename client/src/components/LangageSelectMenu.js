@@ -8,7 +8,6 @@ function LanugageSelectMenu({onSetLanguage}) {
     function handleSubmit(e) {
         e.preventDefault()
         onSetLanguage(e.target[0].value)
-        navigate('/')
     }
 
     let uniqueId = 0

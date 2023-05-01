@@ -1,4 +1,4 @@
-from models import Allergy
+# from models import Allergy
 
 
 
@@ -20,11 +20,11 @@ ingredient_names = [
     'egg'
 ]
 
-for ingredient in ingredient_names:
-    new_allergy_object = Allergy(
-        name = ingredient,
-        removable = True
-    )
+# for ingredient in ingredient_names:
+#     new_allergy_object = Allergy(
+#         name = ingredient,
+#         removable = True
+#     )
 
 
 

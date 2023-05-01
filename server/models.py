@@ -1,8 +1,12 @@
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData
+
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from itertools import chain
+
+from config import db, bcrypt
+
+# from app import bcrypt
 
 
 # # Translation instance
@@ -10,11 +14,11 @@ from itertools import chain
 # translator = GoogleTranslator(source='en', target='en')
 
 
-metadata = MetaData(naming_convention={
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-})
+# metadata = MetaData(naming_convention={
+#     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+# })
 
-db = SQLAlchemy(metadata=metadata)
+# db = SQLAlchemy(metadata=metadata)
 
 class Restaurant(db.Model, SerializerMixin):
     __tablename__ = 'restaurants'
@@ -25,10 +29,10 @@ class Restaurant(db.Model, SerializerMixin):
     url = db.Column(db.String)
     email = db.Column(db.String)
 
-    serialize_rules = ('-users, ''-password_hash', '-menu_items.restaurant', '-users.restaurant', 'allergies', '-allergy_proxy')
+    serialize_rules = ('-users,' '-menu_items.restaurant', '-users.restaurant', 'allergies', '-allergy_proxy')
 
-    menu_items = db.relationship('MenuItem', back_populates='restaurant')
-    users = db.relationship('User', back_populates='restaurant')
+    menu_items = db.relationship('MenuItem', back_populates='restaurant', cascade="all, delete-orphan")
+    users = db.relationship('User', back_populates='restaurant', cascade="all, delete-orphan")
     allergy_proxy = association_proxy('menu_items', 'allergies')
 
     menu_item_names = association_proxy('menu_items', 'name')
@@ -72,7 +76,7 @@ class MenuItem(db.Model, SerializerMixin):
     restaurant = db.relationship('Restaurant', back_populates='menu_items')
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), index=True)
 
-    menu_item_allergies = db.relationship('MenuItemAllergy', back_populates='menu_item')
+    menu_item_allergies = db.relationship('MenuItemAllergy', back_populates='menu_item', cascade="all, delete-orphan")
     allergies = association_proxy('menu_item_allergies', 'allergy')
 
 
@@ -124,18 +128,27 @@ class User(db.Model, SerializerMixin):
     # DB Setup
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
-    password_hash = db.Column(db.String)
+    _password_hash = db.Column(db.String)
     role = db.Column(db.String)
 
-    serialize_rules = ('-password_hash',)
+    serialize_rules = ('-_password_hash',)
     
     restaurant = db.relationship('Restaurant', back_populates='users')
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'))
 
 
+    # Authentication / Authorization Logic
+    @hybrid_property
+    def password_hash(self):
+        return self._password_hash
+    
+    @password_hash.setter
+    def password_hash(self, password):
+        hashed_password = bcrypt.generate_password_hash(password.encode('utf-8'))
+        self._password_hash = hashed_password.decode('utf-8')
 
-
-
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
 
 
@@ -166,7 +179,7 @@ class Order(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    order_items = db.relationship('OrderItem', back_populates='order')
+    order_items = db.relationship('OrderItem', back_populates='order', cascade="all, delete-orphan")
 
 class OrderItem(db.Model, SerializerMixin):
     __tablename__ = 'order_items'
@@ -182,7 +195,7 @@ class OrderItem(db.Model, SerializerMixin):
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
 
     order = db.relationship('Order', back_populates='order_items')
-    order_item_allergies = db.relationship('OrderItemAllergy', back_populates='order_item')
+    order_item_allergies = db.relationship('OrderItemAllergy', back_populates='order_item', cascade="all, delete-orphan")
     allergies = association_proxy('order_item_allergies', 'allergy')
 
 class OrderItemAllergy(db.Model, SerializerMixin):
