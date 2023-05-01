@@ -17,21 +17,6 @@ function OrderDetailCard({order, onDeleteAllergy}) {
     })
 
 
-    // useEffect(() => {
-    //     onDeleteAllergy(order, allergyObjectList)
-    // }, [allergyObjectList])
-
-
-
-    // //Handle Item Removal
-    // function handleClick(e) {
-    //     if (e.target.className === 'removable') {
-    //         setAllergyObjectList((allergyObjectList) => {
-    //             return allergyObjectList.filter(allergy => allergy.name !== e.target.textContent)
-    //         })
-    //     }
-    // }
-
 
 
     return(

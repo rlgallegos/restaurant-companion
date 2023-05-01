@@ -1,9 +1,9 @@
 import ManageMenuDisplay from './ManageMenuDisplay';
 import ManageAddItemForm from './ManageAddItemForm';
 import ManageUsers from './ManageUsers';
-import ManagePortal from './ManagePortal';
-import ManageWelcome from './ManageWelcome';
 import ManageNavBar from './ManageNavBar';
+import {basicAllergies} from './helpers.js';
+import ManageRestaurantEdit from './ManageRestaurantEdit';
 
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -12,14 +12,20 @@ import { useEffect, useState } from 'react';
 function Manage() {
     const navigate = useNavigate()
     const [restaurant, setRestaurant] = useState(null)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [availableAllergies, setAvailableAllergies] = useState([])
 
     useEffect(() => {
         fetch('/restaurant')
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            setRestaurant(data)
+        .then(res => {
+            if (res.ok) {
+                res.json().then(data => {
+                    setRestaurant(data)
+                    setAvailableAllergies(basicAllergies)
+                    setAvailableAllergies((availableAllergies) => availableAllergies.concat(data.allergies))
+                })
+            } else {
+                navigate('/welcome')
+            }
         })
     }, [])
 
@@ -30,15 +36,19 @@ function Manage() {
             <Routes>
                 <Route
                 path = '/menu'
-                element = {restaurant ? <ManageMenuDisplay restaurant={restaurant}/> : <Navigate to='../../welcome'/>} 
+                element = {restaurant && <ManageMenuDisplay availableAllergies={availableAllergies} setAvailableAllergies={setAvailableAllergies} setRestaurant={setRestaurant} restaurant={restaurant}/>} 
                 />
                 <Route
                 path = '/menu/add'
-                element = {restaurant ?  <ManageAddItemForm/> : <Navigate to='../../welcome'/>} 
+                element = {restaurant &&  <ManageAddItemForm availableAllergies={availableAllergies} setAvailableAllergies={setAvailableAllergies} restaurant={restaurant} setRestaurant={setRestaurant} />} 
                 />
                 <Route
                 path = '/users'
-                element = {restaurant ? <ManageUsers /> : <Navigate to='../../welcome'/>}
+                element = {restaurant && <ManageUsers restaurant={restaurant} />}
+                />
+                <Route
+                path = '/restaurant'
+                element = {restaurant && <ManageRestaurantEdit setRestaurant={setRestaurant} restaurant={restaurant} />}
                 />
             </Routes>
         </div>

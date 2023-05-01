@@ -1,35 +1,16 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
-import ManageAddedItem from "./ManaageAddedItem";
+import ManageAddedItem from "./ManageAddedItem";
 import ManageAllergyBar from "./ManageAllergyBar";
 
-function ManageAddItemForm() {
-    const [availableAllergies, setAvailableAllergies] = useState([])
-    const [newItems, setNewItems] = useState([])
-    const navigate = useNavigate()
-    const params = useParams()
-    const [restID, setRestID] = useState(null)
+function ManageAddItemForm({restaurant, setRestaurant, availableAllergies, setAvailableAllergies}) {
 
-    //Check logged in
-    useEffect(() => {
-        fetch('/check_session')
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                navigate('/welcome')
-            }
-        })
-        .then(data => {
-            if (data.restaurant.allergies) {
-                setAvailableAllergies(data.restaurant.allergies)
-                setRestID(data.restaurant.id)
-            }
-        })
-    }, [])
+    const [newItems, setNewItems] = useState([])
+
+
+    //This Fetch is to add the MenuItem to the database
 
     //Formik Schema Logic
     const formSchema = yup.object().shape({
@@ -48,8 +29,7 @@ function ManageAddItemForm() {
         validationSchema: formSchema,
         validateOnChange: false,
         onSubmit: values => {
-            console.log(params.id)
-            fetch(`/restaurants/${restID}/items`, {
+            fetch(`/restaurants/${restaurant.id}/items`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -60,6 +40,7 @@ function ManageAddItemForm() {
                     res.json().then(data => {
                         setNewItems([...newItems, data])
                         formik.resetForm()
+                        setRestaurant({...restaurant, menu_items: [...restaurant.menu_items, data]})
                     })
                 }
             })
@@ -68,9 +49,10 @@ function ManageAddItemForm() {
     let newItemList = []
     if (newItems) {
         newItemList = newItems.map(newItem => {
-            return <ManageAddedItem key={newItem.id} setAvailableAllergies={setAvailableAllergies} availableAllergies={availableAllergies} newItem={newItem} />
+            return <ManageAddedItem key={newItem.id} setRestaurant={setRestaurant} restaurant={restaurant} availableAllergies={availableAllergies} setAvailableAllergies={setAvailableAllergies} newItem={newItem} />
         })
     }
+
 
     return (
         <div>
@@ -81,15 +63,17 @@ function ManageAddItemForm() {
                 <input type="textarea" name='description' value={formik.values.description} onChange={formik.handleChange} placeholder='Description' />
                 <p style={{color: "red"}}>{formik.errors.description}</p>
                 <br />
+                <label>Vegan</label>
                 <input type="checkbox" checked={formik.values.vegan} name="vegan" value={formik.values.vegan} onChange={formik.handleChange} />
                 <br />
+                <label>Kosher</label>
                 <input type="checkbox" checked={formik.values.kosher} name="kosher" value={formik.values.kosher} onChange={formik.handleChange}/>
                 <br />
                 <br />
                 <input type="submit" value='Add Item'/>
             </form>
             {newItems ? newItemList : <p>No new items added yet...</p>}
-            {newItems ? <ManageAllergyBar restID={restID} setAvailableAllergies={setAvailableAllergies} availableAllergies={availableAllergies} /> : <p>No allergies listed yet for this restaurant</p>}
+            {newItems ? <ManageAllergyBar restID={restaurant.id} setAvailableAllergies={setAvailableAllergies} availableAllergies={availableAllergies} /> : <p>No allergies listed yet for this restaurant</p>}
         </div>
     )
 }

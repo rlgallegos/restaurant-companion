@@ -9,6 +9,8 @@ psycopg2-binary = "*"
 psycopg2 = "*"
 faker = "*"
 flask-restful = "*"
+flask-bcrypt = "*"
+googletrans = "*"
 
 [dev-packages]
 

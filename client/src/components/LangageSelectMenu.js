@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import languageList from './helpers'
+import { languageList } from './helpers'
 
 
 function LanugageSelectMenu({onSetLanguage}) {
@@ -8,7 +8,6 @@ function LanugageSelectMenu({onSetLanguage}) {
     function handleSubmit(e) {
         e.preventDefault()
         onSetLanguage(e.target[0].value)
-        navigate('/')
     }
 
     let uniqueId = 0

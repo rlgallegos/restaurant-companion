@@ -12,7 +12,6 @@ function Welcome({}) {
         .then(res => res.json())
         .then(data => setRestaurants(data))
     }, [])
-    console.log(restaurants)
 
     let restaurantList = []
     if (restaurants) {

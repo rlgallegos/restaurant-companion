@@ -8,6 +8,7 @@ function ManageAllergyrBar({setAvailableAllergies, restID, availableAllergies}) 
 
     let availableAllergyList = []
     let uniqueId = 0
+    
     if (availableAllergies) {
         availableAllergyList = availableAllergies.map(allergy => {
             uniqueId++
@@ -29,14 +30,12 @@ function ManageAllergyrBar({setAvailableAllergies, restID, availableAllergies}) 
             name: formData,
             removable: false
         }
-
         const newVal = availableAllergies.some(allObj => {
-            // console.log(allObj)
             return allObj.name == formData
         })
-
         if (!newVal) {
             setAvailableAllergies([...availableAllergies, new_obj, new_obj2])
+            setFormData('')
         }
     }
 

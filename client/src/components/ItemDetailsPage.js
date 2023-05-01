@@ -5,7 +5,7 @@ import SingleItemDetail from "./SingleItemDetail";
 function ItemDetailsPage({items, filters, setHasOrdered}) {
     const params = useParams()
     const navigate = useNavigate()
-    
+
 
     let selected_item = items.find(item => {
         return item.id == params['id']
@@ -20,8 +20,8 @@ function ItemDetailsPage({items, filters, setHasOrdered}) {
             quantity: quantity,
             notes: notes
         }
-
-        navigate('/user/order', {state: completed_item_object })
+        navigate(`/user/${selected_item.restaurant_id}/order`, {state: completed_item_object }
+        )
     }
     
     return (

@@ -5,22 +5,16 @@ import ManageAddManagerForm from "./ManageAddManagerForm"
 import ManageManagerDisplay from "./ManageManagerDisplay"
 
 
-function ManageUsers() {
+function ManageUsers({restaurant}) {
     const [users, setUsers] = useState([])
     const navigate = useNavigate()
+    console.log(restaurant)
 
     useEffect(() => {
-        fetch('/check_session')
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                navigate('/welcome')
-            }
-        }).then(data => {
-            console.log(data)
-            setUsers(...users, data['restaurant']['users'])
-        })
+        fetch(`/${restaurant.id}/users`, {})
+        .then(res => res.json())
+        .then(data => setUsers(data))
+
     }, [])
 
     return (

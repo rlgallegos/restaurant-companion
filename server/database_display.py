@@ -15,6 +15,6 @@ p = Popen(['PGPASSWORD=MzXYvPcBwXVyQy43aTFxA02hmyHEkWyB psql -h dpg-cgngl8bldisf
 
 
 # p.stdin.write(b'SELECT * FROM users;\n')
-# p.stdin.write(b'SELECT * FROM restaurants;\n')
+p.stdin.write(b'SELECT * FROM restaurants;\n')
 p.communicate(b'')
 

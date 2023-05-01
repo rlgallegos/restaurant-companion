@@ -15,10 +15,6 @@ function ManageWelcome() {
     }, [])
 
 
-
-
-
-
     const [formType, setFormType] = useState(null)
     const navigate = useNavigate()
 

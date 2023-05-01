@@ -15,6 +15,7 @@ function User() {
     const [hasOrdered, setHasOrdered] = useState(false)
     const [isDirect, setIsDirect] = useState(false)
     const [allergyList, setAllergyList] = useState([])
+    const [id, setID] = useState(null)
   
     const navigate = useNavigate()
     const params = useParams()
@@ -23,6 +24,7 @@ function User() {
       fetch(`/${params.id}/${language}/items`)
         .then((res) => res.json())
         .then((data) => {
+          setID(data.id)
           setMenu(data.menu_items)
           setAllergyList(data.allergies)
           setFilters([])
@@ -32,7 +34,8 @@ function User() {
     function handleSetLanguage(langAbbrev) {
       setLanguage(langAbbrev)
     }
-  
+    let path = `/user/${id}`
+
     return (
         <div>
             <NavBar handleSetLanguage={handleSetLanguage} />
@@ -43,15 +46,15 @@ function User() {
                 />
                 <Route 
                 path = '/complete-order'
-                element = {isDirect ? <CompleteOrderPage language={language} orderList={orderList} /> : <Navigate to='/user' />}     
+                element = {isDirect ? <CompleteOrderPage restID={id} language={language} orderList={orderList} /> : <Navigate to='../menu-display' />}     
                 />
                 <Route 
                 path = '/item/:id'
-                element = {isDirect ? <ItemDetailsPage setIsDirect={setIsDirect} setHasOrdered={setHasOrdered} filters={filters} items={menu} /> : <Navigate to='/user' />}     
+                element = {isDirect ? <ItemDetailsPage setIsDirect={setIsDirect} setHasOrdered={setHasOrdered} filters={filters} items={menu} /> : <Navigate to='../menu-display' />}     
                 />
                 <Route 
                 path = '/order'
-                element = {isDirect ? <OrderPage allergyList={allergyList} setFilters={setFilters} setIsDirect={setIsDirect} hasOrdered={hasOrdered} setHasOrdered={setHasOrdered} orderList={orderList} setOrderList={setOrderList} /> : <Navigate to='/user' />}     
+                element = {isDirect ? <OrderPage allergyList={allergyList} setFilters={setFilters} setIsDirect={setIsDirect} hasOrdered={hasOrdered} setHasOrdered={setHasOrdered} orderList={orderList} setOrderList={setOrderList} /> : <Navigate to='../menu-display' />}     
                 />
             </Routes>
         </div>

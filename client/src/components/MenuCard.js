@@ -3,10 +3,8 @@ import { useNavigate } from "react-router-dom";
 function MenuCard( {item} ) {
     const navigate = useNavigate()
 
-    //Functionality so ingredient list appears if you click?
-    
     function handleClick() {
-        navigate(`/user/item/${item.id}`)
+        navigate(`/user/${item.restaurant_id}/item/${item.id}`)
     }
 
     return (
