@@ -25,11 +25,11 @@ function ItemDetailsPage({items, filters, setHasOrdered}) {
     }
     
     return (
-        <>
-            <br></br>
+        <div className="justify-center flex">  
+            {/* <br></br> */}
             {items ? <SingleItemDetail onPlaceOrder={placeOrder} selected_item={selected_item} /> : null}
-            <br></br>
-        </>
+            {/* <br></br> */}
+        </div>
     )
 }
 

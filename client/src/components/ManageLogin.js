@@ -4,6 +4,9 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 function ManageLogin() {
+    const tailwindCSS = "m-auto mb-2 md:mb-auto md:ml-4 text-lg flex-grow text-gray-900"
+    const tailwindCSS2 = "text-sm pl-2 h-8 flex-grow text-gray-900"
+
     const navigate = useNavigate()
 
     //Formik Schema Logic
@@ -41,17 +44,18 @@ function ManageLogin() {
 
     return (
         <>
-            <h2>Login</h2>
-            <form onSubmit={formik.handleSubmit}>
-                <input type='text' name='username' value={formik.values.username} onChange={formik.handleChange} placeholder='Enter Username' />
+            <form className='flex flex-col mx-6 md:grid md:grid-cols-2 md:gap-4 md:justify-items-start items-center' onSubmit={formik.handleSubmit}>
+                <label className={tailwindCSS}>Username:</label>
+                <input className={tailwindCSS2} type='text' name='username' value={formik.values.username} onChange={formik.handleChange} placeholder='Enter Username' />
+                <p style={{color: "red", textAlign: 'left'}}>{formik.errors.username}</p>
                 <br />
-                <p style={{color: "red"}}>{formik.errors.username}</p>
+                <label className={tailwindCSS}>Password:</label>
+                <input className={tailwindCSS2} type="password" name='password' value={formik.values.password} onChange={formik.handleChange} placeholder='Enter Password' />
+                <p style={{color: "red", textAlign: 'left'}}>{formik.errors.password}</p>
                 <br />
-                <input type="password" name='password' value={formik.values.password} onChange={formik.handleChange} placeholder='Password' />
-                <p style={{color: "red"}}>{formik.errors.password}</p>
-                <br />
-                <br />
-                <input type="submit" value='Login'/>
+                <div className='col-span-2 mx-auto' >
+                    <input className={"my-8 ml-auto text-m flex-grow text-gray-900 border border-blue-400 bg-blue-900 bg-opacity-50 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out"} type="submit" value='Login'/>
+                </div>
             </form>
         </>
     )

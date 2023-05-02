@@ -17,18 +17,22 @@ function CompleteOrderPage({orderList, language}) {
         return <CompletedOrderItem key={item.item.id} itemName={item.item.name} quantity={item.quantity} allergies={item.filters} notes={item.notes} />
     })
 
-
+// <h1>English</h1>
 
     return (
-    <>
-        <h2>Order: {location.state.id}</h2>
-        <div>
-            {location.state.order_items && englishList}
-        </div>
-        <div style={{float: 'right'}}>
-            {orderList && translatedList}
-        </div>
-    </>
+        <>
+            <h2 className="text-4xl font-semibold my-6" >Order: {location.state.id}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
+                <div className="justify-self-center">
+                    <h1 className="text-2xl font-semibold" >English:</h1>
+                    {location.state.order_items && englishList}
+                </div> 
+                <div className="justify-self-center">
+                    <h1 className="text-2xl font-semibold">Translation:</h1>
+                    {orderList && translatedList}
+                </div>
+            </div>
+        </>
     )
 }
 

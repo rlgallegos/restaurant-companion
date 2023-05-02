@@ -56,7 +56,7 @@ function ManageItemEdit({menuItem, onUpdateItem}) {
     return (
         <>
             {isEditing && 
-            <form onSubmit={formik.handleSubmit}>
+            <form  onSubmit={formik.handleSubmit}>
                 <input type='text' name='name' value={formik.values.name} onChange={formik.handleChange} placeholder='Name' />
             
                 <br />

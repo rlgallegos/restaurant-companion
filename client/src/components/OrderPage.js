@@ -41,12 +41,11 @@ function OrderPage({ restID, allergyList, setFilters, orderList, setOrderList, h
 
     return (
         <div>
-            <button onClick={handleClick}>Translate</button>
-            <br></br>
-            {hasOrdered? currentOrder: <h3>You haven't ordered anything yet...</h3>}
-            <br></br>
-            {hasOrdered? <button onClick={handleClick}>Translate</button> : null}
-            
+            <button onClick={handleClick} className="mt-8 ml-auto text-m flex-grow text-gray-900 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out">Translate Order</button>
+            <div className="flex flex-col md:flex-row md:flex-wrap justify-center">
+                {hasOrdered? currentOrder: <h3>You haven't ordered anything yet...</h3>}
+            </div>
+            {hasOrdered? <button onClick={handleClick} className="my-8 ml-auto text-m flex-grow text-gray-900 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out">Translate Order</button> : null}
         </div>
     )
 }

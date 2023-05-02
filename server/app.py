@@ -37,7 +37,7 @@ class Restaurants(Resource):
     def get(self):
         restaurants = Restaurant.query.all()
         restaurant_list = [restaurant.to_dict(
-            only=('id', 'name')
+            only=('id', 'name', 'url')
         ) for restaurant in restaurants]
         return make_response(restaurant_list, 200)
 

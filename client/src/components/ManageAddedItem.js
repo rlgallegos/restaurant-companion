@@ -2,6 +2,10 @@ import { useEffect, useState } from "react"
 
 
 function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvailableAllergies, restaurant}) {
+    const tailwindCSS = "m-auto mr-2 mb-2 md:mb-auto md:ml-4 text-lg flex-grow text-gray-900 "
+    const tailwindCSS2 = "text-sm pl-2 h-8  flex-grow text-gray-900"
+    const tailwindCSS3 = "font-bold text-lg pl-2 h-8  flex-grow text-gray-900 flex-grow mb-3"
+
     const [allergyList, setAllergyList] = useState([])
     const [currentAllergies, setCurrentAllergies] = useState([])
     const [specAvailableAllergies, setSpecAvailableAllergies] = useState([])
@@ -101,7 +105,7 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
     if (specAvailableAllergies) {
         allergyOptions = specAvailableAllergies.map(allergy => {
             uniqueId++
-            return <option key={uniqueId} value={allergy.removable ? (allergy.name + '-removable') : allergy.name + '-not'}>{allergy.removable ? (allergy.name + '- (removable)') : allergy.name + '- (not removable)'}</option>
+            return <option className={tailwindCSS2} key={uniqueId} value={allergy.removable ? (allergy.name + '-removable') : allergy.name + '-not'}>{allergy.removable ? (allergy.name + '- (removable)') : allergy.name + '- (not removable)'}</option>
         })
     }
     let givenAllergies = []
@@ -109,40 +113,37 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
     if (allergyList) {
         givenAllergies = allergyList.map(allergy => {
             uniqueId2++
-            return <li key={uniqueId2}>{allergy.removable ? (allergy.name + '- (removable)') : allergy.name + '- (not removable)'}</li>
+            return <li className={tailwindCSS} key={uniqueId2}>{allergy.removable ? (allergy.name + '- (removable)') : allergy.name + '- (not removable)'}</li>
         })
     }
 
     let currentAllergiesList = []
     if (currentAllergies) {
         currentAllergiesList = currentAllergies.map(allergy => {
-            return <li key={allergy.id}>{allergy.name}</li>
+            return <li className={tailwindCSS} key={allergy.id}>{allergy.name}</li>
         })
     }
 
 
     return(
-        <div className="menu-card">
+        <div className=' border border-blue-900 rounded-md bg-blue-800 bg-opacity-50 my-6 mx-auto p-12'>
             <h3>{newItem.name}</h3>
-            <p>{newItem.description}</p>
-            {newItem.kosher && <p>This item is kosher</p>}
-            {newItem.vegan && <p>This item is vegan</p>}
+            <p className={tailwindCSS}>{newItem.description}</p>
+            {newItem.kosher && <p className={tailwindCSS}>This item is kosher</p>}
+            {newItem.vegan && <p className={tailwindCSS}>This item is vegan</p>}
             <br />
-            <h3>Allergies to add:</h3>
+        <h3 className={tailwindCSS3}>Allergies staged to be added:</h3>
             {allergyList && givenAllergies}
-            <br /><br />
-            
-
-            <form onSubmit={handleAddAllergyToList}>
+            <form className="p-4 border border-blue-200 my-2" onSubmit={handleAddAllergyToList}>
                 <select>
-                    <option disabled>Select allergy to add</option>
+                    <option className={tailwindCSS2} disabled>Select allergy to add</option>
                     {specAvailableAllergies && allergyOptions}
                 </select>
-                <input type="submit" value="Add Allergy" />
+                <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-900 border border-blue-400 bg-blue-900 bg-opacity-50 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value="Add Allergy" />
             </form>
-            {allergyList && <button onClick={handleApplyChanges}>Apply Changes</button>}
+            {allergyList && <button className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-900 border border-blue-400 bg-blue-900 bg-opacity-50 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" onClick={handleApplyChanges}>Apply Changes</button>}
             <br /><br />
-            <h3>Allergies currently applied to this dish:</h3>
+            <h3 className={tailwindCSS3}>Allergies currently applied to this dish:</h3>
             <ul>
                 {currentAllergies && currentAllergiesList}
             </ul>

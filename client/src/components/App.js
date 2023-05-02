@@ -1,5 +1,6 @@
 // import logo from '../logo.svg';
 import '../App.css';
+
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Manage from './Manage';
 import Welcome from './Welcome';
@@ -14,9 +15,9 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header className="App-header" onClick={handleClick}>
-        <h1>Welcome to Nuts N' Bolts</h1>
+    <div className="min-h-screen bg-blue-100 text-center App">
+      <header className="bg-blue-900 text-gray-100 px-4 py-8 flex justify-between items-center " onClick={handleClick}>
+        <h1 className="text-4xl font-bold" style={{ textShadow: "1px 1px #000" }}>Welcome to Nuts N' Bolts</h1>
       </header>
       <main>
         <Routes>

@@ -23,9 +23,13 @@ function Welcome({}) {
 
 
     return (
-        <div>
+        <>
+        <h1 className=" text-gray-900 text-4xl font-bold px-4 py-8 flex justify-center items-center mb-3">Available Restaurants</h1>
+        <div className="flex flex-wrap justify-center max-w-screen-xl mx-auto my-8" >
             {restaurants && restaurantList}
-        </div>
+        </div>    
+        </>
+
     )
 }
 
