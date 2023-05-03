@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 
 
 function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvailableAllergies, restaurant}) {
-    const tailwindCSS = "m-auto mr-2 mb-2 md:mb-auto md:ml-4 text-lg flex-grow text-gray-900 "
-    const tailwindCSS2 = "text-sm pl-2 h-8  flex-grow text-gray-900"
-    const tailwindCSS3 = "font-bold text-lg pl-2 h-8  flex-grow text-gray-900 flex-grow mb-3"
+    const tailwindCSS = "m-auto mr-2 mb-2 md:mb-auto md:ml-4 text-lg flex-grow text-gray-100 "
+    const tailwindCSS2 = "text-sm pl-2 h-8  flex-grow text-gray-100"
+    const tailwindCSS3 = "font-bold text-lg pl-2 h-8  flex-grow text-gray-100 flex-grow mb-3"
 
     const [allergyList, setAllergyList] = useState([])
     const [currentAllergies, setCurrentAllergies] = useState([])
     const [specAvailableAllergies, setSpecAvailableAllergies] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         setSpecAvailableAllergies(availableAllergies)
@@ -20,12 +21,13 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
 
     //This fetch is to add the allergies to a given MenuItem
 
-    function handleApplyChanges(e) {
-        console.log(e.target)
-        e.target.disabled = true
-        setTimeout(() => {
-            e.target.disabled = false
-        }, 5000)
+    function handleApplyChanges() {
+        setIsLoading(true)
+        // console.log(e.target)
+        // e.target.disabled = true
+        // setTimeout(() => {
+        //     e.target.disabled = false
+        // }, 5000)
 
         fetch(`/restaurants/${restaurant.id}/items/${newItem.id}`, {
             method: "POST",
@@ -35,6 +37,7 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
             body: JSON.stringify(allergyList)
         }).then(res => {
             if (res.ok) {
+                setIsLoading(false)
                 res.json().then(data => {
 
                 setAllergyList([])
@@ -126,8 +129,8 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
 
 
     return(
-        <div className=' border border-blue-900 rounded-md bg-blue-800 bg-opacity-50 my-6 mx-auto p-12'>
-            <h3>{newItem.name}</h3>
+        <div className=' border border-blue-100 bg-opacity-90 rounded-md bg-blue-900 my-6 mx-auto p-12 '>
+            <h3 className="text-2xl font-bold flex-grow text-gray-100 my-3">{newItem.name}</h3>
             <p className={tailwindCSS}>{newItem.description}</p>
             {newItem.kosher && <p className={tailwindCSS}>This item is kosher</p>}
             {newItem.vegan && <p className={tailwindCSS}>This item is vegan</p>}
@@ -139,11 +142,11 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
                     <option className={tailwindCSS2} disabled>Select allergy to add</option>
                     {specAvailableAllergies && allergyOptions}
                 </select>
-                <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-900 border border-blue-400 bg-blue-900 bg-opacity-50 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value="Add Allergy" />
+                <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value="Add Allergy" />
             </form>
-            {allergyList && <button className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-900 border border-blue-400 bg-blue-900 bg-opacity-50 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" onClick={handleApplyChanges}>Apply Changes</button>}
+            {allergyList && !isLoading ? <button className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400  rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" onClick={handleApplyChanges}>Apply Changes</button> : <p className={tailwindCSS}>Loading...</p>}
             <br /><br />
-            <h3 className={tailwindCSS3}>Allergies currently applied to this dish:</h3>
+            <h3 className={tailwindCSS3}>Allergies now applied to this dish:</h3>
             <ul>
                 {currentAllergies && currentAllergiesList}
             </ul>

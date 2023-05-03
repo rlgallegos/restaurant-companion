@@ -18,9 +18,9 @@ function ManageUsers({restaurant}) {
     }, [])
 
     return (
-        <div>
+        <div  >
             <ManageAddManagerForm users={users} setUsers={setUsers} />
-            <ManageManagerDisplay users={users} />
+            <ManageManagerDisplay users={users} setUsers={setUsers} />
         </div>
     )
 }

@@ -17,7 +17,6 @@ function CompleteOrderPage({orderList, language}) {
         return <CompletedOrderItem key={item.item.id} itemName={item.item.name} quantity={item.quantity} allergies={item.filters} notes={item.notes} />
     })
 
-// <h1>English</h1>
 
     return (
         <>

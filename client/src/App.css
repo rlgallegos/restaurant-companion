@@ -10,8 +10,12 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+  #logo {
     animation: App-logo-spin infinite 20s linear;
+    width: 50vh;
+    height: 50vh;
+    text-align: center;
+    margin: auto;
   }
 }
 
@@ -48,6 +52,40 @@ li {
   }
 }
 
+
+
+.animate-fade-in {
+  animation-name: fade-in;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+  /* animation-delay: 0.2s; */
+}
+.animate-fade-out {
+  animation-name: fade-out;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+  /* animation-delay: 0.2s; */
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+
 img {
   width: 20vh;
   height: 25vh;
@@ -80,9 +118,9 @@ img {
   margin: 2vh 15vh 2vh;
 } */
 
-.allergy-removed {
+/* .allergy-removed {
   background-color: red;
 }
 .allergy-intact {
   background-color: green;
-}
+} */

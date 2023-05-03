@@ -6,8 +6,8 @@ import ManageAddedItem from "./ManageAddedItem";
 import ManageAllergyBar from "./ManageAllergyBar";
 
 function ManageAddItemForm({restaurant, setRestaurant, availableAllergies, setAvailableAllergies}) {
-    const tailwindCSS = "m-auto mr-2 mb-2 md:mb-auto md:ml-4 text-lg flex-grow text-gray-900 "
-    const tailwindCSS2 = "text-sm pl-2 h-8  flex-grow text-gray-900"
+    const tailwindCSS = "m-auto mr-2 mb-2 md:mb-auto md:ml-4 text-lg flex-grow text-gray-100 "
+    const tailwindCSS2 = "text-sm pl-2 h-8  flex-grow text-gray-900 text-gray-100 text-gray-100 w-full, sm:w-2/3"
 
     const [newItems, setNewItems] = useState([])
 
@@ -16,7 +16,7 @@ function ManageAddItemForm({restaurant, setRestaurant, availableAllergies, setAv
 
     //Formik Schema Logic
     const formSchema = yup.object().shape({
-        name: yup.string().max(15).required('Please enter a valid name for the dish'),
+        name: yup.string().max(50).required('Please enter a valid name for the dish'),
         description: yup.string().max(100).required("Please enter a a valid description under 100 characters"),
         });
 
@@ -58,7 +58,7 @@ function ManageAddItemForm({restaurant, setRestaurant, availableAllergies, setAv
 
     return (
         <div >
-            <form className='border border-blue-900 rounded-md bg-blue-800 bg-opacity-50 w-4/5 md:w-1/3 my-10 md:mt-20 mx-auto p-12' onSubmit={formik.handleSubmit}>
+            <form className='border border-blue-900 rounded-md bg-blue-900 bg-opacity-90 w-4/5 md:w-1/3 my-10 md:mt-20 mx-auto p-12' onSubmit={formik.handleSubmit}>
                 <label className={tailwindCSS}>Dish Name: </label>
                 <input className={tailwindCSS2} type='text' name='name' value={formik.values.name} onChange={formik.handleChange} placeholder='Name' />
                 <p style={{color: "red"}}>{formik.errors.name}</p>
@@ -74,7 +74,7 @@ function ManageAddItemForm({restaurant, setRestaurant, availableAllergies, setAv
                 <input type="checkbox" checked={formik.values.kosher} name="kosher" value={formik.values.kosher} onChange={formik.handleChange}/>
                 <br />
                 <br />
-                <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-900 border border-blue-400 bg-blue-900 bg-opacity-50 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value='Add Item'/>
+                <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value='Add Item'/>
             </form>
             <div className="flex justify-center flex-col md:flex-row flex-wrap gap-2 mx-2">
                 {newItems ? newItemList : <p>No new items added yet...</p>}

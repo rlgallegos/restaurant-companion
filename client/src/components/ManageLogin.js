@@ -4,8 +4,8 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 function ManageLogin() {
-    const tailwindCSS = "m-auto mb-2 md:mb-auto md:ml-4 text-lg flex-grow text-gray-900"
-    const tailwindCSS2 = "text-sm pl-2 h-8 flex-grow text-gray-900"
+    const tailwindCSS = " mr-2 mb-2 md:ml-4 text-lg text-gray-100 "
+    const tailwindCSS2 = "text-sm pl-2 h-8  text-gray-900 text-gray-100 text-gray-100 my-2 w-full sm:w-3/4"
 
     const navigate = useNavigate()
 
@@ -54,7 +54,7 @@ function ManageLogin() {
                 <p style={{color: "red", textAlign: 'left'}}>{formik.errors.password}</p>
                 <br />
                 <div className='col-span-2 mx-auto' >
-                    <input className={"my-8 ml-auto text-m flex-grow text-gray-900 border border-blue-400 bg-blue-900 bg-opacity-50 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out"} type="submit" value='Login'/>
+                    <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400  rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value='Login'/>
                 </div>
             </form>
         </>
