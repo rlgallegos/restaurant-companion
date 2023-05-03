@@ -1,11 +1,11 @@
 import ManageSignup from './ManageSignup';
 import ManageLogin from './ManageLogin';
 
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 function ManageWelcome() {
-    const tailwindButton = "m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400  rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out"
+    const tailwindButton = "m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400  rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out card"
 
 
     useEffect(() => {
