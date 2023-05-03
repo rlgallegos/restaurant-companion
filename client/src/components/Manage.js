@@ -4,6 +4,8 @@ import ManageUsers from './ManageUsers';
 import ManageNavBar from './ManageNavBar';
 import {basicAllergies} from './helpers.js';
 import ManageRestaurantEdit from './ManageRestaurantEdit';
+import ManageSubscription from './ManageSubscription';
+import ManageSubscriptionResult from './ManageSubscriptionResult';
 
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -45,6 +47,14 @@ function Manage() {
                 <Route
                 path = '/users'
                 element = {restaurant && <ManageUsers restaurant={restaurant} />}
+                />
+                <Route
+                path = '/subscription'
+                element = {restaurant && <ManageSubscription id={restaurant.id} />}
+                />
+                <Route
+                path = '/subscription/result'
+                element = {restaurant && <ManageSubscriptionResult />}
                 />
                 <Route
                 path = '/restaurant'

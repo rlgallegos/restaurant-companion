@@ -9,17 +9,6 @@ from config import db, bcrypt
 # from app import bcrypt
 
 
-# # Translation instance
-# from deep_translator import GoogleTranslator
-# translator = GoogleTranslator(source='en', target='en')
-
-
-# metadata = MetaData(naming_convention={
-#     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-# })
-
-# db = SQLAlchemy(metadata=metadata)
-
 class Restaurant(db.Model, SerializerMixin):
     __tablename__ = 'restaurants'
     
@@ -50,14 +39,6 @@ class Restaurant(db.Model, SerializerMixin):
     def all_names(self):
         return list(set([allergy.name for allergy in self.allergies])) + self.menu_item_names + self.menu_item_descriptions
 
-    # # Translate Allergies Method
-    # def get_t_allergies(self, lang='en'):
-    #     translator.target = lang
-    #     return [translator.translate(allergy.name) for allergy in self.allergies]
-
-
-
-
 
 
 class MenuItem(db.Model, SerializerMixin):
@@ -81,24 +62,6 @@ class MenuItem(db.Model, SerializerMixin):
 
 
 
-
-    # # Translate Name Method
-    # def get_t_name(self, lang='en'):
-    #     translator.target = lang
-    #     return translator.translate(self.name)
-    #     # return [translator.translate(allergy.name) for allergy in self.allergies]
-
-    # # Translate Description Method
-    # def get_t_description(self, lang='en'):
-    #     translator.target = lang
-    #     return translator.translate(self.description)
-    #     # return [translator.translate(allergy.name) for allergy in self.allergies]
-
-
-
-
-
-
 class Allergy(db.Model, SerializerMixin):
     __tablename__ = 'allergies'
 
@@ -114,11 +77,6 @@ class Allergy(db.Model, SerializerMixin):
     menu_item_allergies = db.relationship('MenuItemAllergy', back_populates='allergy')
     order_item_allergies = db.relationship('OrderItemAllergy', back_populates='allergy')
 
-
-    # # Allergy Translator
-    # def get_t_allergy(self, lang):
-    #     translator.target = lang
-    #     return translator.translate(self.name)
 
 
 

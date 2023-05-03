@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, make_response, session
+from flask import Flask, request, make_response, session, redirect
 # from deep_translator import GoogleTranslator
 from googletrans import Translator
 
@@ -8,6 +8,11 @@ from flask_restful import Api, Resource
 from data_sets import ingredient_names
 # from flask_bcrypt import Bcrypt
 from config import app, db
+
+import stripe
+# This is your test secret API key.
+stripe.api_key = 'sk_test_51N3liqDA7GByIJ4jbbooVYOCi3eHoGzJ3dTeGaibenZo8qa2yROvkT1wraM6ddlqnbKNgBOk3EEpN9oaCbCt6B4I00AAv5RTKk'
+
 
 # from flask_cors import CORS
 
@@ -451,6 +456,68 @@ def menu(id, lang):
 
 
 
+# Stripe Routes
+# This is the route called on in the Product display page
+@app.route('/create-checkout-session', methods=['POST'])
+def create_checkout_session():
+
+    try:
+        prices = stripe.Price.list(
+            lookup_keys=[request.form['lookup_key']],
+            expand=['data.product']
+        )
+        # The Checkout Session object
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[
+                {
+                    'price': prices.data[0].id,
+                    'quantity': 1,
+                },
+            ],
+            mode='subscription',
+            success_url='http://localhost:4000/manage/subscription/result/' +
+            '?success=true&session_id={CHECKOUT_SESSION_ID}',
+            cancel_url='http://localhost:4000/manage/subscription/result/' + '?canceled=true',
+            subscription_data={
+                'trial_period_days': 14
+            },
+        )
+        print(checkout_session)
+        print(checkout_session.customer)
+
+
+        return redirect(checkout_session.url, code=303)
+    except Exception as e:
+        print(e)
+        return "Server error", 500
+
+
+# This is the route called in the success page
+@app.route('/create-portal-session', methods=['POST'])
+def customer_portal():
+    # For demonstration purposes, we're using the Checkout session to retrieve the customer ID.
+    # Typically this is stored alongside the authenticated user in your database.
+
+    checkout_session_id = request.form.get('session_id')
+    checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
+
+    # This is the URL to which the customer will be redirected after they are
+    # done managing their billing with the portal.
+    
+    return_url = 'http://localhost:4000/manage/subscription'
+
+    portalSession = stripe.billing_portal.Session.create(
+        customer=checkout_session.customer,
+        return_url=return_url,
+    )
+    return redirect(portalSession.url, code=303)
+
+@app.route('/stripe-update-databse', methods=['POST'])
+def update_customer_id(self):
+    data = request.get_json()
+    print(data)
+
+    return 
 
 
 

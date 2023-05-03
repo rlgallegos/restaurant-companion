@@ -54,7 +54,7 @@ function ManageLogin() {
                 <p style={{color: "red", textAlign: 'left'}}>{formik.errors.password}</p>
                 <br />
                 <div className='col-span-2 mx-auto' >
-                    <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400  rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value='Login'/>
+                    <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400  rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out card" type="submit" value='Login'/>
                 </div>
             </form>
         </>
