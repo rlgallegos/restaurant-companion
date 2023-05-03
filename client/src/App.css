@@ -1,5 +1,7 @@
+
+
 .App {
-  text-align: center;
+  font-family: 'Roboto Slab', serif;
 }
 
 .App-logo {
@@ -8,11 +10,24 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+  #logo {
     animation: App-logo-spin infinite 20s linear;
+    width: 50vh;
+    height: 50vh;
+    text-align: center;
+    margin: auto;
   }
 }
 
+button, header, .card {
+  cursor: pointer
+}
+
+li {
+  list-style-type: none;
+}
+
+/* 
 .App-header {
   background-color: #282c34;
   min-height: 15vh;
@@ -22,7 +37,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
 .App-link {
   color: #61dafb;
@@ -37,41 +52,75 @@
   }
 }
 
+
+
+.animate-fade-in {
+  animation-name: fade-in;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+  /* animation-delay: 0.2s; */
+}
+.animate-fade-out {
+  animation-name: fade-out;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+  /* animation-delay: 0.2s; */
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+
 img {
   width: 20vh;
   height: 25vh;
 }
 
-.menu-display {
+/* .menu-display {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-content: center;
   justify-content: space-evenly;
   align-items: flex-start;
-}
+} */
 
-.menu-card {
+/* .menu-card {
   width: 40vh;
   height: auto;
-}
+} */
 
-#allergy-side-bar {
+/* #allergy-side-bar {
   display: inline;
   float: left;
   width: 10vh;
   height: 85vh;
-}
-.nav-bar {
+} */
+/* .nav-bar {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   margin: 2vh 15vh 2vh;
-}
+} */
 
-.allergy-removed {
+/* .allergy-removed {
   background-color: red;
 }
 .allergy-intact {
   background-color: green;
-}
+} */

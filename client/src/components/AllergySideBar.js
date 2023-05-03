@@ -9,10 +9,12 @@ function AllergySideBar({ allergyList, filters, setFilters}) {
     })
 
     return (
-        <div id="allergy-side-bar">
-            Allergy side bar
+        <>
+        <h3 className="my-4 text-lg">Click/Tap to Filter:</h3>
+        <div className="grid grid-cols-4 md:grid-cols-5 justify-items-center gap-0 mb-4">
             {allergyList && allergySidebarList}
         </div>
+        </>
     )
 }
 export default AllergySideBar

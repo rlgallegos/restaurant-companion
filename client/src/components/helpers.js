@@ -219,7 +219,7 @@ keys.forEach(key => {
     const newObj = {[titleCase(languageObj[key])]: key}
     languageList.push(newObj)
 })
-console.log(languageList)
+
 
 export {basicAllergies}
 export {languageList}

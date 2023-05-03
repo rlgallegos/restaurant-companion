@@ -24,7 +24,7 @@ with app.app_context():
     fake = Faker()
 
     print('Creating restaurants...')
-    restaurants = [Restaurant( name=fake.bs() ) for i in range(12)]
+    restaurants = [Restaurant( name=fake.bs(), url='www.google.com') for i in range(12)]
 
     db.session.add_all(restaurants)
     db.session.commit()

@@ -16,14 +16,24 @@ function User() {
     const [isDirect, setIsDirect] = useState(false)
     const [allergyList, setAllergyList] = useState([])
     const [id, setID] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isLoadingTranslation, setIsLoadingTranslation] = useState(false)
+    const [loadMessage, setLoadMessage] = useState('')
+    const [classNames, setClassNames] = useState('')
   
     const navigate = useNavigate()
     const params = useParams()
   
     useEffect(() => {
+      setIsLoading(true)
+      if (language !== 'en') {
+        setIsLoadingTranslation(true)
+      }
       fetch(`/${params.id}/${language}/items`)
         .then((res) => res.json())
         .then((data) => {
+          setIsLoading(false)
+          setIsLoadingTranslation(false)
           setID(data.id)
           setMenu(data.menu_items)
           setAllergyList(data.allergies)
@@ -36,8 +46,24 @@ function User() {
     }
     let path = `/user/${id}`
 
+    const messageArray = ['Sending request...', 'Translating data...', 'Building menu...']
+
+    useEffect(() => {
+      // setClassNames('animate-fade-in')
+      // setTimeout(() => {setClassNames('animate-fade-out')}, 4000)
+      setLoadMessage('Sending request...')
+      setTimeout(() => {setLoadMessage('Translating data...')}, 8000)
+      setTimeout(() => {setLoadMessage('Building menu...')}, 16000)
+    }, [isLoadingTranslation])
+
+    useEffect(() => {
+      setClassNames('animate-fade-in')
+      setTimeout(() => {setClassNames('animate-fade-out')}, 4000)
+    }, [loadMessage])
+
     return (
-        <div>
+      <>
+        {!isLoading ? <div>
             <NavBar handleSetLanguage={handleSetLanguage} />
             <Routes>
                 <Route 
@@ -57,7 +83,11 @@ function User() {
                 element = {isDirect ? <OrderPage allergyList={allergyList} setFilters={setFilters} setIsDirect={setIsDirect} hasOrdered={hasOrdered} setHasOrdered={setHasOrdered} orderList={orderList} setOrderList={setOrderList} /> : <Navigate to='../menu-display' />}     
                 />
             </Routes>
-        </div>
+        </div> : <div className='mx-auto my-10 md:my-20'>
+        <img id='logo' src='/logo512.png' />
+          </div>}
+          {isLoadingTranslation && <p className={`text-3xl text-gray-900 ${classNames} duration-200`}>{loadMessage}</p>}
+        </>
     )
 }
 export default User

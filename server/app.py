@@ -37,7 +37,7 @@ class Restaurants(Resource):
     def get(self):
         restaurants = Restaurant.query.all()
         restaurant_list = [restaurant.to_dict(
-            only=('id', 'name')
+            only=('id', 'name', 'url')
         ) for restaurant in restaurants]
         return make_response(restaurant_list, 200)
 
@@ -329,7 +329,7 @@ class UserByID(Resource):
             db.session.commit()
         except:
             return make_response({'error': 'Failed to update resource'}, 422)
-        return make_response(user.to_dict(only=('username', 'role')), 200)
+        return make_response(user.to_dict(only=('username', 'role', 'id')), 200)
 
 
 api.add_resource(UserByID, '/users/<int:id>')

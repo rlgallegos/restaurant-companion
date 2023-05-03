@@ -32,7 +32,7 @@ function Manage() {
     return (
         <div>
             <ManageNavBar />
-            {restaurant ? <h1>Manager Portal for {restaurant.name}</h1> : null}
+            {restaurant ? <h1 className='font-bold text-4xl my-3'>Manager Portal for {restaurant.name}</h1> : null}
             <Routes>
                 <Route
                 path = '/menu'

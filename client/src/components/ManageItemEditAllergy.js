@@ -2,6 +2,9 @@ import { useState } from "react"
 
 
 function ManageItemEditAllergy({allergy, itemAllergies, setItemAllergies}) {
+    const tailwindCSSIntact = 'my-auto, bg-blue-100 border border-gray-900 card'
+    const tailwindCSSRemoved = 'my-auto, border border-gray-900 card'
+
     const [isIncluded, setIsIncluded] = useState(true)
 
     function handleClick() {
@@ -16,7 +19,7 @@ function ManageItemEditAllergy({allergy, itemAllergies, setItemAllergies}) {
 
 
     return (
-        <div onClick={handleClick} className={isIncluded ? "allergy-intact" : "allergy-removed"}>
+        <div onClick={handleClick} className={isIncluded ? tailwindCSSIntact : tailwindCSSRemoved}>
             <p>{allergy.name}</p>
         </div>
     )
