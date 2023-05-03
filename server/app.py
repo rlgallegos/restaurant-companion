@@ -454,6 +454,8 @@ def menu(id, lang):
 
 
 
+
+
 # Stripe Routes
 # This is the route called on in the Product display page
 @app.route('/create-checkout-session', methods=['POST'])
@@ -464,7 +466,7 @@ def create_checkout_session():
             lookup_keys=[request.form['lookup_key']],
             expand=['data.product']
         )
-
+        # The Checkout Session object
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
@@ -480,6 +482,10 @@ def create_checkout_session():
                 'trial_period_days': 14
             },
         )
+        print(checkout_session)
+        print(checkout_session.customer)
+
+
         return redirect(checkout_session.url, code=303)
     except Exception as e:
         print(e)
@@ -491,7 +497,7 @@ def create_checkout_session():
 def customer_portal():
     # For demonstration purposes, we're using the Checkout session to retrieve the customer ID.
     # Typically this is stored alongside the authenticated user in your database.
-    print(request.form)
+
     checkout_session_id = request.form.get('session_id')
     checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
 
@@ -505,6 +511,14 @@ def customer_portal():
         return_url=return_url,
     )
     return redirect(portalSession.url, code=303)
+
+@app.route('/stripe-update-databse', methods=['POST'])
+def update_customer_id(self):
+    data = request.get_json()
+    print(data)
+
+    return 
+
 
 
 if __name__ == '__main__':

@@ -1,6 +1,8 @@
 import LogoStripe from "./LogoStripe";
 
 const SuccessDisplay = ({ sessionId }) => {
+
+    
     return (
       <section>
         <div className="product Box-root">

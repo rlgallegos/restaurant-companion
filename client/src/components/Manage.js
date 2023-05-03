@@ -50,7 +50,7 @@ function Manage() {
                 />
                 <Route
                 path = '/subscription'
-                element = {restaurant && <ManageSubscription />}
+                element = {restaurant && <ManageSubscription id={restaurant.id} />}
                 />
                 <Route
                 path = '/subscription/result'

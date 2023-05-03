@@ -25,6 +25,7 @@ function ManageSubscriptionResult() {
         if (query.get('success')) {
           setSuccess(true);
           setSessionId(query.get('session_id'));
+          
         }
     
         if (query.get('canceled')) {
