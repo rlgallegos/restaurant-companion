@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, make_response, session, redirect, render_template
+from flask import Flask, request, make_response, session, redirect, render_template, json, jsonify
 from googletrans import Translator
 from sqlalchemy.orm import noload
 from flask_restful import Api, Resource
@@ -448,16 +448,19 @@ def menu(id, lang):
 
 
 # Stripe Routes
+
 # This is the route called on in the Product display page
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
-    print(request)
+    user = User.query.filter(User.id == session['user_id']).first()
+    if not user.role == 'administrator':
+        return make_response({'error': "Unauthorized"}, 401)
+
     try:
         prices = stripe.Price.list(
             lookup_keys=[request.form['lookup_key']],
             expand=['data.product']
         )
-        print(prices)
         # The Checkout Session object
         checkout_session = stripe.checkout.Session.create(
             line_items=[
@@ -467,6 +470,9 @@ def create_checkout_session():
                     'quantity': 1,
                 },
             ],
+            metadata={
+                "user_id": session['user_id']
+            },
             mode='subscription',
             success_url='http://localhost:4000/manage/subscription/result/' +
             '?success=true&session_id={CHECKOUT_SESSION_ID}',
@@ -475,12 +481,13 @@ def create_checkout_session():
                 'trial_period_days': 14
             },
         )
-
-
+        # print('----this is the checkout session object--------')
+        # print(checkout_session)
         return redirect(checkout_session.url, code=303)
     except Exception as e:
         print(e)
         return "Server error", 500
+
 
 
 # This is the route called in the success page
@@ -489,28 +496,128 @@ def customer_portal():
     # For demonstration purposes, we're using the Checkout session to retrieve the customer ID.
     # Typically this is stored alongside the authenticated user in your database.
 
-    checkout_session_id = request.form.get('session_id')
-    checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
+    # checkout_session_id = request.form.get('session_id')
+    # checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
 
-    # This is the URL to which the customer will be redirected after they are
-    # done managing their billing with the portal.
+    user = User.query.filter(User.id == session['user_id']).first()
+    # print(user.to_dict())
+    if not user.role == 'administrator':
+        return make_response({'error': "Unauthorized"}, 401)
+
+    customer_id = Restaurant.query.filter(
+        Restaurant.id == user.restaurant_id
+    ).first().stripe_customer_id
+    print(customer_id)
     
     return_url = 'http://localhost:4000/manage/subscription'
 
+    print('beginning portal session')
     portalSession = stripe.billing_portal.Session.create(
-        customer=checkout_session.customer,
+        # customer=checkout_session.customer,
+        customer=customer_id,
         return_url=return_url,
     )
-    return redirect(portalSession.url, code=303)
+    print(portalSession.url)
+    return make_response({"url": portalSession.url}, 303)
+    # return redirect(portalSession.url, code=303)
 
+
+
+# This is the route designed for the webhook to update my db with the necessary information
 @app.route('/stripe-update-databse', methods=['POST'])
-def update_customer_id(self):
-    data = request.get_json()
-    print(data)
+def stripe_webhook():
+    webhook_secret = os.environ.get('STRIPE_WEBHOOK_SECRET')
+    request_data = json.loads(request.data)
+    # print('request_data from the webhook--------------------------------')
+    # print(request_data)
+    if webhook_secret:
+        # Retrieve the event by verifying the signature using the raw body and secret if webhook signing is configured.
+        signature = request.headers.get('stripe-signature')
+        try:
+            event = stripe.Webhook.construct_event(
+                payload=request.data, sig_header=signature, secret=webhook_secret)
+            data = event['data']
+        except Exception as e:
+            return e
+        # Get the type of webhook event sent - used to check the status of PaymentIntents.
+        event_type = event['type']
+    else:
+        data = request_data['data']
+        event_type = request_data['type']
+    data_object = data['object']
 
-    return 
+    # The three options based on whether or not it was successful
+
+    if event_type == 'checkout.session.completed':
+    # Payment is successful and the subscription is created.
+    # You should provision the subscription and save the customer ID to your database.
+
+        # print('checkout.session.completed data--------------------------------')
+        # print("The Users ID")
+        # print(data.object.metadata)
+        # print('The Customer ID from Stripe')
+        # print(data.object.customer)
+
+        restaurant = Restaurant.query.filter(
+            Restaurant.id == User.query.filter(User.id == data.object.metadata['user_id']).first().restaurant_id
+        ).first()
+
+        restaurant.stripe_customer_id = data.object.customer
+        restaurant.stripe_status = 'trial'
+        try:
+            db.session.add(restaurant)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return jsonify({'status': 'failed'})
+    
+    elif event_type == 'invoice.paid':
+    # Continue to provision the subscription as payments continue to be made.
+    # Store the status in your database and check when a user accesses your service.
+    # This approach helps you avoid hitting rate limits.
+        print('invoice.paid data--------------------------------')
+        print(data)
+
+    elif event_type == 'invoice.payment_failed':
+    # The payment failed or the customer does not have a valid payment method.
+    # The subscription becomes past_due. Notify your customer and send them to the
+    # customer portal to update their payment information.
+        print('invoice.payment_failed data --------------------------------')
+        print(data)
+
+    elif event_type == 'customer.subscription.created':
+        print('ignore below')
+        print('customer.subscription.created data --------------------------------')
+        # print(data)
+        # This variable is the customers id number
+        # print('this is the customers id number')
+        # print(data.object.customer)
+        # print('this is the metadata object received back')
+        # print(data.object.metadata)
+
+
+    else:
+        print('Unhandled event type {}'.format(event_type))
+
+    return jsonify({'status': 'success'})
+
+
+
+@app.route('/get-stripe-status', methods=['POST'])
+def get_status():
+    rest_id = request.get_json()
+    print('the rest id')
+    print(rest_id)
+    stripe_status = Restaurant.query.filter(Restaurant.id == rest_id).first().stripe_status
+    print(stripe_status)
+    if not stripe_status:
+        return make_response({'status': "none"})
+    else:
+        return make_response({'status': stripe_status}, 200)
+
+
 
 
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=False)
+    app.run(port=5555, debug=True)
