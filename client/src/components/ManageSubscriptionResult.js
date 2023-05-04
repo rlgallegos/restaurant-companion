@@ -31,7 +31,7 @@ function ManageSubscriptionResult() {
         if (query.get('canceled')) {
           setSuccess(false);
           setMessage(
-            "Order canceled -- continue to shop around and checkout when you're ready."
+            "Order canceled. You have not been charged."
           );
         }
       }, [sessionId]);

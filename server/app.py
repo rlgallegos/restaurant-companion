@@ -1,38 +1,29 @@
 import os
-from flask import Flask, request, make_response, session, redirect
-# from deep_translator import GoogleTranslator
+from flask import Flask, request, make_response, session, redirect, render_template
 from googletrans import Translator
-
 from sqlalchemy.orm import noload
 from flask_restful import Api, Resource
 from data_sets import ingredient_names
-# from flask_bcrypt import Bcrypt
 from config import app, db
-
+from dotenv import load_dotenv
 import stripe
-# This is your test secret API key.
-stripe.api_key = 'sk_test_51N3liqDA7GByIJ4jbbooVYOCi3eHoGzJ3dTeGaibenZo8qa2yROvkT1wraM6ddlqnbKNgBOk3EEpN9oaCbCt6B4I00AAv5RTKk'
-
-
-# from flask_cors import CORS
 
 from models import db, Restaurant, MenuItem, Allergy, Order, OrderItem, OrderItemAllergy, User, MenuItemAllergy
 
-# app = Flask(__name__)
-# # CORS(app)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://rlgallegos85:MzXYvPcBwXVyQy43aTFxA02hmyHEkWyB@dpg-cgngl8bldisfgrv47mpg-a.ohio-postgres.render.com/dbcapstone_yi94'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.json.compact = False
-
-# migrate = Migrate(app, db)
-# db.init_app(app)
-# bcrypt = Bcrypt(app)
+load_dotenv()
+stripe.api_key = os.environ.get('STRIPE_API_KEY')
 api = Api(app)
+app.secret_key = os.environ.get('APP_SECRET_KEY')
 
 
-app.secret_key = 'bobbyisthebest'
 
-# translator = GoogleTranslator(source='en', target='en')
+# Basic Route for setup 
+@app.route('/')
+@app.route('/<int:id>')
+def index(id=0):
+    return render_template("index.html")
+
+
 
 # Manager / Restaurant Routes (RESTful)
 
@@ -460,16 +451,18 @@ def menu(id, lang):
 # This is the route called on in the Product display page
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
-
+    print(request)
     try:
         prices = stripe.Price.list(
             lookup_keys=[request.form['lookup_key']],
             expand=['data.product']
         )
+        print(prices)
         # The Checkout Session object
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
+                    # 'price': 'price_1N3tjYDA7GByIJ4jT352zmv1',
                     'price': prices.data[0].id,
                     'quantity': 1,
                 },
@@ -482,8 +475,6 @@ def create_checkout_session():
                 'trial_period_days': 14
             },
         )
-        print(checkout_session)
-        print(checkout_session.customer)
 
 
         return redirect(checkout_session.url, code=303)
@@ -522,4 +513,4 @@ def update_customer_id(self):
 
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    app.run(port=5555, debug=False)
