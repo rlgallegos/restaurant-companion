@@ -10,7 +10,6 @@ faker==18.6.0
 flask==2.3.1 ; python_version >= '3.8'
 flask-bcrypt==1.0.1
 flask-restful==0.3.9
-googletrans==3.0.0
 gunicorn==20.1.0
 distlib==0.3.6
 filelock==3.10.0
