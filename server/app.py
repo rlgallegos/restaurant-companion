@@ -474,9 +474,8 @@ def create_checkout_session():
                 "user_id": session['user_id']
             },
             mode='subscription',
-            success_url='http://localhost:4000/manage/subscription/result/' +
-            '?success=true&session_id={CHECKOUT_SESSION_ID}',
-            cancel_url='http://localhost:4000/manage/subscription/result/' + '?canceled=true',
+            success_url='http://localhost:4000/manage/subscription/',
+            cancel_url='http://localhost:4000/manage/subscription/' + '?canceled=true',
             subscription_data={
                 'trial_period_days': 14
             },

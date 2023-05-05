@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
 
 
 
@@ -8,7 +9,7 @@ function ManageSignup() {
     const tailwindCSS = " mr-2 mb-2 md:ml-4 text-lg text-gray-100 "
     const tailwindCSS2 = "text-sm pl-2 h-8  text-gray-900 text-gray-100 text-gray-100 my-2 w-full sm:w-3/4"
 
-
+    const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
 
     //Formik Schema Logic
@@ -73,6 +74,7 @@ function ManageSignup() {
                 <br />
                 <div className='col-span-2 mx-auto'>
                     <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400  rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out card" type="submit" value='Create Restaurant Account'/>
+                    {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
                 </div>
 
             </form>
