@@ -1,23 +1,54 @@
 // import logo from '../logo.svg';
 import '../App.css';
 
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, NavLink } from 'react-router-dom';
 import Manage from './Manage';
 import Welcome from './Welcome';
 import User from './User';
 import ManageWelcome from './ManageWelcome';
+import { useState } from 'react';
+
+
+// const imageUrl = `url('hexagon-background.jpg?t=${Date.now()}')`
 
 function App() {
-  const navigate = useNavigate()
+  const tailwindCSSLink = "my-1 mx-auto text-m text-gray-100 rounded-md px-4 py-4 hover:bg-gray-100 hover:bg-opacity-90 transition-all duration-200 ease-in-out active:bg-white"
+  const tailwindCSSLinkText = "text-gray-700 hover:text-gray-900 active:text-gray-100"
+  const tailwindCSSLinkActive = "my-1 mx-auto text-m text-gray-100 rounded-md px-4 py-4 border-2 border-white bg-opacity-90 hover:bg-gray-100 transition-all duration-200 ease-in-out active:bg-white"
 
+  const navigate = useNavigate()
+  const [isActiveUser, setIsActiveUser] = useState(false)
+  const [isActiveManager, setIsActiveManger] = useState(false)
+  
   function handleClick() {
     navigate('/')
+    setIsActiveUser(true)
+    setIsActiveManger(false)
+  }
+  function handleNavManagerPortal(){
+    navigate('/welcome')
+    setIsActiveManger(true)
+    setIsActiveUser(false)
   }
 
+
   return (
-    <div className="min-h-screen bg-blue-100 text-center App">
-      <header className="bg-blue-900 text-gray-100 px-4 py-8 flex justify-between items-center " onClick={handleClick}>
-        <h1 className="text-4xl font-bold" style={{ textShadow: "1px 1px #000" }}>Welcome to Nuts N' Bolts</h1>
+
+    <div className="bg-gray-400 min-h-screen md:bg-cover md:bg-center bg-fixed text-center App">
+
+
+
+      {/* <div className="min-h-screen bg-blue-100 text-center App">       */}
+      <header className="bg-transparent text-gray-100 px-4 py-8 flex flex-col md:gap-8 items-center ">
+        <h1 onClick={handleClick} className="text-4xl font-bold text-gray-700" >The Restaurant Companion</h1>
+        <nav className='flex justify-between gap-9 w-full'>
+            <div className={isActiveUser ? tailwindCSSLinkActive : tailwindCSSLink} onClick={handleClick}>
+                <NavLink className={tailwindCSSLinkText}  to='/' ><b>User Portal</b></NavLink>
+            </div>
+            <div className={isActiveManager ? tailwindCSSLinkActive :tailwindCSSLink} onClick={handleNavManagerPortal}>
+                <NavLink to='/welcome' className={tailwindCSSLinkText} ><b>Manager Portal</b></NavLink>
+            </div>
+        </nav>
       </header>
       <main>
         <Routes>
@@ -39,6 +70,9 @@ function App() {
           />
         </Routes>
       </main>
+
+
+
     </div>
   );
 }

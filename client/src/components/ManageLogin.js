@@ -34,8 +34,7 @@ function ManageLogin() {
                 body: JSON.stringify(values)
             }).then(res => {
                 if (res.ok) {
-                    res.json().then(data => {
-                        console.log(data)
+                    res.json().then(() => {
                         navigate(`/manage`)
                     })
                 } else {
