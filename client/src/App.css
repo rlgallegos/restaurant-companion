@@ -1,7 +1,17 @@
 
 
-.App {
-  font-family: 'Roboto Slab', serif;
+@media (max-width: 1023px) {
+  .App {
+    background-color: #dbd9d9;
+    font-family: 'Roboto Slab', serif;
+  }
+}
+
+@media (min-width: 1023px) {
+  .App {
+    font-family: 'Roboto Slab', serif;
+    background-image: url('static/hexagon-background.jpg');
+  }
 }
 
 .App-logo {
@@ -26,6 +36,8 @@ button, header, .card {
 li {
   list-style-type: none;
 }
+
+
 
 /* 
 .App-header {

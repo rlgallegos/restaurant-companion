@@ -465,8 +465,8 @@ def create_checkout_session():
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
-                    # 'price': 'price_1N3tjYDA7GByIJ4jT352zmv1',
-                    'price': prices.data[0].id,
+                    'price': 'price_1N3tjYDA7GByIJ4jT352zmv1',
+                    # 'price': prices.data[0].id,
                     'quantity': 1,
                 },
             ],
