@@ -102,7 +102,7 @@ function ManageNavBar({setRestaurant, restaurant}) {
 
 
     return (
-        <div className="p-2 flex justify-auto justify-left md:justify-between">
+        <div className="p-2 flex justify-auto justify-left md:justify-between mx-40">
             <div className="flex-1 flex-grow">
                 <div onClick={handleExpandNavBar} className={tailwindCSSMenu}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mx-auto">

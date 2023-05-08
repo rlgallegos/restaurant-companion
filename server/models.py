@@ -53,7 +53,6 @@ class MenuItem(db.Model, SerializerMixin):
     vegan = db.Column(db.Boolean)
     kosher = db.Column(db.Boolean)
 
-    # serialize_rules = ('-restaurant.menu_items',)
     serialize_rules = ('-allergies.menu_item', '-restaurant', '-menu_item_allergies', '-restuarant.menu_items', 'allergies')
 
     restaurant = db.relationship('Restaurant', back_populates='menu_items')
