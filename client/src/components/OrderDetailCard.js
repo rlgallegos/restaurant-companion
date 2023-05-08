@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
 
 function OrderDetailCard({order, onDeleteAllergy}) {
     const [allergyObjectList, setAllergyObjectList] = useState(order.item.allergies)
@@ -7,6 +8,9 @@ function OrderDetailCard({order, onDeleteAllergy}) {
     const tailwindCSSTitle = "text-3xl font-bold flex-grow text-gray-700 my-auto"
     const tailwindCSSSP = "my-1 md:my-2 ml-4 text-m flex-grow text-gray-600"
     const tailwindCSSSListItem = "my-1 ml-4 text-m flex-grow text-gray-600 text-center"
+
+
+
 
 
     //Build Lists
