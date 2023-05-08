@@ -2,9 +2,8 @@ import { useState } from "react"
 
 
 function AllergySideBarElement({filters, setFilters, allergy}) {
-
-    const tailwindRemoved = "w-full aspect-w-1 aspect-h-1 bg-blue-400 text-m text-gray-100 border border-blue-400 rounded-sm px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out card"
-    const tailwindIntact = " w-full aspect-w-1 aspect-h-1 text-m text-gray-900 border border-blue-400 rounded-sm px- py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out card"
+    const tailwindRemoved = "w-full aspect-w-1 aspect-h-1 text-m text-gray-800 border border-gray-400 rounded-sm px-4 py-2 md:hover:bg-white transition-all duration-200 ease-in-out card"
+    const tailwindIntact = " w-full aspect-w-1 aspect-h-1 text-m text-gray-800 bg-gray-100 bg-opacity-90 shadow-md border border-gray-400 rounded-sm px- py-2 md:hover:bg-gray-300 transition-all duration-200 ease-in-out card"
 
     const [removed, setRemoved] = useState(false)
 
@@ -25,8 +24,8 @@ function AllergySideBarElement({filters, setFilters, allergy}) {
 
     return(
         <>
-            <div className={removed ? tailwindRemoved : tailwindIntact}>
-                <p  id={allergy.id}onClick={handleFilter}>{newWord}</p>
+            <div className={removed ? tailwindRemoved : tailwindIntact} onClick={handleFilter}>
+                <p  id={allergy.id}>{newWord}</p>
             </div>
         </>
     )
