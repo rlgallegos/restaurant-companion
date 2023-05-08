@@ -20,6 +20,7 @@ function User() {
     const [isLoadingTranslation, setIsLoadingTranslation] = useState(false)
     const [loadMessage, setLoadMessage] = useState('')
     const [classNames, setClassNames] = useState('')
+    const [nameAddress, setNameAddress] = useState({restaurantName: null, restaurantAddress: null})
   
     const navigate = useNavigate()
     const params = useParams()
@@ -38,6 +39,10 @@ function User() {
           setMenu(data.menu_items)
           setAllergyList(data.allergies)
           setFilters([])
+          setNameAddress({
+            restaurantName: data.name,
+            restaurantAddress: data.url
+          })
         });
     }, [language]);
   
@@ -45,7 +50,7 @@ function User() {
       setLanguage(langAbbrev)
       beginMessages()
     }
-    let path = `/user/${id}`
+
 
     const messageArray = ['Sending request...', 'Translating data...', 'Building menu...']
 
@@ -55,11 +60,6 @@ function User() {
       setTimeout(() => {setLoadMessage('Building menu...')}, 16000)
     }
 
-    // useEffect(() => {
-    //   setLoadMessage('Sending request...')
-    //   setTimeout(() => {setLoadMessage('Translating data...')}, 8000)
-    //   setTimeout(() => {setLoadMessage('Building menu...')}, 16000)
-    // }, [isLoadingTranslation])
 
     useEffect(() => {
       setClassNames('animate-fade-in')
@@ -67,11 +67,6 @@ function User() {
     }, [loadMessage])
 
 
-
-// <div className='mx-auto my-10 md:my-20'>
-//         <img id='logo' src='/logo512.png' />
-//           </div>}
-//           {isLoadingTranslation && <p className={`text-3xl text-gray-900 ${classNames} duration-200`}>{loadMessage}</p>
 
 
     return (
@@ -81,7 +76,7 @@ function User() {
             <Routes>
                 <Route 
                 path = '/menu-display'
-                element = {<MenuDisplay allergyList={allergyList} setIsDirect={setIsDirect} filters={filters} setFilters={setFilters} menu={menu} />}     
+                element = {<MenuDisplay nameAddress={nameAddress} allergyList={allergyList} setIsDirect={setIsDirect} filters={filters} setFilters={setFilters} menu={menu} />}     
                 />
                 <Route 
                 path = '/complete-order'

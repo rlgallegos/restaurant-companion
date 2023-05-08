@@ -17,14 +17,11 @@ with app.app_context():
     OrderItem.query.delete()
     Order.query.delete()
 
-    # db.session.commit()
-    
-    
 
     fake = Faker()
 
     print('Creating restaurants...')
-    restaurants = [Restaurant( name=fake.bs(), url='www.google.com') for i in range(12)]
+    restaurants = [Restaurant( name=fake.bs(), url='www.google.com', stripe_status='trial', ) for i in range(12)]
 
     db.session.add_all(restaurants)
     db.session.commit()
@@ -33,7 +30,7 @@ with app.app_context():
     users = []
     for i in range(33):
         user = User(
-            username = fake.name(),
+            username = fake.username(),
             password_hash = fake.password(length=25),
             restaurant = choice(restaurants)
         )
