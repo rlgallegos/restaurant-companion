@@ -51,6 +51,7 @@ class Restaurants(Resource):
 
         new_restaurant = Restaurant(
             name = data['restaurantName'],
+            stripe_status = 'none'
         )
         try:
             db.session.add(new_restaurant)
@@ -406,9 +407,7 @@ class Orders(Resource):
                 db.session.commit()
             db.session.add(new_order_item)
             db.session.commit()
-
         try:
-            # db.session.add(new_order)
             db.session.add_all(new_order_item_list)
             db.session.add_all(new_order_item_allergy_list)
             db.session.commit()
@@ -418,7 +417,16 @@ class Orders(Resource):
 
 api.add_resource(Orders, '/orders')
 
+# This is the only route specifically designed for servers
 
+class OrderById(Resource):
+    def get(self, id):
+        order = Order.query.filter(Order.id == id).first()
+        if not order:
+            return make_response({'error': 'Order not found'}, 401)
+        return make_response(order.to_dict())
+
+api.add_resource(OrderById, '/order/<int:id>')
 
 # Translation Route
 
@@ -442,9 +450,6 @@ def menu(id, lang):
         response = make_response(restaurant.to_dict(rules=('-users',)), 200)
 
         return response
-
-
-
 
 
 # Stripe Routes
@@ -474,7 +479,7 @@ def create_checkout_session():
                 "user_id": session['user_id']
             },
             mode='subscription',
-            success_url='http://localhost:4000/manage/subscription/',
+            success_url='http://localhost:4000/manage/subscription/' + '?trial=true',
             cancel_url='http://localhost:4000/manage/subscription/' + '?canceled=true',
             subscription_data={
                 'trial_period_days': 14
@@ -500,6 +505,7 @@ def customer_portal():
 
     user = User.query.filter(User.id == session['user_id']).first()
     # print(user.to_dict())
+    print(user.role)
     if not user.role == 'administrator':
         return make_response({'error': "Unauthorized"}, 401)
 
@@ -576,6 +582,20 @@ def stripe_webhook():
     # This approach helps you avoid hitting rate limits.
         print('invoice.paid data--------------------------------')
         print(data)
+        restaurant = Restaurant.query.filter(
+            Restaurant.id == User.query.filter(User.id == data.object.metadata['user_id']).first().restaurant_id
+        ).first()
+
+        restaurant.stripe_customer_id = data.object.customer
+        restaurant.stripe_status = 'paid'
+        try:
+            db.session.add(restaurant)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return jsonify({'status': 'failed'})
+    
+
 
     elif event_type == 'invoice.payment_failed':
     # The payment failed or the customer does not have a valid payment method.
@@ -583,6 +603,19 @@ def stripe_webhook():
     # customer portal to update their payment information.
         print('invoice.payment_failed data --------------------------------')
         print(data)
+        restaurant = Restaurant.query.filter(
+            Restaurant.id == User.query.filter(User.id == data.object.metadata['user_id']).first().restaurant_id
+        ).first()
+
+        restaurant.stripe_customer_id = data.object.customer
+        restaurant.stripe_status = 'unpaid'
+        try:
+            db.session.add(restaurant)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return jsonify({'status': 'failed'})
+    
 
     elif event_type == 'customer.subscription.created':
         print('ignore below')

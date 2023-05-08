@@ -2,6 +2,19 @@ import { useEffect, useState } from "react"
 
 
 function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvailableAllergies, restaurant}) {
+    // const tailwindCSS = " mr-2 mb-2 md:ml-4 text-lg text-gray-100 "
+    // const tailwindCSS2 = "text-sm pl-2 h-8  text-gray-900 text-gray-100 text-gray-100 my-2 w-full sm:w-3/4"
+    const tailwindCSSCard = "bg-gray-100 bg-opacity-80 rounded-md shadow-md sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 p-12 mx-10 my-10 flex flex-col border border-transparent "
+    const tailwindCSSTitle = "flex-grow-0 text-3xl font-bold text-gray-700 my-4 mx-auto text-center"
+    const tailwindCSSSubTitle = "text-xl font-bold flex-grow text-gray-700 my-4"
+    const tailwindCSSSP = "flex-grow-0 ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
+    const tailwindCSSButton = "flex-grow-0 my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
+    const tailwindCSSButton2 = "my-1 ml-4 text-m flex-grow text-gray-800 border border-gray-100 rounded-md px-4 py-2 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
+    const tailwindCSSInput = "text-sm h-8 pl-0 md:pl-2 text-gray-900 text-gray-100 text-gray-100 my-2 w-full text-center md:text-left"
+    const tailwindCSSSListItem = "my-2 text-m flex-grow text-gray-600 text-center"
+
+
+    
     const tailwindCSS = "m-auto mr-2 mb-2 md:mb-auto md:ml-4 text-lg flex-grow text-gray-100 "
     const tailwindCSS2 = "text-sm pl-2 h-8  flex-grow text-gray-100"
     const tailwindCSS3 = "font-bold text-lg pl-2 h-8  flex-grow text-gray-100 flex-grow mb-3"
@@ -23,11 +36,6 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
 
     function handleApplyChanges() {
         setIsLoading(true)
-        // console.log(e.target)
-        // e.target.disabled = true
-        // setTimeout(() => {
-        //     e.target.disabled = false
-        // }, 5000)
 
         fetch(`/restaurants/${restaurant.id}/items/${newItem.id}`, {
             method: "POST",
@@ -116,37 +124,41 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
     if (allergyList) {
         givenAllergies = allergyList.map(allergy => {
             uniqueId2++
-            return <li className={tailwindCSS} key={uniqueId2}>{allergy.removable ? (allergy.name + '- (removable)') : allergy.name + '- (not removable)'}</li>
+            return <li className={tailwindCSSSListItem} key={uniqueId2}>{allergy.removable ? (allergy.name + '- (removable)') : allergy.name + '- (not removable)'}</li>
         })
     }
 
     let currentAllergiesList = []
     if (currentAllergies) {
         currentAllergiesList = currentAllergies.map(allergy => {
-            return <li className={tailwindCSS} key={allergy.id}>{allergy.name}</li>
+            return <li className={tailwindCSSSListItem} key={allergy.id}>{allergy.name}</li>
         })
     }
 
 
     return(
-        <div className=' border border-blue-100 bg-opacity-90 rounded-md bg-blue-900 my-6 mx-auto p-12 '>
-            <h3 className="text-2xl font-bold flex-grow text-gray-100 my-3">{newItem.name}</h3>
-            <p className={tailwindCSS}>{newItem.description}</p>
-            {newItem.kosher && <p className={tailwindCSS}>This item is kosher</p>}
-            {newItem.vegan && <p className={tailwindCSS}>This item is vegan</p>}
+        <div className='shadow-md bg-opacity-90 rounded-md bg-gray-100 my-10 mx-auto md:mx-6 p-12 '>
+            
+            <div className="w-4/5 sm:2/3 flex justify-center items-center text-center mx-auto" >
+                <h3 className={tailwindCSSTitle}>{newItem.name}</h3>
+            </div>
+            
+            <p className={tailwindCSSSP}>{newItem.description}</p>
+            {newItem.kosher && <p className={tailwindCSSSP}>This item is kosher</p>}
+            {newItem.vegan && <p className={tailwindCSSSP}>This item is vegan</p>}
             <br />
-        <h3 className={tailwindCSS3}>Allergies staged to be added:</h3>
+            <h3 className={tailwindCSSSubTitle}>Allergies staged to be added:</h3>
             {allergyList && givenAllergies}
-            <form className="p-4 border border-blue-200 my-2" onSubmit={handleAddAllergyToList}>
+            <form className="p-4 border border-gray-200 my-2" onSubmit={handleAddAllergyToList}>
                 <select>
                     <option className={tailwindCSS2} disabled>Select allergy to add</option>
                     {specAvailableAllergies && allergyOptions}
                 </select>
-                <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value="Add Allergy" />
+                <input className={tailwindCSSButton} type="submit" value="Add Allergy" />
             </form>
-            {allergyList && !isLoading ? <button className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400  rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" onClick={handleApplyChanges}>Apply Changes</button> : <p className={tailwindCSS}>Loading...</p>}
+            {allergyList && !isLoading ? <button className={tailwindCSSButton} onClick={handleApplyChanges}>Apply Changes</button> : <p className={tailwindCSSSP}>Loading...</p>}
             <br /><br />
-            <h3 className={tailwindCSS3}>Allergies now applied to this dish:</h3>
+            <h3 className={tailwindCSSSubTitle}>Allergies now applied to this dish:</h3>
             <ul>
                 {currentAllergies && currentAllergiesList}
             </ul>
