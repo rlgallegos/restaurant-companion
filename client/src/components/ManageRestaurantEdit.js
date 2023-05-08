@@ -5,8 +5,11 @@ import ManageRestaurantEditForm from "./ManageRestaurantEditForm"
 
 
 function ManageRestaurantEdit({restaurant, setRestaurant}) {
-    const tailwindCSS = " mr-2 mb-2 md:ml-4 text-lg text-gray-100 "
-    const tailwindCSS2 = "text-sm pl-2 h-8  text-gray-900 text-gray-100 text-gray-100 my-2"
+
+    const tailwindCSSCard = "bg-gray-100 bg-opacity-80 rounded-md shadow-md w-5/6 md:w-1/2 p-12 my-10 flex flex-col border border-transparent mx-auto"
+    const tailwindCSSButton = "my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 w-4/5 md:w-1/3 mx-auto py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
+    const tailwindCSSSubTitle = "text-xl font-bold flex-grow text-gray-700 my-4"
+    const tailwindCSSSP = "ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
 
     const navigate = useNavigate()
 
@@ -45,19 +48,20 @@ function ManageRestaurantEdit({restaurant, setRestaurant}) {
 
 
     return (
-        <div className="bg-blue-900 bg-opacity-90 rounded-md shadow-md w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 p-12 mx-10 my-10 flex flex-col card">
-            <h2 className="text-3xl text-gray-100">{restaurant.name}</h2>
-            <p className={tailwindCSS}>Restaurant ID Number: {restaurant.id}</p>
-            <p className={tailwindCSS}>{restaurant.email}</p>
-            <p className={tailwindCSS}>{restaurant.url}</p>
-            <button className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" onClick={handleClick}>{!isEditing ? "Edit Restaurant Details" : "Close Editor"}</button>
+        <div className={tailwindCSSCard}>
+            <h2 className={tailwindCSSSubTitle}>{restaurant.name}</h2>
+            <p className={tailwindCSSSP}>Restaurant ID Number: {restaurant.id}</p>
+            <p className={tailwindCSSSP}>{restaurant.email}</p>
+            <p className={tailwindCSSSP}>{restaurant.url}</p>
+            <button className={tailwindCSSButton} onClick={handleClick}>{!isEditing ? "Edit Restaurant Details" : "Close Editor"}</button>
             {isEditing && <ManageRestaurantEditForm restaurantId={restaurant.id} onEditRestaurant={handleEditRestaurant} />}
-            <button className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" onClick={handleShowDeleteConfirmation}>Delete Restaurant</button>
+            <button className={tailwindCSSButton} onClick={handleShowDeleteConfirmation}>Delete Restaurant</button>
             {showDeleteMenu && <div>
-                <h3 className={tailwindCSS}>Are you sure?</h3>
-                <p className={tailwindCSS}>(This action is irreversable)</p>
-                <button className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" onClick={handleDeleteRestaurant}>Permanently Delete Restaurant Account</button>
-                <button className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" onClick={handleCancel}>Cancel</button>
+                <h3 className={tailwindCSSSubTitle}>Are you sure?</h3>
+                <p className={tailwindCSSSP}>(This action is irreversable)</p>
+                <button className={tailwindCSSButton} onClick={handleDeleteRestaurant}>Permanently Delete Restaurant Account</button>
+                <br></br>
+                <button className={tailwindCSSButton} onClick={handleCancel}>Cancel</button>
             </div>}
         </div>
     )

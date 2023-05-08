@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 
 import ManageAddManagerForm from "./ManageAddManagerForm"
 import ManageManagerDisplay from "./ManageManagerDisplay"
@@ -7,7 +6,7 @@ import ManageManagerDisplay from "./ManageManagerDisplay"
 
 function ManageUsers({restaurant}) {
     const [users, setUsers] = useState([])
-    const navigate = useNavigate()
+
     console.log(restaurant)
 
     useEffect(() => {

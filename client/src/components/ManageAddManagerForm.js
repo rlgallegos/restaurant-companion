@@ -2,8 +2,12 @@ import { useFormik } from 'formik';
 import * as yup from "yup";
 
 function ManageAddManagerForm({setUsers, users}) {
-    const tailwindCSS = "m-auto mr-2 mb-2 md:mb-auto md:ml-4 text-lg flex-grow text-gray-100 "
-    const tailwindCSS2 = "text-sm pl-2 h-8  flex-grow text-gray-900 text-gray-100 text-gray-100 my-2 w-full"
+    
+    const tailwindCSSTitle = "text-2xl font-bold flex-grow text-gray-700 my-4"
+    const tailwindCSSSP = "ml-2 my-2 text-m flex-grow text-gray-600 text-center md:text-left"
+    const tailwindCSSInput = "text-sm h-8 pl-0 md:pl-2 text-gray-900 text-gray-100 text-gray-100 my-2 w-full text-center md:text-left"
+    const tailwindCSSButton = "my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
+
 
 
     //Formik Schema Logic
@@ -49,29 +53,30 @@ function ManageAddManagerForm({setUsers, users}) {
 
     return (
         <div>
-            <h2 className="my-4 text-lg">Add a user</h2>
-            <form onSubmit={formik.handleSubmit} className='border border-blue-900 rounded-md bg-blue-900 bg-opacity-90 w-4/5 md:w-1/3 my-10 md:mt-20 mx-auto p-12'>
+            
+            <form onSubmit={formik.handleSubmit} className='rounded-md bg-gray-100 bg-opacity-80 w-5/6 md:w-1/3 my-10 md:mt-20 mx-auto p-12'>
+            <h2 className={tailwindCSSTitle}>Add a user</h2>
                 <div className='grid grid-cols-2 justify-items-start'>
-                    <label className={tailwindCSS}>Username:</label>
-                    <input className={tailwindCSS2} type='text' name='username' value={formik.values.username} onChange={formik.handleChange} placeholder='Enter Username' />
+                    <label className={tailwindCSSSP}>Username:</label>
+                    <input className={tailwindCSSInput} type='text' name='username' value={formik.values.username} onChange={formik.handleChange} placeholder='Enter Username' />
                     <p style={{color: "red"}}>{formik.errors.username}</p>
                     <br />
-                    <label className={tailwindCSS}>Password:</label>
-                    <input className={tailwindCSS2} type="password" name='password' value={formik.values.password} onChange={formik.handleChange} placeholder='Password' />
+                    <label className={tailwindCSSSP}>Password:</label>
+                    <input className={tailwindCSSInput} type="password" name='password' value={formik.values.password} onChange={formik.handleChange} placeholder='Password' />
                     <p style={{color: "red"}}>{formik.errors.password}</p>
                     <br />
-                    <label className={tailwindCSS}>Re-enter Password:</label>
-                    <input className={tailwindCSS2} type="password" name='passwordCheck' value={formik.values.passwordCheck} onChange={formik.handleChange} placeholder='Re-Enter Password' />
+                    <label className={tailwindCSSSP}>Re-enter Password:</label>
+                    <input className={tailwindCSSInput} type="password" name='passwordCheck' value={formik.values.passwordCheck} onChange={formik.handleChange} placeholder='Re-Enter Password' />
                     <p style={{color: "red"}}>{formik.errors.passwordCheck}</p>                
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 my-4 justify-items-start'>
-                    <label className={tailwindCSS}>Administrator?</label>
+                    <label className={tailwindCSSSP}>Administrator?</label>
                     <input className='ml-4' type='radio' name='role' value='administrator'onChange={formik.handleChange}/>
-                    <label className={tailwindCSS}>User?</label>
+                    <label className={tailwindCSSSP}>User?</label>
                     <input className='ml-4' type='radio' name='role' value='user' onChange={formik.handleChange}/>
                     <p style={{color: "red"}}>{formik.errors.role}</p>
                 </div>
-                <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value='Create New User'/>
+                <input className={tailwindCSSButton} type="submit" value='Create New User'/>
             </form>
         </div>
     )

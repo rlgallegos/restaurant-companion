@@ -6,6 +6,8 @@ import { useState } from "react"
 
 
 function ManageMenuDisplay({setRestaurant, restaurant, availableAllergies, setAvailableAllergies}) {
+    const tailwindCSSButton2 = "mb-4 ml-4 bg-gray-100 text-m flex-grow text-gray-800 border border-gray-100 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
+    const tailwindCSSButton = "mb-4 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
 
     const [displayAllergies, setDisplayAllergies] = useState(false)
     function handleClick() {
@@ -38,17 +40,15 @@ function ManageMenuDisplay({setRestaurant, restaurant, availableAllergies, setAv
             return <ManageMenuCard restaurant={restaurant} setRestaurant={setRestaurant} availableAllergies={availableAllergies} onDeleteItem={handleDeleteItem} onUpdateItem={handleUpdateItem} key={item.id} menuItem={item} />
         })
     }
-    // className="flex flex-wrap justify-center max-w-screen-xl mx-auto my-8"
 
     return (
         <>
+        <div className="mx-auto">
+            <button className={displayAllergies ? tailwindCSSButton : tailwindCSSButton2} onClick={handleClick}>{displayAllergies ? 'Hide Allergy Bar' : 'Add Custom Allergies'}</button>
+            {displayAllergies ? <ManageAllergyrBar setAvailableAllergies={setAvailableAllergies} availableAllergies={availableAllergies} /> : null}
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 justify-items-center ">
             {restaurant ? menuItemList : <p>Loading...</p>}
-
-        </div>
-        <div className="mx-auto">
-        <button className="my-1 ml-4 text-m flex-grow bg-blue-900 bg-opacity-90 text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" onClick={handleClick}>{displayAllergies ? 'Hide Allergy Bar' : 'Show Allergy Bar'}</button>
-            {displayAllergies ? <ManageAllergyrBar setAvailableAllergies={setAvailableAllergies} availableAllergies={availableAllergies} /> : null}
         </div>
         </>
     )

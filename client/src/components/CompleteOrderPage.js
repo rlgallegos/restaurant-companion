@@ -8,6 +8,7 @@ import CompletedOrderItem from "./CompletedOrderItem";
 
 
 function CompleteOrderPage({orderList, language}) {
+
     const location = useLocation()
 
     let englishList = location.state.order_items.map(item => {
@@ -22,11 +23,11 @@ function CompleteOrderPage({orderList, language}) {
         <>
             <h2 className="text-4xl font-semibold my-6" >Order: {location.state.id}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
-                <div className="justify-self-center">
+                <div className="justify-self-center w-3/4 md:w-1/2">
                     <h1 className="text-2xl font-semibold" >English:</h1>
                     {location.state.order_items && englishList}
                 </div> 
-                <div className="justify-self-center">
+                <div className="justify-self-center w-3/4 md:w-1/2">
                     <h1 className="text-2xl font-semibold">Translation:</h1>
                     {orderList && translatedList}
                 </div>

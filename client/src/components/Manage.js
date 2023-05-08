@@ -5,7 +5,6 @@ import ManageNavBar from './ManageNavBar';
 import {basicAllergies} from './helpers.js';
 import ManageRestaurantEdit from './ManageRestaurantEdit';
 import ManageSubscription from './ManageSubscription';
-import ManageSubscriptionResult from './ManageSubscriptionResult';
 
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -15,12 +14,15 @@ function Manage() {
     const navigate = useNavigate()
     const [restaurant, setRestaurant] = useState(null)
     const [availableAllergies, setAvailableAllergies] = useState([])
+    const [status, setStatus] =useState('')
 
     useEffect(() => {
         fetch('/restaurant')
         .then(res => {
             if (res.ok) {
                 res.json().then(data => {
+                    setStatus(() => data.stripe_status)
+                    console.log('initial status:', data.stripe_status)
                     setRestaurant(data)
                     setAvailableAllergies(basicAllergies)
                     setAvailableAllergies((availableAllergies) => availableAllergies.concat(data.allergies))
@@ -35,32 +37,28 @@ function Manage() {
         <div>
             <ManageNavBar />
             {restaurant ? <h1 className='font-bold text-4xl my-3'>Manager Portal for {restaurant.name}</h1> : null}
-            <Routes>
+            {status  && <Routes>
                 <Route
                 path = '/menu'
-                element = {restaurant && <ManageMenuDisplay availableAllergies={availableAllergies} setAvailableAllergies={setAvailableAllergies} setRestaurant={setRestaurant} restaurant={restaurant}/>} 
+                element = {status == 'trial' || status == 'paid' ? <ManageMenuDisplay availableAllergies={availableAllergies} setAvailableAllergies={setAvailableAllergies} setRestaurant={setRestaurant} restaurant={restaurant}/> : <Navigate to='/manage/subscription' />} 
                 />
                 <Route
                 path = '/menu/add'
-                element = {restaurant &&  <ManageAddItemForm availableAllergies={availableAllergies} setAvailableAllergies={setAvailableAllergies} restaurant={restaurant} setRestaurant={setRestaurant} />} 
+                element = {status == 'trial' || status == 'paid' ? <ManageAddItemForm availableAllergies={availableAllergies} setAvailableAllergies={setAvailableAllergies} restaurant={restaurant} setRestaurant={setRestaurant} /> :  <Navigate to='/manage/subscription' />} 
                 />
                 <Route
                 path = '/users'
-                element = {restaurant && <ManageUsers restaurant={restaurant} />}
+                element = {status == 'trial' || status == 'paid' ? <ManageUsers restaurant={restaurant} /> : <Navigate to='/manage/subscription' />}
                 />
                 <Route
                 path = '/subscription'
-                element = {restaurant && <ManageSubscription id={restaurant.id} />}
-                />
-                <Route
-                path = '/subscription/result'
-                element = {restaurant && <ManageSubscriptionResult />}
+                element = {restaurant && <ManageSubscription id={restaurant.id} status={status} setStatus={setStatus} />}
                 />
                 <Route
                 path = '/restaurant'
-                element = {restaurant && <ManageRestaurantEdit setRestaurant={setRestaurant} restaurant={restaurant} />}
+                element = {status == 'trial' || status == 'paid' ? <ManageRestaurantEdit setRestaurant={setRestaurant} restaurant={restaurant} /> : <Navigate to='/manage/subscription' />}
                 />
-            </Routes>
+            </Routes>}
         </div>
 
     )

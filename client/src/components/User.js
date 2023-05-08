@@ -43,27 +43,40 @@ function User() {
   
     function handleSetLanguage(langAbbrev) {
       setLanguage(langAbbrev)
+      beginMessages()
     }
     let path = `/user/${id}`
 
     const messageArray = ['Sending request...', 'Translating data...', 'Building menu...']
 
-    useEffect(() => {
-      // setClassNames('animate-fade-in')
-      // setTimeout(() => {setClassNames('animate-fade-out')}, 4000)
-      setLoadMessage('Sending request...')
+    function beginMessages(){
+      setLoadMessage(() => 'Sending request...')
       setTimeout(() => {setLoadMessage('Translating data...')}, 8000)
       setTimeout(() => {setLoadMessage('Building menu...')}, 16000)
-    }, [isLoadingTranslation])
+    }
+
+    // useEffect(() => {
+    //   setLoadMessage('Sending request...')
+    //   setTimeout(() => {setLoadMessage('Translating data...')}, 8000)
+    //   setTimeout(() => {setLoadMessage('Building menu...')}, 16000)
+    // }, [isLoadingTranslation])
 
     useEffect(() => {
       setClassNames('animate-fade-in')
       setTimeout(() => {setClassNames('animate-fade-out')}, 4000)
     }, [loadMessage])
 
+
+
+// <div className='mx-auto my-10 md:my-20'>
+//         <img id='logo' src='/logo512.png' />
+//           </div>}
+//           {isLoadingTranslation && <p className={`text-3xl text-gray-900 ${classNames} duration-200`}>{loadMessage}</p>
+
+
     return (
       <>
-        {!isLoading ? <div>
+        {!isLoadingTranslation ? <div>
             <NavBar handleSetLanguage={handleSetLanguage} />
             <Routes>
                 <Route 
@@ -83,10 +96,11 @@ function User() {
                 element = {isDirect ? <OrderPage allergyList={allergyList} setFilters={setFilters} setIsDirect={setIsDirect} hasOrdered={hasOrdered} setHasOrdered={setHasOrdered} orderList={orderList} setOrderList={setOrderList} /> : <Navigate to='../menu-display' />}     
                 />
             </Routes>
-        </div> : <div className='mx-auto my-10 md:my-20'>
-        <img id='logo' src='/logo512.png' />
-          </div>}
-          {isLoadingTranslation && <p className={`text-3xl text-gray-900 ${classNames} duration-200`}>{loadMessage}</p>}
+        </div> : 
+        <div className='absolute top-0 left-0 w-full h-full z-40 bg-black'>
+          <video loop src='/white-circle-loading.mp4' autoPlay className='absolute top-0 left-0 w-full h-full z-index-50'>Video not supported by browser</video>
+          <p className={`text-3xl absolute mx-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-gray-100 ${classNames} duration-200`}>{loadMessage}</p>
+        </div>}
         </>
     )
 }

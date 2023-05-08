@@ -17,6 +17,8 @@ class Restaurant(db.Model, SerializerMixin):
     name = db.Column(db.String, unique=True, index=True)
     url = db.Column(db.String)
     email = db.Column(db.String)
+    stripe_customer_id = db.Column(db.String)
+    stripe_status = db.Column(db.String)
 
     serialize_rules = ('-users,' '-menu_items.restaurant', '-users.restaurant', 'allergies', '-allergy_proxy')
 

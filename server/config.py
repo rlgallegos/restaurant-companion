@@ -9,8 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from dotenv import load_dotenv
 
-
-# from flask_cors import CORS
+from flask_cors import CORS
 
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
@@ -28,7 +27,7 @@ app = Flask(
 
 
 bcrypt = Bcrypt(app)
-# CORS(app)
+CORS(app)
 
 load_dotenv()
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')

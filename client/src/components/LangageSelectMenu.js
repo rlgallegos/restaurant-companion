@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { languageList } from './helpers'
+import { useState } from "react";
 
 
 function LanugageSelectMenu({onSetLanguage}) {
+    const tailwindCSSButton2 = "my-4 mx-12 text-m flex-grow text-gray-800 border border-gray-100 rounded-md px-4 py-2 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
     const navigate = useNavigate()
+
     
     function handleSubmit(e) {
         e.preventDefault()
@@ -17,13 +20,12 @@ function LanugageSelectMenu({onSetLanguage}) {
         return <option key={uniqueId} value={language[singleKey]}>{singleKey}</option>
     })
     return (
-        <div className="my-1 ml-4 text-m flex-grow text-gray-900 border border-blue-400 rounded-md px-4 py-4 flex items-center">
-            <form className="w-full" onSubmit={handleSubmit}>
-                <select name="language" defaultValue={'en'}>
+        <div className="my-1 text-m flex-grow border border-white rounded-md px-4 py-4 flex items-center w-full md:w-1/2 mx-auto">
+            <form className="w-full" onSubmit={handleSubmit} >  
+                <select name="language" defaultValue={'en'} className="mx-12">
                     {optionList}
                 </select>
-                <br />
-                <input type='submit' value='Translate Menu' className="mt-8 ml-auto text-m flex-grow text-gray-900 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out"></input>
+                <input type='submit' value='Translate Menu' className={tailwindCSSButton2}></input>
             </form>
         </div>
     )

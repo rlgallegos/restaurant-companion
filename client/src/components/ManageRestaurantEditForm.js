@@ -2,8 +2,11 @@ import { useFormik } from 'formik';
 import * as yup from "yup";
 
 function ManageRestaurantEditForm({restaurantId, onEditRestaurant}) {
-    const tailwindCSS = " mr-2 mb-2 md:ml-4 text-lg text-gray-100 "
-    const tailwindCSS2 = "text-sm pl-2 h-8  text-gray-900 text-gray-100 text-gray-100 my-2 w-full"
+
+    const tailwindCSSSubTitle = "text-xl font-bold flex-grow text-gray-700 my-4"
+    const tailwindCSSSP = "ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
+    const tailwindCSSButton = "my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
+    const tailwindCSSInput = "text-sm h-8 pl-0 md:pl-2 text-gray-900 text-gray-100 text-gray-100 my-2 w-full text-center md:text-left"
 
     //Formik Schema Logic
     const formSchema = yup.object().shape({
@@ -57,34 +60,34 @@ function ManageRestaurantEditForm({restaurantId, onEditRestaurant}) {
 
     return (
         <div>
-            <h2 className='text-2xl text-gray-100'>Update Restaurant</h2>
-            <p className={tailwindCSS}>Enter whichever fields you'd like to update</p>
+            <h2 className={tailwindCSSSubTitle}>Update Restaurant</h2>
+            <p className={tailwindCSSSP}>Enter whichever fields you'd like to update</p>
             <form onSubmit={formik.handleSubmit}>
                 <div className='grid grid-cols-1 md:grid-cols-2 justify-items-start'>
-                    <label className={tailwindCSS}>Restaurant Name:  </label>
-                    <input className={tailwindCSS2} type="text" name='name' value={formik.values.name} onChange={formik.handleChange} placeholder='Restaurant Name'/>
+                    <label className={tailwindCSSSP}>Restaurant Name:  </label>
+                    <input className={tailwindCSSInput} type="text" name='name' value={formik.values.name} onChange={formik.handleChange} placeholder='Restaurant Name'/>
                     <p style={{color: "red"}}>{formik.errors.name}</p>
                     <br />
-                    <label className={tailwindCSS}>Email: </label>
-                    <input className={tailwindCSS2} type="text" name='email' value={formik.values.email} onChange={formik.handleChange} placeholder='Email'/>
+                    <label className={tailwindCSSSP}>Email: </label>
+                    <input className={tailwindCSSInput} type="text" name='email' value={formik.values.email} onChange={formik.handleChange} placeholder='Email'/>
                     <p style={{color: "red"}}>{formik.errors.email}</p>
                     <br />
-                    <label className={tailwindCSS}>Url: </label>
-                    <input className={tailwindCSS2} type="text" name='url' value={formik.values.url} onChange={formik.handleChange} placeholder='Ex: http://www.google.com'/>
+                    <label className={tailwindCSSSP}>Url: </label>
+                    <input className={tailwindCSSInput} type="text" name='url' value={formik.values.url} onChange={formik.handleChange} placeholder='Ex: http://www.google.com'/>
                     <p style={{color: "red"}}>{formik.errors.url}</p>
                     <br />
                 </div>
-                <h3 className='text-xl text-gray-100 mb-4'>Confirm Administrator Details:</h3>
+                <h3 className={tailwindCSSSubTitle}>Confirm Administrator Details:</h3>
                 <div className='grid grid-cols-1 md:grid-cols-2 justify-items-start'>
-                    <label className={tailwindCSS}>Username: </label>
-                    <input className={tailwindCSS2} type='text' name='username' value={formik.values.username} onChange={formik.handleChange} placeholder='Enter Account Administrator Username' />
+                    <label className={tailwindCSSSP}>Username: </label>
+                    <input className={tailwindCSSInput} type='text' name='username' value={formik.values.username} onChange={formik.handleChange} placeholder='Enter Account Administrator Username' />
                     <p style={{color: "red"}}>{formik.errors.username}</p>
                     <br />
-                    <label className={tailwindCSS}>Password: </label>
-                    <input className={tailwindCSS2} type="password" name='password' value={formik.values.password} onChange={formik.handleChange} placeholder='Password' />
+                    <label className={tailwindCSSSP}>Password: </label>
+                    <input className={tailwindCSSInput} type="password" name='password' value={formik.values.password} onChange={formik.handleChange} placeholder='Password' />
                     <p style={{color: "red"}}>{formik.errors.password}</p>
                 </div>
-                <input className="m-auto sm:m-4 my-8 text-m flex-grow text-gray-100 border border-blue-400 rounded-md px-4 py-2 hover:bg-blue-400 hover:text-white transition-all duration-200 ease-in-out" type="submit" value='Update Restaurant Account'/>
+                <input className={tailwindCSSButton} type="submit" value='Update Restaurant Account'/>
             </form>
         </div>
     )
