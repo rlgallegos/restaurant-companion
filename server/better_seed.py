@@ -60,6 +60,20 @@ with app.app_context():
         ['Bill', 'Bill with an axe', 'Bill without an axe', 'Billiards', 'A Bill of Sale', "Bill the Bilder", 'Billiam Ballace', "'Mo Bill; 'mo problems"],
         ['Miso Soup', 'Minestrone', 'N.E. Clam Chowder', 'Manhattan Clam Chowder', "French Onion", "Side of Bread", 'Garden Salad', 'Chocolate Chip Cookies']
     ]
+
+    description_array = [
+        'Delicious Spaghetti Pasta in a beef bolognese sauce',
+        'Fresh Mozzarella on a warm golden baked crust in a tomato-sauce that would make your grandmother proud',
+        'Creamy alfredo sauce generously poured over grilled chicken and sprinkled with savory parmesan on top',
+        'A generous side of bread smothered in garlic butter',
+        'Rich buttery pasta tossed in house-made marinara with hints of basil',
+        'Crisp tomato and fresh mozarella sliced layed one atop the other and dressed in extra virgin olive oil and balsamic vinagarette',
+        'A warm vegetable soup perfect for the NY winter',
+        'Traditional tiramisu made of coffee-dipped ladyfingers and mascarpone cheese, lightly dusted with cocoa powder'
+    ]
+
+
+
     menu_items = []
     for i in range(8):
         for j in range(8):
