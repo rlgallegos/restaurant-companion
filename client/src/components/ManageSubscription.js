@@ -6,7 +6,6 @@ function ManageSubscription({id, setStatus, status}){
     const tailwindCSSDiv = "bg-gray-100 bg-opacity-80 rounded-md shadow-md w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 p-12 my-10 flex flex-col mx-auto"
     const tailwindCSSButton = "my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
 
-    console.log(status)
 
     const [openForm, setOpenForm] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')

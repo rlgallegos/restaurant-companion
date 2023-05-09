@@ -7,10 +7,12 @@ function RestaurantCard({restaurant}) {
     function handleClick() {
         navigate(`user/${restaurant.id}/menu-display`)
     }
-    let splitURL = restaurant.url.split('.')
-    let formattedURL = 'www.' + [splitURL[1], splitURL[2]].join('.')
-
-
+    
+    let formattedURL = ''
+    if (restaurant.url){
+        let splitURL = restaurant.url.split('.')
+        formattedURL = 'www.' + [splitURL[1], splitURL[2]].join('.')
+    }
 
     return (
         <div onClick={handleClick} className="bg-gray-100 bg-opacity-80 rounded-md shadow-md  w-5/6 md:w-1/4 lg:w-1/3 xl:w-1/4 py-12 px-6 mx-10 my-10 items-center border border-transparent hover:border-gray-300 hover:transform hover:scale-110 transition-all duration-300 card">

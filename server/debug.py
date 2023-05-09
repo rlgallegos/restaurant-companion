@@ -12,31 +12,34 @@ from faker import Faker
 
 
 with app.app_context():
-    fake = Faker()
-    print('Creating menu items...')
-    menu_item_arrays = [
-        ['Spaghetti and Meatballs', 'Pizza', 'Chicken Alfredo', 'Bread', 'Penne a la Marinara', 'Caprese Salad', 'Minestrone', 'Tiramisu'],
-        ['Orange Chicken', 'Lo-Mein', 'Wasabi-Crusted Filet Mignon', 'Kung Pao Chicken', "General Tso's", 'Miso Soup', 'Fortune Cookies', "Sushi Roll"],
-        ['Filet Mignon', 'Sirloin', 'Bread', 'Side Salad', 'Hamburger', 'The Best Steak Ever', "NY Strip", 'Chocolate Cake'],
-        ['The Burger', 'A Better Burger', 'The Garden Burger', "Side of Fries", 'Chocolate Shake', 'Tater Tots', 'Bacon Burger', 'Veggie Burger'],
-        ['Burrito al Pastor', 'Shrimp Tacos', 'Menudo', 'Ceviche', 'Chicken Tacos', "Duck Tacos", 'Side of Rice and Beans', 'Horchata'],
-        ['Branzino', 'Chilean Sea Bass', 'Mussels', 'Oysters', 'King Crab Legs', 'Shrimp Cocktail', 'Fried Shrimp', 'Garlic Bread'],
-        ['Bill', 'Bill with an axe', 'Bill without an axe', 'Billiards', 'A Bill of Sale', "Bill the Bilder", 'Billiam Ballace', "'Mo Bill; 'mo problems"],
-        ['Miso Soup', 'Minestrone', 'N.E. Clam Chowder', 'Manhattan Clam Chowder', "French Onion", "Side of Bread", 'Garden Salad', 'Chocolate Chip Cookies']
-    ]
-    menu_items = []
-    for i in range(8):
-        for j in range(8):
-            menu_item = MenuItem(
-                name = menu_item_arrays[i][j],
-                description = '',
-                vegan = fake.boolean(),
-                kosher = fake.boolean(),
-                restaurant = restaurants[i]
-            )
-            menu_items.append(menu_item)
-    db.session.add_all(menu_items)
-    db.session.commit()
+    restaurant = Restaurant.query.
+
+
+    # fake = Faker()
+    # print('Creating menu items...')
+    # menu_item_arrays = [
+    #     ['Spaghetti and Meatballs', 'Pizza', 'Chicken Alfredo', 'Bread', 'Penne a la Marinara', 'Caprese Salad', 'Minestrone', 'Tiramisu'],
+    #     ['Orange Chicken', 'Lo-Mein', 'Wasabi-Crusted Filet Mignon', 'Kung Pao Chicken', "General Tso's", 'Miso Soup', 'Fortune Cookies', "Sushi Roll"],
+    #     ['Filet Mignon', 'Sirloin', 'Bread', 'Side Salad', 'Hamburger', 'The Best Steak Ever', "NY Strip", 'Chocolate Cake'],
+    #     ['The Burger', 'A Better Burger', 'The Garden Burger', "Side of Fries", 'Chocolate Shake', 'Tater Tots', 'Bacon Burger', 'Veggie Burger'],
+    #     ['Burrito al Pastor', 'Shrimp Tacos', 'Menudo', 'Ceviche', 'Chicken Tacos', "Duck Tacos", 'Side of Rice and Beans', 'Horchata'],
+    #     ['Branzino', 'Chilean Sea Bass', 'Mussels', 'Oysters', 'King Crab Legs', 'Shrimp Cocktail', 'Fried Shrimp', 'Garlic Bread'],
+    #     ['Bill', 'Bill with an axe', 'Bill without an axe', 'Billiards', 'A Bill of Sale', "Bill the Bilder", 'Billiam Ballace', "'Mo Bill; 'mo problems"],
+    #     ['Miso Soup', 'Minestrone', 'N.E. Clam Chowder', 'Manhattan Clam Chowder', "French Onion", "Side of Bread", 'Garden Salad', 'Chocolate Chip Cookies']
+    # ]
+    # menu_items = []
+    # for i in range(8):
+    #     for j in range(8):
+    #         menu_item = MenuItem(
+    #             name = menu_item_arrays[i][j],
+    #             description = '',
+    #             vegan = fake.boolean(),
+    #             kosher = fake.boolean(),
+    #             restaurant = restaurants[i]
+    #         )
+    #         menu_items.append(menu_item)
+    # db.session.add_all(menu_items)
+    # db.session.commit()
 
     # start_time = time.time()
     # google_translator = Translator()
