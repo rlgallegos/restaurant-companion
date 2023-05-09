@@ -33,19 +33,16 @@ function App() {
 
   useEffect(() => {
     const pathName = window.location.pathname;
-    console.log(pathName)
+
     switch (true){
       case pathName === '/' || pathName === '/welcome':
         setIsActiveUser(true)
         setIsActiveManger(false)
-
       case /^\/user\/.+/.test(pathName):
-        console.log('found users path')
         setIsActiveUser(true)
         setIsActiveManger(false)
         break
       case /^\/manage\/.+/.test(pathName):
-        console.log('found managers path')
         setIsActiveManger(true)
         setIsActiveUser(false)
         break

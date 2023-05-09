@@ -442,10 +442,13 @@ def menu(id, lang):
         # Google Translate
         google_translator = Translator()
         for item in restaurant.menu_items:
-            item.name = google_translator.translate(item.name, src='en', dest=lang).text
-            item.description = google_translator.translate(item.description, src='en', dest=lang).text
+            if item.name:
+                item.name = google_translator.translate(item.name, src='en', dest=lang).text
+            if item.description:
+                item.description = google_translator.translate(item.description, src='en', dest=lang).text
             for allergy in item.allergies:
-                allergy.name = google_translator.translate(allergy.name, src='en', dest=lang).text
+                if allergy.name:
+                    allergy.name = google_translator.translate(allergy.name, src='en', dest=lang).text
 
         response = make_response(restaurant.to_dict(rules=('-users',)), 200)
 

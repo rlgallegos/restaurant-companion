@@ -26,6 +26,8 @@ function OrderDetailCard({order, onDeleteAllergy}) {
         return <li  key={uniqueID2} className={tailwindCSSSListItem}>{allergy.name}</li>
     })
 
+    console.log(filterList)
+    console.log(allergyList)
 
     return(
         <div className={tailwindCSSCard}>
@@ -35,11 +37,11 @@ function OrderDetailCard({order, onDeleteAllergy}) {
             <p className={tailwindCSSSP}>Quantity: {order.quantity}</p>
             <h3 className={tailwindCSSSP}>Allergies That Usually Come With This Dish:</h3>
             <ul className="mx-auto">
-                {allergyList}
+                {!allergyList ? allergyList : <p className={tailwindCSSSP}>None</p>}
             </ul>
             <h3 className={tailwindCSSSP}>Allergies To Be Removed For This Dish:</h3>
             <ul className="mx-auto">
-                {filterList ? filterList : <p>None</p>}
+                {!filterList ? filterList : <p className={tailwindCSSSP}>None</p>}
             </ul>
         </div>
     )
