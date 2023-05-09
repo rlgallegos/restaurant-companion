@@ -133,7 +133,7 @@ function ManageNavBar({setRestaurant, restaurant}) {
                         <Link className={tailwindCSSLinkText} to='subscription' >Subscription</Link>
                     </div>
 
-                    <div className={tailwindCSSLink}>
+                    <div >
                         <ManageLogoutButton />
                     </div>
                 </nav>
