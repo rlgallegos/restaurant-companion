@@ -44,10 +44,10 @@ class Restaurants(Resource):
         # Initialize Restaurant
         rest =  Restaurant.query.filter(Restaurant.name == data['restaurantName']).first()
         if rest:
-            return make_response({'error': 'Restaurant Name is already taken'}, 422)
+            return make_response({'error': 'Restaurant name is already taken'}, 422)
         user = User.query.filter(User.username == data['username']).first()
         if user:
-            return make_response({'error': 'Username already taken'}, 422)
+            return make_response({'error': 'Username is already taken'}, 422)
 
         new_restaurant = Restaurant(
             name = data['restaurantName'],
