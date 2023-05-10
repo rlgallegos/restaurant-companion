@@ -20,9 +20,6 @@ function Manage() {
     const [status, setStatus] =useState('')
     const [isMainPage, setIsMainPage] = useState(false)
     
-    useEffect(() => {
-        
-    }, [])
 
     useEffect(() => {
         fetch('/restaurant')
@@ -41,10 +38,8 @@ function Manage() {
         })
     }, [])
 
-    const pathName = window.location.pathname;
+    const pathName = window.location.pathname;    
     useEffect(() => {
-        
-        console.log(pathName)
         if (pathName == '/manage'){
             setIsMainPage(true)
         } else {

@@ -9,7 +9,8 @@ function ManageNavPlaque(){
     const navigate = useNavigate()
 
     function handleClick(e){
-        navigate(`${e.target.textContent}`)
+        console.log(e.currentTarget.getAttribute('name'))
+        navigate(`${e.currentTarget.getAttribute('name')}`)
     }
 
     return (

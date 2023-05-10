@@ -40,7 +40,6 @@ function ManageRestaurantEdit({restaurant, setRestaurant}) {
             body: JSON.stringify(restaurant.id)
         }).then(res => {
             if (res.ok) {
-                console.log('okay')
                 navigate('/')
             } else {
                 res.json().then(e => setErrorMessage(e.error))
