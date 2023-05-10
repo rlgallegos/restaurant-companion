@@ -35,6 +35,7 @@ function ManageSubscription({id, setStatus, status}){
             },
             body: id
         }).then(res => {
+            console.log(res.ok)
             if (res.ok) {
                 res.json().then(data => {
                     setRefresh(!refresh)

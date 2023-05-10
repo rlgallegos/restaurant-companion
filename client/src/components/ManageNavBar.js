@@ -3,9 +3,9 @@ import ManageLogoutButton from "./ManageLogoutButton"
 import { Link, useNavigate } from "react-router-dom";
 
 function ManageNavBar({setRestaurant, restaurant}) {
-    const tailwindCSSLink = "flex items-center my-1 text-m text-gray-100 rounded-md px-4 hover:bg-gray-100 hover:bg-opacity-90 transition-all duration-200 ease-in-out active:bg-white"
-    const tailwindCSSLinkActive = "flex items-center my-1 text-m text-gray-100 rounded-md px-4 border-2 border-white bg-opacity-90 hover:bg-gray-100 transition-all duration-200 ease-in-out active:bg-white"
-    const tailwindCSSLinkText = "text-gray-700 hover:text-gray-900 active:text-gray-100"
+    const tailwindCSSLink = "w-screen md:w-auto flex items-center my-1 text-m text-gray-100 rounded-md py-1 md:py-auto px-auto hover:bg-gray-100 hover:bg-opacity-90 transition-all duration-200 ease-in-out active:bg-white"
+    const tailwindCSSLinkActive = "w-screen md:w-auto flex items-center my-1 text-m text-gray-100 rounded-md py-1 md:py-auto px-auto border-2 border-white bg-opacity-90 hover:bg-gray-100 transition-all duration-200 ease-in-out active:bg-white"
+    const tailwindCSSLinkText = "whitespace-nowrap text-gray-700 hover:text-gray-900 active:text-gray-100 text-center w-full px-12"
 
     const tailwindCSSMenu = 'items-center card items-align-left'
 
@@ -102,17 +102,17 @@ function ManageNavBar({setRestaurant, restaurant}) {
 
 
     return (
-        <div className="p-2 flex justify-auto justify-left md:justify-between mx-40">
+        <div className="p-2 flex justify-auto justify-center md:justify-between mx-40">
             <div className="flex-1 flex-grow">
                 <div onClick={handleExpandNavBar} className={tailwindCSSMenu}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mx-auto">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
-                    {/* <p className={tailwindCSSSP}>Expand Nav Bar Menu</p> */}
+
                 </div>
 
                 
-                <nav className={`justify-between text-center flex flex-col sm:flex-row transition-all duration-300 ${isOpenNavBar ? "max-h-screen" : "max-h-0"} overflow-hidden`}>
+                <nav className={`border-2 md:border-transparent border-gray-100 mt-4 justify-between flex flex-col md:flex-row transition-all duration-300 ${isOpenNavBar ? "max-h-screen" : "max-h-0"} overflow-hidden`}>
 
                     <div className={isActiveHome ? tailwindCSSLinkActive : tailwindCSSLink} onClick={handleNavHome}>
                         <Link className={tailwindCSSLinkText} to=''>Home</Link>

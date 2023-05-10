@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import { useState } from 'react';
 import * as yup from "yup";
 
 function ManageRestaurantEditForm({restaurantId, onEditRestaurant}) {
@@ -7,6 +8,8 @@ function ManageRestaurantEditForm({restaurantId, onEditRestaurant}) {
     const tailwindCSSSP = "ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
     const tailwindCSSButton = "my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
     const tailwindCSSInput = "text-sm h-8 pl-0 md:pl-2 text-gray-900 text-gray-100 text-gray-100 my-2 w-full text-center md:text-left"
+
+    const [errorMessage, setErrorMessage] = useState()
 
     //Formik Schema Logic
     const formSchema = yup.object().shape({
@@ -45,6 +48,8 @@ function ManageRestaurantEditForm({restaurantId, onEditRestaurant}) {
                         console.log(data)
                         onEditRestaurant(data)
                     })
+                } else {
+                    res.json().then(e => setErrorMessage('Failed to update.'))
                 }
             })
         }
@@ -87,6 +92,8 @@ function ManageRestaurantEditForm({restaurantId, onEditRestaurant}) {
                     <input className={tailwindCSSInput} type="password" name='password' value={formik.values.password} onChange={formik.handleChange} placeholder='Password' />
                     <p style={{color: "red"}}>{formik.errors.password}</p>
                 </div>
+                {errorMessage && <div>
+                    <p className="my-3" style={{color: "red"}}>{errorMessage}</p></div>}
                 <input className={tailwindCSSButton} type="submit" value='Update Restaurant Account'/>
             </form>
         </div>

@@ -12,6 +12,7 @@ function ManageRestaurantEdit({restaurant, setRestaurant}) {
     const tailwindCSSSP = "ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
 
     const navigate = useNavigate()
+    const [errorMessage, setErrorMessage] = useState()
 
     //State and its functions
     const [isEditing, setIsEditing] = useState(false)
@@ -41,6 +42,9 @@ function ManageRestaurantEdit({restaurant, setRestaurant}) {
             if (res.ok) {
                 console.log('okay')
                 navigate('/')
+            } else {
+                res.json().then(e => setErrorMessage(e.error))
+                setShowDeleteMenu(false)
             }
         })
     }
@@ -56,6 +60,8 @@ function ManageRestaurantEdit({restaurant, setRestaurant}) {
             <button className={tailwindCSSButton} onClick={handleClick}>{!isEditing ? "Edit Restaurant Details" : "Close Editor"}</button>
             {isEditing && <ManageRestaurantEditForm restaurantId={restaurant.id} onEditRestaurant={handleEditRestaurant} />}
             <button className={tailwindCSSButton} onClick={handleShowDeleteConfirmation}>Delete Restaurant</button>
+            {errorMessage && <div>
+            <p className="my-3" style={{color: "red"}}>{errorMessage}</p></div>}
             {showDeleteMenu && <div>
                 <h3 className={tailwindCSSSubTitle}>Are you sure?</h3>
                 <p className={tailwindCSSSP}>(This action is irreversable)</p>
