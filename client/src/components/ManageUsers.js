@@ -7,8 +7,6 @@ import ManageManagerDisplay from "./ManageManagerDisplay"
 function ManageUsers({restaurant}) {
     const [users, setUsers] = useState([])
 
-    console.log(restaurant)
-
     useEffect(() => {
         fetch(`/${restaurant.id}/users`, {})
         .then(res => res.json())

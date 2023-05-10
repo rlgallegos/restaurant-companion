@@ -5,16 +5,24 @@ import ManageNavBar from './ManageNavBar';
 import {basicAllergies} from './helpers.js';
 import ManageRestaurantEdit from './ManageRestaurantEdit';
 import ManageSubscription from './ManageSubscription';
+import ManageNavPlaque from './ManageNavPlaque';
 
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 
 function Manage() {
+
+
     const navigate = useNavigate()
     const [restaurant, setRestaurant] = useState(null)
     const [availableAllergies, setAvailableAllergies] = useState([])
     const [status, setStatus] =useState('')
+    const [isMainPage, setIsMainPage] = useState(false)
+    
+    useEffect(() => {
+        
+    }, [])
 
     useEffect(() => {
         fetch('/restaurant')
@@ -32,6 +40,17 @@ function Manage() {
             }
         })
     }, [])
+
+    const pathName = window.location.pathname;
+    useEffect(() => {
+        
+        console.log(pathName)
+        if (pathName == '/manage'){
+            setIsMainPage(true)
+        } else {
+            setIsMainPage(false)
+        }
+    }, [pathName])
 
     return (
         <div>
@@ -59,6 +78,7 @@ function Manage() {
                 element = {status == 'trial' || status == 'paid' ? <ManageRestaurantEdit setRestaurant={setRestaurant} restaurant={restaurant} /> : <Navigate to='/manage/subscription' />}
                 />
             </Routes>}
+            {isMainPage && <ManageNavPlaque />}
         </div>
 
     )
