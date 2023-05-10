@@ -3,13 +3,14 @@ import { useFormik } from 'formik';
 import * as yup from "yup";
 
 
-function ManageUserCard({user, onUpdate, isEditing}){
+function ManageUserCard({user, onUpdate, onDelete, onError, isEditing}){
     const tailwindCSSSP2 = "mb-4 text-lg flex-grow text-gray-600 text-center"
     const tailwindCSSSP = "ml-2 my-2 text-m flex-grow text-gray-600 text-center md:text-left"
     const tailwindCSSInput = "text-sm h-8 pl-0 md:pl-2 text-gray-900 text-gray-100 text-gray-100 my-2 w-full text-center md:text-left"
-    const tailwindCSSButton = "my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
+    const tailwindCSSButton = "card mt-4 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
     const tailwindCSSSubTitle = "text-xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSCard = "bg-gray-100 bg-opacity-80 rounded-md shadow-md sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 p-12 mx-10 my-10 flex flex-col border border-transparent "
+    const tailwindCSSButton2 = "mx-auto card mt-4 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-400 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
 
 
     //Formik Schema Logic
@@ -39,6 +40,21 @@ function ManageUserCard({user, onUpdate, isEditing}){
         }
     })
 
+    //DELETE user
+    function handleDeleteUser(){
+        console.log(user.id)
+        fetch(`/users/${user.id}`, {
+            method: "DELETE"
+        }).then(res => {
+            if (res.ok){
+                onDelete(user)
+            } else {
+                res.json().then(data => onError(data))
+            }
+        })
+    }
+
+
     return (
             <div className={tailwindCSSCard} >
                 <h3 className={tailwindCSSSubTitle}>{user.username}</h3>
@@ -59,6 +75,7 @@ function ManageUserCard({user, onUpdate, isEditing}){
                     </div>
                 <br />
                 <br />
+                <button className={tailwindCSSButton2} onClick={handleDeleteUser}>Delete</button>
             </div>
     )
 }
