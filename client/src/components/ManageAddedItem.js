@@ -106,11 +106,6 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
             setAllergyList([...allergyList, foundObj])
         }
     }
-    console.log('this is the allergyList')
-    console.log(specAvailableAllergies)
-
-    console.log('allergies available to this specific item')
-    console.log(availableAllergies)
 
 
     let allergyOptions = []
