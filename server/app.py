@@ -79,16 +79,18 @@ class Restaurants(Resource):
         return make_response(new_restaurant.to_dict(), 201)
 
     def delete(self):
+        if session['role'] != 'administrator':
+            return make_response({'error': 'Only Administrators may delete the restaurant'}, 401)
+
         id = request.get_json()
         restaurant = Restaurant.query.filter(Restaurant.id == id).first()
         try:
             db.session.delete(restaurant)
             db.session.commit()
         except:
-            return make_response({'error': 'Failed to delete Resource'}, 422)
+            return make_response({'error': 'Failed to delete Restaurant'}, 422)
         session['user_id'] = None
         session['role'] = None
-        
         return make_response({}, 204)
 
 
@@ -328,6 +330,18 @@ class UserByID(Resource):
             return make_response({'error': 'Failed to update resource'}, 422)
         return make_response(user.to_dict(only=('username', 'role', 'id')), 200)
 
+    def delete(self, id):
+        if session['role'] != 'administrator':
+            return make_response({'error': 'Only Administrators may delete users'}, 401)
+        user = User.query.filter(User.id == id).first()
+        try:
+            db.session.delete(user)
+            db.session.commit()
+        except:
+            return make_response({'error': 'Failed to Delete Resource'}, 422)
+        return make_response({}, 204)
+
+
 
 api.add_resource(UserByID, '/users/<int:id>')
 
@@ -502,20 +516,17 @@ def create_checkout_session():
 def customer_portal():
     # For demonstration purposes, we're using the Checkout session to retrieve the customer ID.
     # Typically this is stored alongside the authenticated user in your database.
-
-    # checkout_session_id = request.form.get('session_id')
-    # checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
-
     user = User.query.filter(User.id == session['user_id']).first()
+
     # print(user.to_dict())
-    print(user.role)
+    # print(user.role)
     if not user.role == 'administrator':
         return make_response({'error': "Unauthorized"}, 401)
 
     customer_id = Restaurant.query.filter(
         Restaurant.id == user.restaurant_id
     ).first().stripe_customer_id
-    print(customer_id)
+    # print(customer_id)
     
     return_url = 'http://localhost:4000/manage/subscription'
 
@@ -525,9 +536,8 @@ def customer_portal():
         customer=customer_id,
         return_url=return_url,
     )
-    print(portalSession.url)
-    return make_response({"url": portalSession.url}, 303)
-    # return redirect(portalSession.url, code=303)
+    # print(portalSession.url)
+    return make_response({"url": portalSession.url}, 200)
 
 
 
@@ -629,6 +639,9 @@ def stripe_webhook():
         # print(data.object.customer)
         # print('this is the metadata object received back')
         # print(data.object.metadata)
+     
+    elif event_type == 'customer.subscription.updated':
+        print('reached this point')
 
 
     else:
