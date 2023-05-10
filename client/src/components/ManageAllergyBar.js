@@ -25,6 +25,7 @@ function ManageAllergyrBar({setAvailableAllergies, restID, availableAllergies}) 
 
     function handleSubmit(e) {
         e.preventDefault()
+        if (!formData) return
         let new_obj = {
             name: formData,
             removable: true
@@ -33,13 +34,26 @@ function ManageAllergyrBar({setAvailableAllergies, restID, availableAllergies}) 
             name: formData,
             removable: false
         }
+        console.log(availableAllergies)
+        console.log(new_obj, new_obj2)
         const newVal = availableAllergies.some(allObj => {
-            return allObj.name == formData
+            return ((allObj.name == formData) && (allObj.removable == true))
+
         })
+        const newVal2 = availableAllergies.some(allObj => {
+            return ((allObj.name == formData) && (allObj.removable == false))
+        })
+        console.log(newVal)
+        console.log(newVal2)
         if (!newVal) {
-            setAvailableAllergies([...availableAllergies, new_obj, new_obj2])
-            setFormData('')
+            console.log('new val 1')
+            setAvailableAllergies((availableAllergies) => [...availableAllergies, new_obj])
         }
+        if (!newVal2) {
+            console.log('new val 2')
+            setAvailableAllergies((availableAllergies) => [...availableAllergies, new_obj2])
+        }
+        setFormData('')
     }
 
 
