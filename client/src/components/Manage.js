@@ -12,8 +12,6 @@ import { useEffect, useState } from 'react';
 
 
 function Manage() {
-
-
     const navigate = useNavigate()
     const [restaurant, setRestaurant] = useState(null)
     const [availableAllergies, setAvailableAllergies] = useState([])
@@ -21,16 +19,29 @@ function Manage() {
     const [isMainPage, setIsMainPage] = useState(false)
     
 
+    // The logic to create two lists that have to redundant objects
+    function areObjectsEqual(obj1, obj2) {
+        return obj1.name === obj2.name && obj1.removable === obj2.removable;
+    }
+    function mergeUniqueObjects(list1, list2) {
+        const mergedList = [...list1, ...list2];
+        const uniqueList = mergedList.filter((obj, index, self) =>
+          self.findIndex((o) => areObjectsEqual(obj, o)) === index
+        );
+        return uniqueList;
+      }
+
     useEffect(() => {
         fetch('/restaurant')
         .then(res => {
             if (res.ok) {
                 res.json().then(data => {
                     setStatus(() => data.stripe_status)
-                    console.log('initial status:', data.stripe_status)
+                    // console.log('initial status:', data.stripe_status)
                     setRestaurant(data)
-                    setAvailableAllergies(basicAllergies)
-                    setAvailableAllergies((availableAllergies) => availableAllergies.concat(data.allergies))
+                    // setAvailableAllergies(basicAllergies)
+                    // setAvailableAllergies((availableAllergies) => availableAllergies.concat(data.allergies))
+                    setAvailableAllergies(() => mergeUniqueObjects(basicAllergies, data.allergies))
                 })
             } else {
                 navigate('/welcome')
