@@ -14,7 +14,7 @@ function ProductDisplay() {
         <div className="product">
             {/* <LogoStripe /> */}
             <div className="description">
-                <h3 className={tailwindCSSSubTitle}>Monthly Renwal plan</h3>
+                <h3 className={tailwindCSSSubTitle}>Monthly Renwal Plan</h3>
                 <h5 className={tailwindCSSSP}>$25.00 / month</h5>
             </div>
         </div>
