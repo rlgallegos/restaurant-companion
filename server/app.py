@@ -506,8 +506,8 @@ def create_checkout_session():
                 "user_id": session['user_id']
             },
             mode='subscription',
-            success_url='https://capstone-project-ckbr.onrender.com/manage/subscription/' + '?trial=true',
-            cancel_url='https://capstone-project-ckbr.onrender.com/manage/subscription/' + '?canceled=true',
+            success_url='https://capstone-project-ckbr.onrender.com/#/manage/subscription' + '?trial=true',
+            cancel_url='https://capstone-project-ckbr.onrender.com/#/manage/subscription' + '?canceled=true',
             subscription_data={
                 'trial_period_days': 14
             },
@@ -538,7 +538,7 @@ def customer_portal():
     ).first().stripe_customer_id
     # print(customer_id)
     
-    return_url = 'https://capstone-project-ckbr.onrender.com/manage/subscription'
+    return_url = 'https://capstone-project-ckbr.onrender.com/#/manage/subscription'
 
     print('beginning portal session')
     portalSession = stripe.billing_portal.Session.create(
