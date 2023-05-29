@@ -43,6 +43,7 @@ function ManageUserCard({user, onUpdate, onDelete, onError, isEditing}){
     //DELETE user
     function handleDeleteUser(){
         console.log(user.id)
+        console.log(user)
         fetch(`/users/${user.id}`, {
             method: "DELETE"
         }).then(res => {

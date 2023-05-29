@@ -93,8 +93,8 @@ function User() {
             </Routes>
         </div> : 
         <div className='absolute top-0 left-0 w-full h-full z-40 bg-black'>
-          <video loop src='/white-circle-loading.mp4' autoPlay className='absolute top-0 left-0 w-full h-full z-index-50'>Video not supported by browser</video>
-          <p className={`text-3xl absolute mx-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-gray-100 ${classNames} duration-200`}>{loadMessage}</p>
+          <video loop src='/white-circle-loading.mp4' autoPlay playsInline muted className='absolute top-0 left-0 w-full h-full z-index-50'>Video not supported by browser</video>
+          <p className={`text-lg md:text-3xl absolute mx-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-gray-100 ${classNames} duration-200`}>{loadMessage}</p>
         </div>}
         </>
     )

@@ -33,7 +33,6 @@ function ManageAddManagerForm({setUsers, users}) {
         validationSchema: formSchema,
         validateOnChange: false,
         onSubmit: values => {
-            console.log(values)
             fetch('/users', {
                 method: "POST",
                 headers: {

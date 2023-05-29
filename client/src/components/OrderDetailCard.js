@@ -26,8 +26,7 @@ function OrderDetailCard({order, onDeleteAllergy}) {
         return <li  key={uniqueID2} className={tailwindCSSSListItem}>{allergy.name}</li>
     })
 
-    console.log(filterList)
-    console.log(allergyList)
+
 
     return(
         <div className={tailwindCSSCard}>

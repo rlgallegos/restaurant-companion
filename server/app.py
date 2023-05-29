@@ -318,7 +318,6 @@ def get_users(id):
 class UserByID(Resource):
     def patch(self, id):
         data = request.get_json()
-        print(data)
         user = User.query.filter(User.id == id).first()
         for attr in data:
                 if data[attr]:
@@ -331,17 +330,28 @@ class UserByID(Resource):
         return make_response(user.to_dict(only=('username', 'role', 'id')), 200)
 
     def delete(self, id):
+        # Check its an administrator deleting
         if session['role'] != 'administrator':
             return make_response({'error': 'Only Administrators may delete users'}, 401)
         user = User.query.filter(User.id == id).first()
+
+        # Check its not the sole remaining administrator
+        administrators_remaining = User.query.filter(
+            User.restaurant == user.restaurant,
+            User.role == 'administrator'
+        ).all()
+        if len(administrators_remaining) == 1:
+            return make_response({
+                'error': 'There must be at least one administrator on the account',
+                'username': user.username
+            }, 422)
+
         try:
             db.session.delete(user)
             db.session.commit()
         except:
             return make_response({'error': 'Failed to Delete Resource'}, 422)
         return make_response({}, 204)
-
-
 
 api.add_resource(UserByID, '/users/<int:id>')
 
@@ -496,8 +506,8 @@ def create_checkout_session():
                 "user_id": session['user_id']
             },
             mode='subscription',
-            success_url='http://localhost:4000/manage/subscription/' + '?trial=true',
-            cancel_url='http://localhost:4000/manage/subscription/' + '?canceled=true',
+            success_url='https://capstone-project-ckbr.onrender.com/manage/subscription/' + '?trial=true',
+            cancel_url='https://capstone-project-ckbr.onrender.com/manage/subscription/' + '?canceled=true',
             subscription_data={
                 'trial_period_days': 14
             },
@@ -528,7 +538,7 @@ def customer_portal():
     ).first().stripe_customer_id
     # print(customer_id)
     
-    return_url = 'http://localhost:4000/manage/subscription'
+    return_url = 'https://capstone-project-ckbr.onrender.com/manage/subscription'
 
     print('beginning portal session')
     portalSession = stripe.billing_portal.Session.create(
@@ -567,43 +577,43 @@ def stripe_webhook():
     # The three options based on whether or not it was successful
 
     if event_type == 'checkout.session.completed':
-    # Payment is successful and the subscription is created.
-    # You should provision the subscription and save the customer ID to your database.
-
-        # print('checkout.session.completed data--------------------------------')
-        # print("The Users ID")
-        # print(data.object.metadata)
-        # print('The Customer ID from Stripe')
-        # print(data.object.customer)
 
         restaurant = Restaurant.query.filter(
             Restaurant.id == User.query.filter(User.id == data.object.metadata['user_id']).first().restaurant_id
         ).first()
 
         restaurant.stripe_customer_id = data.object.customer
-        restaurant.stripe_status = 'trial'
+        print('Finished checkout session event')
         try:
             db.session.add(restaurant)
             db.session.commit()
+            return jsonify({'status': 'success'})
         except Exception as e:
             print(e)
             return jsonify({'status': 'failed'})
     
-    elif event_type == 'invoice.paid':
+    elif event_type == 'invoice.payment_succeeded':
     # Continue to provision the subscription as payments continue to be made.
     # Store the status in your database and check when a user accesses your service.
     # This approach helps you avoid hitting rate limits.
-        print('invoice.paid data--------------------------------')
-        print(data)
-        restaurant = Restaurant.query.filter(
-            Restaurant.id == User.query.filter(User.id == data.object.metadata['user_id']).first().restaurant_id
-        ).first()
+        return jsonify({'status': 'success'})
 
-        restaurant.stripe_customer_id = data.object.customer
+        # Check if the customer is still in the trial period
+        if data.object.billing_reason == 'subscription_create' and data.object.period_start == data.object.period_end:
+        # Ignore the event as it indicates the trial period start
+            print('still in trial identified')
+            return jsonify({'status': 'success'})
+
+        restaurant = Restaurant.query.filter(
+            Restaurant.stripe_customer_id == data.object.customer
+        ).first()
+        print(restaurant)
         restaurant.stripe_status = 'paid'
+        print('finished payment succeeded event')
         try:
             db.session.add(restaurant)
             db.session.commit()
+            return jsonify({'status': 'success'})
         except Exception as e:
             print(e)
             return jsonify({'status': 'failed'})
@@ -614,34 +624,37 @@ def stripe_webhook():
     # The payment failed or the customer does not have a valid payment method.
     # The subscription becomes past_due. Notify your customer and send them to the
     # customer portal to update their payment information.
-        print('invoice.payment_failed data --------------------------------')
-        print(data)
-        restaurant = Restaurant.query.filter(
-            Restaurant.id == User.query.filter(User.id == data.object.metadata['user_id']).first().restaurant_id
-        ).first()
 
-        restaurant.stripe_customer_id = data.object.customer
-        restaurant.stripe_status = 'unpaid'
+        restaurant = Restaurant.query.filter(
+            Restaurant.stripe_customer_id == data.object.customer
+        ).first()
+        restaurant.stripe_status = 'failed'
+        print('Finished payment failed event')
         try:
             db.session.add(restaurant)
             db.session.commit()
+            return jsonify({'status': 'success'})
         except Exception as e:
             print(e)
             return jsonify({'status': 'failed'})
     
 
     elif event_type == 'customer.subscription.created':
-        print('ignore below')
-        print('customer.subscription.created data --------------------------------')
-        # print(data)
-        # This variable is the customers id number
-        # print('this is the customers id number')
-        # print(data.object.customer)
-        # print('this is the metadata object received back')
-        # print(data.object.metadata)
-     
+        restaurant = Restaurant.query.filter(
+            Restaurant.stripe_customer_id == data.object.customer
+        ).first()
+        restaurant.stripe_status = 'trial'
+        print('finished subscription created event')
+        try:
+            db.session.add(restaurant)
+            db.session.commit()
+            return jsonify({'status': 'success'})
+        except Exception as e:
+            print(e)
+            return jsonify({'status': 'failed'})
+
     elif event_type == 'customer.subscription.updated':
-        print('reached this point')
+        print('customer.subscription.updated data --------------------------------')
 
 
     else:
