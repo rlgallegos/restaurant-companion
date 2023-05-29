@@ -32,12 +32,14 @@ with app.app_context():
     # db.session.add(mamas)
     # db.session.commit()
 
-    restaurant = Restaurant.query.filter(Restaurant.name == "Min's BBQ Joint2").first()
+    restaurant = Restaurant.query.filter(Restaurant.name == "Min's BBQ Joint").first()
     try:
-        restaurant.name = "Min's BBQ Joint"
+        # restaurant.name = "Min's BBQ Joint"
+        restaurant.url = "http://www.I'M-THE-EXAMPLE-RESTAURANT.com"
         db.session.add(restaurant)
         # db.session.delete(restaurant)
         db.session.commit()
-    except:
-        print('failed to delete')
+    except Exception as e:
+        print(e)
+        print('failed')
 

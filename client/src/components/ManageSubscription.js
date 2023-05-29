@@ -10,6 +10,7 @@ function ManageSubscription({id, setStatus, status}){
     const [openForm, setOpenForm] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [refresh, setRefresh] = useState(false)
+    const [successMessage, setSuccessMessage] = useState('')
 
     function handleCreateSubscription(){
         setOpenForm(!openForm)
@@ -22,6 +23,7 @@ function ManageSubscription({id, setStatus, status}){
         }
         if (query.get('trial')) {
             setStatus('trial')
+            setSuccessMessage('Thank you for subscribing, you now have a 14-day free trial')
         }
     }, [])
 
@@ -53,6 +55,8 @@ function ManageSubscription({id, setStatus, status}){
             {!status || status=='none' &&<div className={tailwindCSSDiv}>
                 <button onClick={handleCreateSubscription} className={tailwindCSSButton}>Create Subscription</button>    
             </div>}
+
+
 
             {openForm && <ProductDisplay />}
 
