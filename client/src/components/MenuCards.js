@@ -27,7 +27,7 @@ function MenuCards( {menu, filters} ) {
     }
 
     return (
-        <div className="flex flex-wrap justify-center max-w-screen-xl mx-auto my-8">
+        <div className="flex flex-wrap justify-center mx-auto my-8">
             {menu ? cardList : null}
         </div>
     )
