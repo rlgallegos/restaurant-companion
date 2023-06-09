@@ -1,13 +1,14 @@
-import { useEffect } from "react"
-import { useNavigate, useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
+
 import CompletedOrderItem from "./CompletedOrderItem";
 
+// NOTES on where each language is held:
 
 //English - held by the location.state
 //Foreign - held by orderList
 
 
-function CompleteOrderPage({orderList, language}) {
+function CompleteOrderPage({ orderList }) {
 
     const location = useLocation()
 
