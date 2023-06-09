@@ -1,3 +1,6 @@
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
 import ManageMenuDisplay from './ManageMenuDisplay';
 import ManageAddItemForm from './ManageAddItemForm';
 import ManageUsers from './ManageUsers';
@@ -6,9 +9,6 @@ import {basicAllergies} from './helpers.js';
 import ManageRestaurantEdit from './ManageRestaurantEdit';
 import ManageSubscription from './ManageSubscription';
 import ManageNavPlaque from './ManageNavPlaque';
-
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 
 function Manage() {
@@ -19,7 +19,7 @@ function Manage() {
     const [isMainPage, setIsMainPage] = useState(false)
     
 
-    // The logic to create two lists that have to redundant objects
+    // The logic to create from two lists one that has no redundant objects
     function areObjectsEqual(obj1, obj2) {
         return obj1.name === obj2.name && obj1.removable === obj2.removable;
     }
@@ -37,10 +37,7 @@ function Manage() {
             if (res.ok) {
                 res.json().then(data => {
                     setStatus(() => data.stripe_status)
-                    // console.log('initial status:', data.stripe_status)
                     setRestaurant(data)
-                    // setAvailableAllergies(basicAllergies)
-                    // setAvailableAllergies((availableAllergies) => availableAllergies.concat(data.allergies))
                     setAvailableAllergies(() => mergeUniqueObjects(basicAllergies, data.allergies))
                 })
             } else {

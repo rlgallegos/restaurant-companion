@@ -1,9 +1,8 @@
-import { useFormik } from 'formik';
-import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 
-
+import { useFormik } from 'formik';
+import * as yup from "yup";
 
 function ManageSignup() {
     const tailwindCSSSP = "ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
@@ -24,7 +23,6 @@ function ManageSignup() {
         .max(15).required('Please enter a password confirmation')
         });
 
-    // //Formik Logic
     const formik = useFormik({
         initialValues: {
             restaurantName: '',
@@ -48,13 +46,10 @@ function ManageSignup() {
                     })
                 } else {
                     res.json().then(data => setErrorMessage(data.error))
-                    
                 }
             })
         }
     })
-
-
 
     return (
         <>

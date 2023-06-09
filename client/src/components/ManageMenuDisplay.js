@@ -1,9 +1,7 @@
-
-import ManageMenuCard from "./ManageMenuCard"
-import ManageAllergyrBar from "./ManageAllergyBar"
 import { useState } from "react"
 
-
+import ManageMenuCard from "./ManageMenuCard"
+import ManageAllergyBar from "./ManageAllergyBar"
 
 function ManageMenuDisplay({setRestaurant, restaurant, availableAllergies, setAvailableAllergies}) {
     const tailwindCSSButton2 = "mb-4 ml-4 bg-gray-100 text-m flex-grow text-gray-800 border border-gray-100 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
@@ -16,9 +14,7 @@ function ManageMenuDisplay({setRestaurant, restaurant, availableAllergies, setAv
 
     //Handle PATCH and DELETE functions
     function handleUpdateItem(updatedItem) {
-
         const updateIndex = restaurant.menu_items.findIndex(item => item.id == updatedItem.id)
-
         let newArray = []
         restaurant.menu_items.forEach(menu_item => {
             newArray.push({...menu_item, allergies: [...menu_item.allergies]})
@@ -45,7 +41,7 @@ function ManageMenuDisplay({setRestaurant, restaurant, availableAllergies, setAv
         <>
         <div className="mx-auto">
             <button className={displayAllergies ? tailwindCSSButton : tailwindCSSButton2} onClick={handleClick}>{displayAllergies ? 'Hide Allergy Bar' : 'Add Custom Allergies'}</button>
-            {displayAllergies ? <ManageAllergyrBar setAvailableAllergies={setAvailableAllergies} availableAllergies={availableAllergies} /> : null}
+            {displayAllergies ? <ManageAllergyBar setAvailableAllergies={setAvailableAllergies} availableAllergies={availableAllergies} /> : null}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 justify-items-center ">
             {restaurant ? menuItemList : <p>Loading...</p>}

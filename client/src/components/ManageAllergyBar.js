@@ -1,7 +1,8 @@
 import { useState } from 'react';
+
 import ManageAllergyBarElement from './ManageAllergyBarElement';
 
-function ManageAllergyrBar({setAvailableAllergies, restID, availableAllergies}) {
+function ManageAllergyBar({setAvailableAllergies, availableAllergies}) {
     const tailwindCSSTitle = "text-3xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSSubTitle = "text-xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSButton = "card my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
@@ -34,8 +35,8 @@ function ManageAllergyrBar({setAvailableAllergies, restID, availableAllergies}) 
             name: formData,
             removable: false
         }
-        console.log(availableAllergies)
-        console.log(new_obj, new_obj2)
+  
+
         const newVal = availableAllergies.some(allObj => {
             return ((allObj.name == formData) && (allObj.removable == true))
 
@@ -43,21 +44,14 @@ function ManageAllergyrBar({setAvailableAllergies, restID, availableAllergies}) 
         const newVal2 = availableAllergies.some(allObj => {
             return ((allObj.name == formData) && (allObj.removable == false))
         })
-        console.log(newVal)
-        console.log(newVal2)
         if (!newVal) {
-            console.log('new val 1')
             setAvailableAllergies((availableAllergies) => [...availableAllergies, new_obj])
         }
         if (!newVal2) {
-            console.log('new val 2')
             setAvailableAllergies((availableAllergies) => [...availableAllergies, new_obj2])
         }
         setFormData('')
     }
-
-
-
 
     return (
         <div>
@@ -76,4 +70,4 @@ function ManageAllergyrBar({setAvailableAllergies, restID, availableAllergies}) 
 
     )
 }
-export default ManageAllergyrBar
+export default ManageAllergyBar
