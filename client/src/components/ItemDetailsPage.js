@@ -6,7 +6,6 @@ function ItemDetailsPage({items, filters, setHasOrdered}) {
     const params = useParams()
     const navigate = useNavigate()
 
-
     let selected_item = items.find(item => {
         return item.id == params['id']
     })
@@ -26,9 +25,7 @@ function ItemDetailsPage({items, filters, setHasOrdered}) {
     
     return (
         <div className="justify-center flex">  
-            {/* <br></br> */}
             {items ? <SingleItemDetail onPlaceOrder={placeOrder} selected_item={selected_item} /> : null}
-            {/* <br></br> */}
         </div>
     )
 }

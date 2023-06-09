@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
+
 import MenuCards from './MenuCards';
 import AllergySideBar from './AllergySideBar';
-import { useEffect } from 'react';
+
 
 function MenuDisplay( {nameAddress, menu, allergyList, filters, setFilters, setIsDirect} ) {
 

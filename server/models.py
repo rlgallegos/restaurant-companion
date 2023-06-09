@@ -79,8 +79,6 @@ class Allergy(db.Model, SerializerMixin):
     order_item_allergies = db.relationship('OrderItemAllergy', back_populates='allergy')
 
 
-
-
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 

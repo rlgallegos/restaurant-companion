@@ -1,17 +1,12 @@
 import { useState } from 'react';
 
-
-function OrderDetailCard({order, onDeleteAllergy}) {
+function OrderDetailCard({ order }) {
     const [allergyObjectList, setAllergyObjectList] = useState(order.item.allergies)
 
     const tailwindCSSCard = "bg-gray-100 bg-opacity-80 rounded-md shadow-md sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 p-12 mx-10 my-10 flex flex-col border border-transparent "
     const tailwindCSSTitle = "text-3xl font-bold flex-grow text-gray-700 my-auto"
     const tailwindCSSSP = "my-1 md:my-2 ml-4 text-m flex-grow text-gray-600"
     const tailwindCSSSListItem = "my-1 ml-4 text-m flex-grow text-gray-600 text-center"
-
-
-
-
 
     //Build Lists
     let uniqueID = 0

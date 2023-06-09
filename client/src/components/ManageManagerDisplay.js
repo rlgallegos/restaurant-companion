@@ -5,15 +5,13 @@ function ManageManagerDisplay({users, setUsers}) {
     const tailwindCSSButton2 = "my-1 ml-4 text-m flex-grow text-gray-800 border border-gray-100 rounded-md px-4 py-2 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
 
     const [errorMessage, setErrorMessage] = useState('')
-
     const [isEditing, setIsEditing] = useState(false)
+
     function handleClick() {
         setIsEditing(!isEditing)
     }
 
-
     let userList = []
-
     function handleUpdate(user) {
         const indexToUpdate = users.findIndex(each => each.id === user.id)
         const newArray = [...users]
@@ -21,7 +19,6 @@ function ManageManagerDisplay({users, setUsers}) {
         setUsers(newArray)
     }
     function handleDelete(userToDelete){
-        console.log(userToDelete)
         setUsers(users => {
             return users.filter(user => user !== userToDelete)
         })
@@ -30,14 +27,11 @@ function ManageManagerDisplay({users, setUsers}) {
         setErrorMessage(e.error)
     }
 
-
     if (users) {
         userList = users.map(user => {
             return <ManageUserCard key={user.id} user={user} onError={handleError} onDelete={handleDelete} onUpdate={handleUpdate} isEditing={isEditing} />
         })
     }
-
-
 
     return (
         <>

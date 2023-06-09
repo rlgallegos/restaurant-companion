@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
@@ -18,7 +17,6 @@ function ManageUserCard({user, onUpdate, onDelete, onError, isEditing}){
         username: yup.string().max(15)
         });
 
-    // //Formik Logic
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -42,8 +40,6 @@ function ManageUserCard({user, onUpdate, onDelete, onError, isEditing}){
 
     //DELETE user
     function handleDeleteUser(){
-        console.log(user.id)
-        console.log(user)
         fetch(`/users/${user.id}`, {
             method: "DELETE"
         }).then(res => {

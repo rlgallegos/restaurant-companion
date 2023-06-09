@@ -2,13 +2,10 @@ import { useFormik } from 'formik';
 import * as yup from "yup";
 
 function ManageAddManagerForm({setUsers, users}) {
-    
     const tailwindCSSTitle = "text-2xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSSP = "ml-2 my-2 text-m flex-grow text-gray-600 text-center md:text-left"
     const tailwindCSSInput = "text-sm h-8 pl-0 md:pl-2 text-gray-900 text-gray-100 text-gray-100 my-2 w-full text-center md:text-left"
     const tailwindCSSButton = "card my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
-
-
 
     //Formik Schema Logic
     const formSchema = yup.object().shape({
@@ -20,8 +17,6 @@ function ManageAddManagerForm({setUsers, users}) {
         .max(15).required('Please enter a password confirmation')
         });
 
-
-    // //Formik Logic
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -48,9 +43,6 @@ function ManageAddManagerForm({setUsers, users}) {
     if (users[0]) {
         formik.values.restID = users[0].restaurant_id
     }
-
-
-
 
     return (
         <div>

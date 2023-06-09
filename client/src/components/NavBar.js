@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+
 import LanugageSelectMenu from './LangageSelectMenu';
-import { Link, NavLink, useNavigate } from "react-router-dom";
 
-
-function NavBar({handleSetLanguage}) {
+function NavBar({ handleSetLanguage }) {
     const tailwindCSSLink = "md:mx-20 my-1 text-m text-gray-100 rounded-md px-4 py-4 hover:bg-gray-100 hover:bg-opacity-90 transition-all duration-200 ease-in-out active:bg-white"
     const tailwindCSSLinkActive = "md:mx-20 my-1 text-m text-gray-100 rounded-md px-4 py-4 border-2 border-white bg-opacity-90 hover:bg-gray-100 transition-all duration-200 ease-in-out active:bg-white"
     const tailwindCSSLinkText = "text-gray-700 hover:text-gray-900 active:text-gray-100"

@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom"
 
-
 function ManageNavPlaque(){
     const tailwindCSSCard = "card bg-gray-100 bg-opacity-80 rounded-md shadow-md w-5/6 md:w-1/2 p-6 my-10 mx-auto"
     const tailwindCSSCard2 = "card md:col-span-2 bg-gray-100 bg-opacity-80 rounded-md shadow-md w-5/6 md:w-1/4 p-6 my-10 mx-auto"
@@ -9,7 +8,6 @@ function ManageNavPlaque(){
     const navigate = useNavigate()
 
     function handleClick(e){
-        console.log(e.currentTarget.getAttribute('name'))
         navigate(`${e.currentTarget.getAttribute('name')}`)
     }
 

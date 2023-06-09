@@ -2,11 +2,7 @@ import { useEffect, useState } from "react"
 
 import RestaurantCard from "./RestaurantCard"
 
-
-
-function Welcome({}) {
-
-
+function Welcome() {
     const [restaurants, setRestaurants] = useState()
 
     useEffect(() => {
@@ -21,8 +17,6 @@ function Welcome({}) {
             return <RestaurantCard key={restaurant.id} restaurant={restaurant} />
         })
     }
-
-
 
     return (
         <>

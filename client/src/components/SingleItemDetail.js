@@ -1,8 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-
-
 function SingleItemDetail({selected_item, onPlaceOrder}) {
     const tailwindCSSCard = "relative bg-gray-100 bg-opacity-80 rounded-md shadow-md w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 p-12 mx-10 my-10 flex flex-col border border-transparent "
     const tailwindCSSTitle = "text-3xl font-bold flex-grow text-gray-700 my-auto"
@@ -26,7 +24,6 @@ function SingleItemDetail({selected_item, onPlaceOrder}) {
     function handleGoBack(){
         navigate(-1)
     }
-
     function handleNotesChange(e) {
         setNotes(e.target.value)
     }

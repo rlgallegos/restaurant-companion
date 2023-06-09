@@ -1,5 +1,6 @@
-import { useFormik } from 'formik';
 import { useState } from 'react';
+
+import { useFormik } from 'formik';
 import * as yup from "yup";
 
 import ManageItemEditAllergy from './ManageItemEditAllergy';
@@ -9,10 +10,8 @@ function ManageItemEdit({menuItem, onUpdateItem}) {
     const tailwindCSSSP = "mx-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
     const tailwindCSSInput = "text-sm h-8 pl-0 md:pl-2 text-gray-900 text-gray-100 text-gray-100 my-2 w-full text-center md:text-left"
 
-
     const [itemAllergies, setItemAllergies] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-
 
     const [isEditing, setIsEditing] = useState(false)
     function handleClick() {
@@ -26,7 +25,6 @@ function ManageItemEdit({menuItem, onUpdateItem}) {
         description: yup.string().max(100)
         });
 
-    // //Formik Logic
     const formik = useFormik({
         initialValues: {
             name: '',

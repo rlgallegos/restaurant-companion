@@ -1,11 +1,8 @@
-import { useEffect } from "react"
-import MenuCard from "./MenuCard"
-// import { useEffect } from 'react';
 import _ from 'lodash';
 
+import MenuCard from "./MenuCard"
 
 function MenuCards( {menu, filters} ) {
-
     let cardList = []
 
     if (menu) {
