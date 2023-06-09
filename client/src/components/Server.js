@@ -1,4 +1,5 @@
 import { useState } from "react"
+
 import CompletedOrderItem from "./CompletedOrderItem"
 
 function Server(){
@@ -19,7 +20,6 @@ function Server(){
         setOrderID(e.target.value)
     }
     
-
     function handleSubmit(e){
         if (!orderID) return
         setIsLoading(true)
@@ -38,14 +38,10 @@ function Server(){
     }
     let orderCards = []
     if (order){
-        console.log(order)
         orderCards = order.order_items.map(item => {
             return <CompletedOrderItem key={item.id} itemName={item.name} quantity={item.quantity} allergies={item.allergies} notes={item.notes} />
         })
     }
-
-
-    // console.log(orderID)
 
     return (
         <div className="max-w-full mx-auto">

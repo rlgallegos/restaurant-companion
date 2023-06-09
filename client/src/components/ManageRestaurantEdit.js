@@ -48,8 +48,6 @@ function ManageRestaurantEdit({restaurant, setRestaurant}) {
         })
     }
 
-
-
     return (
         <div className={tailwindCSSCard}>
             <h2 className={tailwindCSSSubTitle}>{restaurant.name}</h2>

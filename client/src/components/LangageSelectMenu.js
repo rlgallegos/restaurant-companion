@@ -4,8 +4,6 @@ import { languageList } from './helpers'
 function LanugageSelectMenu({onSetLanguage}) {
     const tailwindCSSButton2 = "card my-4 mx-12 text-m flex-grow text-gray-800 border border-gray-100 rounded-md px-4 py-2 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
 
-
-    
     function handleSubmit(e) {
         e.preventDefault()
         onSetLanguage(e.target[0].value)

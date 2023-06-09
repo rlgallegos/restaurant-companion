@@ -1,19 +1,17 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+
 import OrderDetailCard from "./OrderDetailCard.js";
 
-
-
-function OrderPage({ restID, allergyList, setFilters, orderList, setOrderList, hasOrdered, setHasOrdered}) {
-
+function OrderPage({ setFilters, orderList, setOrderList, hasOrdered }) {
     const tailwindCSSSubTitle = "text-xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSButton2 = "my-1 ml-4 text-m flex-grow text-gray-800 border border-gray-100 rounded-md px-4 py-2 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
     const tailwindCSSSP = "my-1 ml-4  text-lg flex-grow text-gray-900 text-center"
 
     const location = useLocation()
     const navigate = useNavigate()
+    
     const [isLoading, setIsLoading] = useState(false)
-
 
     useEffect(() => {
         if (location.state) {
@@ -47,7 +45,7 @@ function OrderPage({ restID, allergyList, setFilters, orderList, setOrderList, h
     let uniqueID = 0
     let currentOrder = orderList.map(order => {
             uniqueID++
-            return <OrderDetailCard allergyList={allergyList} key={uniqueID} order={order} />
+            return <OrderDetailCard key={uniqueID} order={order} />
         })
 
     return (

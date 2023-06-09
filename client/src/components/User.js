@@ -1,5 +1,6 @@
-import { Routes, Route, useNavigate, Navigate, useParams } from 'react-router-dom';
+import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
 import MenuDisplay from './MenuDisplay';
 import CompleteOrderPage from './CompleteOrderPage';
 import ItemDetailsPage from './ItemDetailsPage';
@@ -7,7 +8,6 @@ import OrderPage from './OrderPage';
 import NavBar from './NavBar';
 
 function User() {
-
     const [menu, setMenu] = useState([])
     const [filters, setFilters] = useState([])
     const [orderList, setOrderList] = useState([])
@@ -15,59 +15,47 @@ function User() {
     const [hasOrdered, setHasOrdered] = useState(false)
     const [isDirect, setIsDirect] = useState(false)
     const [allergyList, setAllergyList] = useState([])
-    const [id, setID] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
     const [isLoadingTranslation, setIsLoadingTranslation] = useState(false)
     const [loadMessage, setLoadMessage] = useState('')
     const [classNames, setClassNames] = useState('')
     const [nameAddress, setNameAddress] = useState({restaurantName: null, restaurantAddress: null})
   
-    const navigate = useNavigate()
     const params = useParams()
   
     useEffect(() => {
-      setIsLoading(true)
-      if (language !== 'en') {
-        setIsLoadingTranslation(true)
-      }
-      fetch(`/${params.id}/${language}/items`)
-        .then((res) => res.json())
-        .then((data) => {
-          setIsLoading(false)
-          setIsLoadingTranslation(false)
-          setID(data.id)
-          setMenu(data.menu_items)
-          setAllergyList(data.allergies)
-          setFilters([])
-          setNameAddress({
-            restaurantName: data.name,
-            restaurantAddress: data.url
-          })
-        });
+        if (language !== 'en') {
+            setIsLoadingTranslation(true)
+        }
+        fetch(`/${params.id}/${language}/items`)
+            .then((res) => res.json())
+            .then((data) => {
+            setIsLoadingTranslation(false)
+            setMenu(data.menu_items)
+            setAllergyList(data.allergies)
+            setFilters([])
+            setNameAddress({
+                restaurantName: data.name,
+                restaurantAddress: data.url
+            })
+            });
     }, [language]);
   
     function handleSetLanguage(langAbbrev) {
-      setLanguage(langAbbrev)
-      beginMessages()
+        setLanguage(langAbbrev)
+        beginMessages()
     }
 
-
-    const messageArray = ['Sending request...', 'Translating data...', 'Building menu...']
-
     function beginMessages(){
-      setLoadMessage(() => 'Sending request...')
-      setTimeout(() => {setLoadMessage('Translating data...')}, 8000)
-      setTimeout(() => {setLoadMessage('Building menu...')}, 16000)
+        setLoadMessage(() => 'Sending request...')
+        setTimeout(() => {setLoadMessage('Translating data...')}, 8000)
+        setTimeout(() => {setLoadMessage('Building menu...')}, 16000)
     }
 
 
     useEffect(() => {
-      setClassNames('animate-fade-in')
-      setTimeout(() => {setClassNames('animate-fade-out')}, 4000)
+        setClassNames('animate-fade-in')
+        setTimeout(() => {setClassNames('animate-fade-out')}, 4000)
     }, [loadMessage])
-
-
-
 
     return (
       <>
@@ -80,7 +68,7 @@ function User() {
                 />
                 <Route 
                 path = '/complete-order'
-                element = {isDirect ? <CompleteOrderPage restID={id} language={language} orderList={orderList} /> : <Navigate to='../menu-display' />}     
+                element = {isDirect ? <CompleteOrderPage orderList={orderList} /> : <Navigate to='../menu-display' />}     
                 />
                 <Route 
                 path = '/item/:id'
@@ -88,7 +76,7 @@ function User() {
                 />
                 <Route 
                 path = '/order'
-                element = {isDirect ? <OrderPage allergyList={allergyList} setFilters={setFilters} setIsDirect={setIsDirect} hasOrdered={hasOrdered} setHasOrdered={setHasOrdered} orderList={orderList} setOrderList={setOrderList} /> : <Navigate to='../menu-display' />}     
+                element = {isDirect ? <OrderPage setFilters={setFilters} hasOrdered={hasOrdered} orderList={orderList} setOrderList={setOrderList} /> : <Navigate to='../menu-display' />}     
                 />
             </Routes>
         </div> : 

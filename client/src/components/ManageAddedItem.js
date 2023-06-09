@@ -1,37 +1,26 @@
 import { useEffect, useState } from "react"
 
 
-function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvailableAllergies, restaurant}) {
-
-    const tailwindCSSCard = "bg-gray-100 bg-opacity-80 rounded-md shadow-md sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 p-12 mx-10 my-10 flex flex-col border border-transparent "
+function ManageAddedItem({ setRestaurant, newItem, availableAllergies, restaurant}) {
     const tailwindCSSTitle = "flex-grow-0 text-3xl font-bold text-gray-700 my-4 mx-auto text-center"
     const tailwindCSSSubTitle = "text-xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSSP = "flex-grow-0 ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
     const tailwindCSSButton = "card flex-grow-0 my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
-    const tailwindCSSButton2 = "my-1 ml-4 text-m flex-grow text-gray-800 border border-gray-100 rounded-md px-4 py-2 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
     const tailwindCSSInput = "text-sm h-8 pl-0 md:pl-2 text-gray-900 text-gray-100 text-gray-100 my-2 w-full text-center md:text-left"
     const tailwindCSSSListItem = "my-2 text-m flex-grow text-gray-600 text-center"
-
-
-    
-
-    const tailwindCSS2 = "text-sm pl-2 h-8  flex-grow text-gray-100"
-
 
     const [allergyList, setAllergyList] = useState([])
     const [currentAllergies, setCurrentAllergies] = useState([])
     const [specAvailableAllergies, setSpecAvailableAllergies] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
+    // Set allergies currently available to this dish
+    // On mounting component, this will be all
     useEffect(() => {
         setSpecAvailableAllergies(availableAllergies)
     }, [availableAllergies])
 
-
-    
-
     //This fetch is to add the allergies to a given MenuItem
-
     function handleApplyChanges() {
         setIsLoading(true)
 
@@ -146,6 +135,7 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
             <br />
             <h3 className={tailwindCSSSubTitle}>Allergies staged to be added:</h3>
             {allergyList && givenAllergies}
+
             <form className="p-4 border border-gray-200 my-2" onSubmit={handleAddAllergyToList}>
                 <select className="mx-2">
                     <option className={tailwindCSSInput} disabled>Select allergy to add</option>
@@ -153,6 +143,7 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, setAvaila
                 </select>
                 <input className={tailwindCSSButton} type="submit" value="Add Allergy" />
             </form>
+            
             {allergyList && !isLoading ? <button className={tailwindCSSButton} onClick={handleApplyChanges}>Apply Changes</button> : <p className={tailwindCSSSP}>Loading...</p>}
             <br /><br />
             <h3 className={tailwindCSSSubTitle}>Allergies now applied to this dish:</h3>
