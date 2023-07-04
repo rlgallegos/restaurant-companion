@@ -1,5 +1,5 @@
 # The Restaurant Companion
-#### Video Demo:  <URL>
+#### Video Demo:  <https://www.loom.com/share/84056c04251847b2a8c35553705519cc?sid=2de19319-a0c1-4fd4-b0ad-f71c28e89567>
 
 #### Description:
 !!Please see "Min's BBQ Joint" for a complete example of a restaurant with its allergies intact!!
