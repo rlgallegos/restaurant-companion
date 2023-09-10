@@ -1,35 +1,88 @@
 # The Restaurant Companion
-#### Video Demo:  <https://www.loom.com/share/84056c04251847b2a8c35553705519cc?sid=2de19319-a0c1-4fd4-b0ad-f71c28e89567>
 
-#### Description:
-!!Please see "Min's BBQ Joint" for a complete example of a restaurant with its allergies intact!!
+## Table of Contents
+- [Introduction](#introduction)
+- [Technologies](#technologies)
+- [Key Features](#key-features)
+- [Usage](#usage)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
 
-The Problem:
+## Introduction
 
-The Restaurant Companion was initially conceived to address two difficult issues known to most hospitality workers for some time now. Firstly, the web application addresses the language barrier. From time to time, especially in cities as large and diverse as NY or LA, for example, people from varying cultures speaking different languages will come in and be unable to understand the menu. Often times, they will try to communicate with their server / bartender through hand motions, sounding out words, or in their own language. Apart from the obvious frustration that this causes both parties, it also leaves a fair amount of room for miscommunication.
+**The Restaurant Companion** is a web application designed to facilitate better communication between restaurants and their guests. It empowers restaurants to easily display their menu items along with associated allergy information. At the same time, it allows guests to navigate the menu, filter items based on their allergies, and even translates the menu and allergy information into various languages.
 
-Secondly, The Restaurant Companion aims to create a safer experience for people with allergies. Allergies abound these days. As someone who previously worked in hospitality for years, I can with confidence say that its rare a few shifts will go by without at least one guest having multiple allergies. Occasionally, you may even have a guest arrive with an actual card listing their many allergies. This combination of allergies creates some fairly complex issues:
+## Technologies
 
-What dishes can this person have?
-Which allergies can be removed from which allergies?
-What combination of dishes allows the guest to have a meal that they'd actually want to eat?
+The project leverages a stack of technologies to deliver its functionality:
 
-Between these two issues (and the horrible combination of the two), a clear problem presented itself. The Restaurant Companion endeavors to solve that problem.
+- **Frontend**: JavaScript, React.js
+- **Backend**: Python, Flask
+- **Database**: PostgreSQL, SQLAlchemy
+- **Payment Integration**: Stripe API
+- **Validation**: Formik, Yup (Frontend), Bcrypt (Backend)
+- **Translation**: Googletrans
 
-The Design:
+## Key Features
 
-In terms of the tech stack of the project, specific choices were made.
+**The Restaurant Companion** offers a range of key features for both restaurants and guests:
 
-React.js allows for a quick and user-friendly frontend. Given the nature of the users (hungry people in restaurants), the time complexity was important. This became even more paramount when the googletrans library was used to translate nested data structure, which already can take time.
+- **Restaurant Management**:
+  - Full CRUD (Create, Read, Update, Delete) capabilities for menu items, allergies, and user accounts.
+  - Subscription management using the Stripe API.
 
-Flask (and thus Python) was used for the backend. Flask is lightweight, but also robust enough to handle the needs of the project. Also, in the Python Library there were several different translation libraries to choose from. Recognizing the chief issue with the time complexity to be language translation, I chose googletrans after a fair amount of testing, principally for speed, but also for reliability.
+- **Guest Experience**:
+  - Menu navigation with allergy filtering.
+  - On-the-fly translation of menu items and allergy information into multiple languages.
+  - Generation of unique order numbers for easy communication with restaurant staff.
 
-PostgreSQL was used for the database. For scalability reasons an online databse was preferable. SQL Alchemy was employed as well, as it abstracts away a lot of the need for more complex SQL Queries and allows for clear, readable, code.
+## Installation
 
-From a design standpoint, I decided to split the project into three different "portals."
+To run this project locally, ensure you have all the necessary dependencies listed in the `piplock` file (for Python) and the `package.json` file (for JavaScript). You can install these dependencies using package managers like pip and npm.
 
-The first is the User Portal, which allows them to translate the entire menu, work with allergies in any language they choose, and build a multilingual order that notes all of the allergies they are having removed from the dish. The order is held in state, via React's useState hook, but on completion, the user can choose to translate the order. The order is saved to the databse, and a side-by-side comparison of the order in english and whichever language (or languages) the dishes were selected in is displayed, along with an order number.
+## Third-Party Integrations and APIs
 
-This order is accessible via a Hidden URL: namely the Server Portal The server or bartender is able to input the order number provided to the guest on translation and retrieve from the database the english version of their order.
+**The Restaurant Companion** integrates with the following third-party services and APIs:
 
-Lastly, there is a Manager Portal. The manager portal does what you would imagine. It allows the manager to create an account and input / edit all the necessary data for their menu. It allows full CRUD capabailities for users, allergies, menu items, etc. I employed Stripe to deal with all financial aspects of the project. When a manager first creates an account, they are prompted to create a stripe account and sign up for a trial period. Via webhooks, the data necessary to interact with Stripe (though not the users financial data) is persisted in the database. For obvious reasons, access to the Manager Portal is accessible only via username / encrypted password. The only exception being cookies, which are employed for ease-of-use, but are cleared upon logout.
+- **Stripe API**: Used to manage subscription services for restaurants.
+- **Googletrans Library**: Enables real-time translation of menu items and allergy information into multiple languages.
+
+## Contributing
+
+Contributions and issue reports are welcome! You can contribute to the project or report any issues by reaching out through the following channels:
+
+- **LinkedIn**: [Connect with Me](https://www.linkedin.com/feed/)
+- **Email**: rlgallegos85@gmail.com
+
+## License
+
+This project is open-source and currently has no licensing agreement. You are free to explore, modify, and distribute the code as needed.
+
+## Known Issues and Limitations
+
+While **The Restaurant Companion** offers a seamless experience, there is a minor glitch where the video that executes during language translation may not start. This issue is being actively addressed.
+
+## Contact Information
+
+You can get in touch with me and explore more of my work through the following links:
+
+- **LinkedIn**: [LinkedIn Profile](https://www.linkedin.com/feed/)
+- **GitHub**: [GitHub Profile](https://github.com/rlgallegos)
+- **Email**: rlgallegos85@gmail.com
+
+## Future Plans and Features
+
+I have exciting plans for the future of **The Restaurant Companion**:
+- Expanding subscription options with Stripe.
+- Allowing users to personalize menus by adding images and more.
+
+## Acknowledgments
+
+I would like to express my gratitude to the following individuals for their valuable support, ideas, and constructive feedback during the development of **The Restaurant Companion**:
+
+- [mins6649](https://github.com/mins6649)
+- [funky-dolphin](https://github.com/funky-dolphin)
+
+Your contributions have played an essential role in shaping this project. Thank you for your dedication and collaboration!
