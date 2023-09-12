@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import ManageRestaurantEditForm from "./ManageRestaurantEditForm"
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
 
 function ManageRestaurantEdit({restaurant, setRestaurant}) {
 
@@ -32,7 +33,7 @@ function ManageRestaurantEdit({restaurant, setRestaurant}) {
 
     //Delete Restaurant fetch
     function handleDeleteRestaurant() {
-        fetch('/restaurants', {
+        fetch(`${BACKEND_URL}/restaurants`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json'

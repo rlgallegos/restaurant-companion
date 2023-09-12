@@ -14,6 +14,8 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, restauran
     const [specAvailableAllergies, setSpecAvailableAllergies] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
+    const BACKEND_URL = process.env.REACT_APP_API_URL
+
     // Set allergies currently available to this dish
     // On mounting component, this will be all
     useEffect(() => {
@@ -24,7 +26,7 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, restauran
     function handleApplyChanges() {
         setIsLoading(true)
 
-        fetch(`/restaurants/${restaurant.id}/items/${newItem.id}`, {
+        fetch(`${BACKEND_URL}/restaurants/${restaurant.id}/items/${newItem.id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

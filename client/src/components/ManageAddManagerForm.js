@@ -1,6 +1,8 @@
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function ManageAddManagerForm({setUsers, users}) {
     const tailwindCSSTitle = "text-2xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSSP = "ml-2 my-2 text-m flex-grow text-gray-600 text-center md:text-left"
@@ -28,7 +30,7 @@ function ManageAddManagerForm({setUsers, users}) {
         validationSchema: formSchema,
         validateOnChange: false,
         onSubmit: values => {
-            fetch('/users', {
+            fetch(`${BACKEND_URL}/users`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -7,6 +7,8 @@ import ItemDetailsPage from './ItemDetailsPage';
 import OrderPage from './OrderPage';
 import NavBar from './NavBar';
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function User() {
     const [menu, setMenu] = useState([])
     const [filters, setFilters] = useState([])
@@ -26,7 +28,7 @@ function User() {
         if (language !== 'en') {
             setIsLoadingTranslation(true)
         }
-        fetch(`/${params.id}/${language}/items`)
+        fetch(`${BACKEND_URL}/${params.id}/${language}/items`)
             .then((res) => res.json())
             .then((data) => {
             setIsLoadingTranslation(false)

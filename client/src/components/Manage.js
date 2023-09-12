@@ -10,6 +10,8 @@ import ManageRestaurantEdit from './ManageRestaurantEdit';
 import ManageSubscription from './ManageSubscription';
 import ManageNavPlaque from './ManageNavPlaque';
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 
 function Manage() {
     const navigate = useNavigate()
@@ -32,7 +34,7 @@ function Manage() {
       }
 
     useEffect(() => {
-        fetch('/restaurant')
+        fetch(`${BACKEND_URL}/restaurant`)
         .then(res => {
             if (res.ok) {
                 res.json().then(data => {

@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function ManageLogin() {
 
     const tailwindCSSSP = "ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
@@ -27,7 +29,7 @@ function ManageLogin() {
         validationSchema: formSchema,
         validateOnChange: false,
         onSubmit: values => {
-            fetch('/login', {
+            fetch(`${BACKEND_URL}/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

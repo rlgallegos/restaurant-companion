@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function ManageRestaurantEditForm({restaurantId, onEditRestaurant}) {
     const tailwindCSSSubTitle = "text-xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSSP = "ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
@@ -34,7 +36,7 @@ function ManageRestaurantEditForm({restaurantId, onEditRestaurant}) {
         validateOnChange: false,
         onSubmit: values => {
             formik.values.restaurantID = restaurantId
-            fetch('/restaurant', {
+            fetch(`${BACKEND_URL}/restaurant`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"

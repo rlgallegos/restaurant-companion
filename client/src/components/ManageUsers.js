@@ -3,15 +3,15 @@ import { useState, useEffect } from "react"
 import ManageAddManagerForm from "./ManageAddManagerForm"
 import ManageManagerDisplay from "./ManageManagerDisplay"
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
 
 function ManageUsers({restaurant}) {
     const [users, setUsers] = useState([])
 
     useEffect(() => {
-        fetch(`/${restaurant.id}/users`, {})
+        fetch(`${BACKEND_URL}/${restaurant.id}/users`, {})
         .then(res => res.json())
         .then(data => setUsers(data))
-
     }, [])
 
     return (

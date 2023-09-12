@@ -3,6 +3,9 @@ import { useState } from "react"
 import ManageItemEdit from "./ManageItemEdit"
 import ManageAddedItem from "./ManageAddedItem"
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
+
 function ManageMenuCard({menuItem, onUpdateItem, onDeleteItem, availableAllergies, restaurant, setRestaurant}) { 
     const tailwindCSSTitle = "flex-grow-0 text-3xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSSP = "flex-grow-0 ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
@@ -12,7 +15,7 @@ function ManageMenuCard({menuItem, onUpdateItem, onDeleteItem, availableAllergie
 
     //Delete Entire MenuItem
     function handleClick() {
-        fetch(`/restaurants/${menuItem.restaurant_id}/items/${menuItem.id}`, {
+        fetch(`${BACKEND_URL}/restaurants/${menuItem.restaurant_id}/items/${menuItem.id}`, {
             method: "DELETE"
         }).then(res => {
             if (res.ok) {

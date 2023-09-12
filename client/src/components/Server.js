@@ -2,6 +2,8 @@ import { useState } from "react"
 
 import CompletedOrderItem from "./CompletedOrderItem"
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function Server(){
     const tailwindCSSCard = "bg-gray-100 bg-opacity-80 rounded-md shadow-md w-4/5 md:w-2/3 xl:w-1/4 p-12 mx-auto my-10 overflow-x-hidden"
     const tailwindCSSTitle = "text-3xl font-bold flex-grow text-gray-700 my-4"
@@ -24,7 +26,7 @@ function Server(){
         if (!orderID) return
         setIsLoading(true)
         e.preventDefault()
-        fetch(`/order/${orderID}`)
+        fetch(`${BACKEND_URL}/order/${orderID}`)
         .then(res => {
             if (!res.ok) return
             if (res.ok){

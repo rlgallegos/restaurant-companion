@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function ManageSignup() {
     const tailwindCSSSP = "ml-2 my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
     const tailwindCSSButton = "card my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
@@ -33,7 +35,7 @@ function ManageSignup() {
         validationSchema: formSchema,
         validateOnChange: false,
         onSubmit: values => {
-            fetch('/restaurants', {
+            fetch(`${BACKEND_URL}/restaurants`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

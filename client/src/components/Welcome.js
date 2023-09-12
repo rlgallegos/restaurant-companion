@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 
 import RestaurantCard from "./RestaurantCard"
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function Welcome() {
     const [restaurants, setRestaurants] = useState()
 
     useEffect(() => {
-        fetch('/restaurants')
+        fetch(`${BACKEND_URL}/restaurants`)
         .then(res => res.json())
         .then(data => setRestaurants(data))
     }, [])

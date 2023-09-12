@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 
 import OrderDetailCard from "./OrderDetailCard.js";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function OrderPage({ setFilters, orderList, setOrderList, hasOrdered }) {
     const tailwindCSSSubTitle = "text-xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSButton2 = "my-1 ml-4 text-m flex-grow text-gray-800 border border-gray-100 rounded-md px-4 py-2 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
@@ -27,7 +29,7 @@ function OrderPage({ setFilters, orderList, setOrderList, hasOrdered }) {
     function handleClick() {
         if (hasOrdered) {
             setIsLoading(true)
-            fetch('/orders', {
+            fetch(`${BACKEND_URL}/orders`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -4,13 +4,15 @@ import ManageLogin from './ManageLogin';
 import {  useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function ManageWelcome() {
     const tailwindCSSTitle = "text-3xl font-bold flex-grow text-gray-700 my-4"
     const tailwindCSSSP = "my-4 md:my-2 text-m flex-grow text-gray-600 text-center"
     const tailwindCSSButton = "my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
 
     useEffect(() => {
-        fetch('/check_session')
+        fetch(`${BACKEND_URL}/check_session`)
         .then(res => {
             if (res.ok) {
                 navigate('/manage')

@@ -6,6 +6,8 @@ import * as yup from "yup";
 import ManageAddedItem from "./ManageAddedItem";
 import ManageAllergyBar from "./ManageAllergyBar";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
+
 function ManageAddItemForm({restaurant, setRestaurant, availableAllergies, setAvailableAllergies}) {
     const tailwindCSSSP = "ml-2 my-2 text-m flex-grow text-gray-600 text-center md:text-left"
     const tailwindCSSInput = "text-sm h-8 pl-0 md:pl-2 text-gray-900 text-gray-100 text-gray-100 my-2 w-full text-center md:text-left"
@@ -32,7 +34,7 @@ function ManageAddItemForm({restaurant, setRestaurant, availableAllergies, setAv
         validationSchema: formSchema,
         validateOnChange: false,
         onSubmit: values => {
-            fetch(`/restaurants/${restaurant.id}/items`, {
+            fetch(`${BACKEND_URL}/restaurants/${restaurant.id}/items`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

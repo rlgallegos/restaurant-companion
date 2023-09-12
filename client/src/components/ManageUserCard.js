@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
+const BACKEND_URL = process.env.REACT_APP_API_URL
 
 function ManageUserCard({user, onUpdate, onDelete, onError, isEditing}){
     const tailwindCSSSP2 = "mb-4 text-lg flex-grow text-gray-600 text-center"
@@ -25,7 +26,7 @@ function ManageUserCard({user, onUpdate, onDelete, onError, isEditing}){
         validationSchema: formSchema,
         validateOnChange: false,
         onSubmit: values => {
-            fetch(`/users/${user.id}`, {
+            fetch(`${BACKEND_URL}/users/${user.id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
@@ -40,7 +41,7 @@ function ManageUserCard({user, onUpdate, onDelete, onError, isEditing}){
 
     //DELETE user
     function handleDeleteUser(){
-        fetch(`/users/${user.id}`, {
+        fetch(`${BACKEND_URL}/users/${user.id}`, {
             method: "DELETE"
         }).then(res => {
             if (res.ok){
