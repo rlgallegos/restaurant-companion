@@ -27,11 +27,15 @@ app = Flask(
 
 
 bcrypt = Bcrypt(app)
-CORS(app)
 
 load_dotenv()
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
 
 
 
