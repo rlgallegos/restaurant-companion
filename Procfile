@@ -1,1 +1,1 @@
-web: python server/app.py
+web: gunicorn --chdir server app:app
