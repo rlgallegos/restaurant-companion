@@ -98,6 +98,8 @@ api.add_resource(Restaurants, '/restaurants')
 
 class RestaurantById(Resource):
     def get(self):
+        
+        print(session.get('user_id'))
         user = User.query.filter(User.id == session.get('user_id')).first()
         if not user:
             return make_response({'error': 'Unauthorized'}, 401)
@@ -122,8 +124,6 @@ class RestaurantById(Resource):
             return make_response({'error': 'Unauthorized'}, 401)
         if not user.role == 'administrator':
             return make_response({'error': 'Unauthorized'}, 401)
-
-
 
         for attr in data:
             if not attr == 'restaurantID':
