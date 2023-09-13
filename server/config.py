@@ -30,8 +30,6 @@ app = Flask(
 bcrypt = Bcrypt(app)
 
 load_dotenv()
-print('the secret key', os.environ.get('FLASK_APP_SECRET_KEY'))
-app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -40,6 +38,8 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['CORS_HEADERS'] = 'Content-Type'
 Session(app)
+print('the secret key', os.environ.get('FLASK_APP_SECRET_KEY'))
+app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 CORS(app, supports_credentials=True, origin='*')
 
 app.json.compact = False
