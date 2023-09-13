@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
+from flask_session import Session
 
 from data_sets import ingredient_names
 
@@ -35,6 +36,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['CORS_HEADERS'] = 'Content-Type'
+Session(app)
 CORS(app, supports_credentials=True, origin='*')
 
 app.json.compact = False
