@@ -37,8 +37,6 @@ app.config['SESSION_COOKIE_SECURE'] = True
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app, supports_credentials=True, origin='*')
 
-
-
 app.json.compact = False
 
 migrate = Migrate(app, db)
