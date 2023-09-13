@@ -13,7 +13,7 @@ from models import db, Restaurant, MenuItem, Allergy, Order, OrderItem, OrderIte
 load_dotenv()
 stripe.api_key = os.environ.get('STRIPE_API_KEY')
 api = Api(app)
-app.secret_key = os.environ.get('APP_SECRET_KEY')
+# app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 
 
 
@@ -98,7 +98,7 @@ api.add_resource(Restaurants, '/restaurants')
 
 class RestaurantById(Resource):
     def get(self):
-        
+
         print(session.get('user_id'))
         user = User.query.filter(User.id == session.get('user_id')).first()
         if not user:
