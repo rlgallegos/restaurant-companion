@@ -20,14 +20,6 @@ ingredient_names = [
     'egg'
 ]
 
-# for ingredient in ingredient_names:
-#     new_allergy_object = Allergy(
-#         name = ingredient,
-#         removable = True
-#     )
-
-
-
 
 allergy_dictionary = {
     'garlic': 'garlic',

@@ -1,13 +1,9 @@
-
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from itertools import chain
 
 from config import db, bcrypt
-
-# from app import bcrypt
-
 
 class Restaurant(db.Model, SerializerMixin):
     __tablename__ = 'restaurants'
@@ -72,8 +68,6 @@ class Allergy(db.Model, SerializerMixin):
     removable = db.Column(db.Boolean)
 
     serialize_rules = ('-menu_item_allergies', '-order_item_allergies')
-
-
 
     menu_item_allergies = db.relationship('MenuItemAllergy', back_populates='allergy')
     order_item_allergies = db.relationship('OrderItemAllergy', back_populates='allergy')
