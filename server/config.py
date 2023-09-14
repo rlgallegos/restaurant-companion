@@ -41,7 +41,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['CORS_HEADERS'] = 'Content-Type'
 Session(app)
-CORS(app, supports_credentials=True, origin='*')
+CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
 
 app.json.compact = False
 
