@@ -16,8 +16,6 @@ metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
 
-db = SQLAlchemy(metadata=metadata)
-
 
 app = Flask(
     __name__,
@@ -31,18 +29,19 @@ bcrypt = Bcrypt(app)
 
 load_dotenv()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db.init_app(app)
-app.config['SESSION_TYPE'] = 'sqlalchemy'  # Use SQLAlchemy as the session interface
-app.config['SESSION_COOKIE_SAMESITE'] = 'None'
-app.config['SESSION_COOKIE_SECURE'] = True
-app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
 app.config['SECRET_KEY'] = os.environ.get('FLASK_APP_SECRET_KEY')
 print('app secret key in config.py', app.secret_key)
 
-db.init_app(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+app.config['SESSION_TYPE'] = 'sqlalchemy'  # Use SQLAlchemy as the session interface
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_USE_SIGNER'] = True
+app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
+
 app.config['CORS_HEADERS'] = 'Content-Type'
 Session(app)
 CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
@@ -50,3 +49,6 @@ CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel
 app.json.compact = False
 
 migrate = Migrate(app, db)
+
+db = SQLAlchemy(metadata=metadata)
+db.init_app(app)
