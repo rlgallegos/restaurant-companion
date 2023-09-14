@@ -33,13 +33,13 @@ load_dotenv()
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 
 # app.config['SESSION_TYPE'] = 'filesystem'
 # app.config['SESSION_INTERFACE'] = 'filesystem'
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
+app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 Session(app)
