@@ -30,7 +30,6 @@ app = Flask(
 bcrypt = Bcrypt(app)
 
 load_dotenv()
-print('the secret key', os.environ.get('FLASK_APP_SECRET_KEY'))
 app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')

@@ -57,7 +57,6 @@ class Restaurants(Resource):
             db.session.add(new_restaurant)
             db.session.commit()
         except:
-            print('error 1')
             return make_response({'error': 'Resource not created'}, 422)
 
         # Initialize First Administrator
@@ -67,12 +66,10 @@ class Restaurants(Resource):
             restaurant = new_restaurant,
             role = 'administrator'
         )
-        print(new_user.to_dict())
         try:
             db.session.add(new_user)
             db.session.commit()
         except:
-            print('error 2')
             return make_response({'error': 'Resource not created'}, 422)
         session['user_id'] = new_user.id
         session['role'] = new_user.role
@@ -98,7 +95,7 @@ api.add_resource(Restaurants, '/restaurants')
 
 class RestaurantById(Resource):
     def get(self):
-
+        print('/restaurant GET')
         print(session.get('user_id'))
         user = User.query.filter(User.id == session.get('user_id')).first()
         if not user:
@@ -179,10 +176,6 @@ class ItemByID(Resource):
     def post(self, restaurant_id, item_id):
         data = request.get_json()
         menu_item = MenuItem.query.filter(MenuItem.id == item_id).first()
-        print('All Data:')
-        print(data)
-        print('Current MenuItem:')
-        print(menu_item.to_dict())
         new_allergy_list = []
         total_allergy_list = []
         for allergy in data:
@@ -202,7 +195,6 @@ class ItemByID(Resource):
                 try:
                     db.session.add(new_joint)
                     db.session.commit()
-                    print('saved pre-existing allergy"s connection in db')
                 except:
                     return make_response({'error': 'Failed to create resource'}, 422)
 
@@ -228,19 +220,16 @@ class ItemByID(Resource):
                     db.session.add(new_allergy)
                     db.session.add(new_joint)
                     db.session.commit()
-                    print('saved new allergy in db')
                 except:
                     return make_response({'error': 'Failed to create resource'}, 422)
 
         updated_item = MenuItem.query.filter(MenuItem.id == menu_item.id).first()
         response_list = [allergy.to_dict() for allergy in updated_item.allergies]
-        # print(response_list)
         return make_response(response_list, 200)
 
 
     def patch(self, restaurant_id, item_id):
         data = request.get_json()
-        print(data)
         menu_item = MenuItem.query.filter(MenuItem.id == item_id).first()
 
         # Update the attributes
@@ -265,7 +254,6 @@ class ItemByID(Resource):
                 allergy['id'] == MenuItemAllergy.allergy_id,
                 menu_item.id == MenuItemAllergy.menu_item_id
             ).first()
-            print(link_instance)
             try:
                 db.session.delete(link_instance)
                 db.session.commit()
@@ -290,7 +278,6 @@ class Users(Resource):
 
     def post(self):
         data = request.get_json()
-        print(data)
         new_user = User(
             username = data['username'],
             password_hash = data['password'],
@@ -512,11 +499,8 @@ def create_checkout_session():
                 'trial_period_days': 14
             },
         )
-        # print('----this is the checkout session object--------')
-        # print(checkout_session)
         return redirect(checkout_session.url, code=303)
     except Exception as e:
-        print(e)
         return "Server error", 500
 
 
@@ -537,13 +521,11 @@ def customer_portal():
     
     return_url = 'https://restaurant-companion.vercel.app/manage/subscription'
 
-    print('beginning portal session')
     portalSession = stripe.billing_portal.Session.create(
         # customer=checkout_session.customer,
         customer=customer_id,
         return_url=return_url,
     )
-    # print(portalSession.url)
     return make_response({"url": portalSession.url}, 200)
 
 
@@ -553,8 +535,6 @@ def customer_portal():
 def stripe_webhook():
     webhook_secret = os.environ.get('STRIPE_WEBHOOK_SECRET')
     request_data = json.loads(request.data)
-    # print('request_data from the webhook--------------------------------')
-    # print(request_data)
     if webhook_secret:
         # Retrieve the event by verifying the signature using the raw body and secret if webhook signing is configured.
         signature = request.headers.get('stripe-signature')
@@ -580,7 +560,6 @@ def stripe_webhook():
         ).first()
 
         restaurant.stripe_customer_id = data.object.customer
-        print('Finished checkout session event')
         try:
             db.session.add(restaurant)
             db.session.commit()
@@ -604,9 +583,7 @@ def stripe_webhook():
         restaurant = Restaurant.query.filter(
             Restaurant.stripe_customer_id == data.object.customer
         ).first()
-        print(restaurant)
         restaurant.stripe_status = 'paid'
-        print('finished payment succeeded event')
         try:
             db.session.add(restaurant)
             db.session.commit()
@@ -664,10 +641,7 @@ def stripe_webhook():
 @app.route('/get-stripe-status', methods=['POST'])
 def get_status():
     rest_id = request.get_json()
-    print('the rest id')
-    print(rest_id)
     stripe_status = Restaurant.query.filter(Restaurant.id == rest_id).first().stripe_status
-    print(stripe_status)
     if not stripe_status:
         return make_response({'status': "none"})
     else:

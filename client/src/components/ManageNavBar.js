@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ManageLogoutButton from "./ManageLogoutButton"
 import { Link, useNavigate } from "react-router-dom";
 
-function ManageNavBar({setRestaurant, restaurant}) {
+function ManageNavBar() {
     const tailwindCSSLink = "w-screen md:w-auto flex items-center my-1 text-m text-gray-100 rounded-md py-1 md:py-auto px-auto hover:bg-gray-100 hover:bg-opacity-90 transition-all duration-200 ease-in-out active:bg-white"
     const tailwindCSSLinkActive = "w-screen md:w-auto flex items-center my-1 text-m text-gray-100 rounded-md py-1 md:py-auto px-auto border-2 border-white bg-opacity-90 hover:bg-gray-100 transition-all duration-200 ease-in-out active:bg-white"
     const tailwindCSSLinkText = "whitespace-nowrap text-gray-700 hover:text-gray-900 active:text-gray-100 text-center w-full px-12"
