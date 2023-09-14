@@ -4,7 +4,7 @@ from googletrans import Translator
 from sqlalchemy.orm import noload
 from flask_restful import Api, Resource
 from data_sets import ingredient_names
-from config import app, db, session
+from config import app, db
 from dotenv import load_dotenv
 import stripe
 
