@@ -39,11 +39,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
-app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
-print('app secret key in config.py', app.secret_key)
+
 
 app.config['CORS_HEADERS'] = 'Content-Type'
-session = Session(app)
+Session(app)
 CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
 
 app.json.compact = False
