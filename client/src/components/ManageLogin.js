@@ -31,6 +31,7 @@ function ManageLogin() {
         onSubmit: values => {
             fetch(`${BACKEND_URL}/login`, {
                 method: "POST",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },
