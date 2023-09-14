@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
-
+from flask_session import Session
 
 from data_sets import ingredient_names
 
@@ -39,13 +39,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
+app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
+print('app secret key in config.py', app.secret_key)
 
-
+db.init_app(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+Session(app)
 CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
 
 app.json.compact = False
 
 migrate = Migrate(app, db)
-
-db.init_app(app)
