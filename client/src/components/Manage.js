@@ -50,7 +50,7 @@ function Manage() {
 
     const pathName = window.location.pathname;    
     useEffect(() => {
-        if (pathName == '/#/manage'){
+        if (pathName == '/manage'){
             setIsMainPage(true)
         } else {
             setIsMainPage(false)
