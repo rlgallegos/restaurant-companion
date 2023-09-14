@@ -348,6 +348,8 @@ api.add_resource(UserByID, '/users/<int:id>')
 
 class CheckSession(Resource):
     def get(self):
+        print('check session route')
+        print(session.get('user_id'))
         user = User.query.filter(User.id == session.get('user_id')).first()
         if not user:
             return make_response({'error': 'Unauthorized'}, 401)
