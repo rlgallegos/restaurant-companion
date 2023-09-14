@@ -35,6 +35,7 @@ function ManageRestaurantEdit({restaurant, setRestaurant}) {
     function handleDeleteRestaurant() {
         fetch(`${BACKEND_URL}/restaurants`, {
             method: "DELETE",
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },

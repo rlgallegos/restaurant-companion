@@ -28,6 +28,7 @@ function ManageUserCard({user, onUpdate, onDelete, onError, isEditing}){
         onSubmit: values => {
             fetch(`${BACKEND_URL}/users/${user.id}`, {
                 method: "PATCH",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -42,7 +43,8 @@ function ManageUserCard({user, onUpdate, onDelete, onError, isEditing}){
     //DELETE user
     function handleDeleteUser(){
         fetch(`${BACKEND_URL}/users/${user.id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            credentials: 'include'
         }).then(res => {
             if (res.ok){
                 onDelete(user)

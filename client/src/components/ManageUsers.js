@@ -9,7 +9,7 @@ function ManageUsers({restaurant}) {
     const [users, setUsers] = useState([])
 
     useEffect(() => {
-        fetch(`${BACKEND_URL}/${restaurant.id}/users`, {})
+        fetch(`${BACKEND_URL}/${restaurant.id}/users`, {credentials: 'include'})
         .then(res => res.json())
         .then(data => setUsers(data))
     }, [])

@@ -26,7 +26,7 @@ function Server(){
         if (!orderID) return
         setIsLoading(true)
         e.preventDefault()
-        fetch(`${BACKEND_URL}/order/${orderID}`)
+        fetch(`${BACKEND_URL}/order/${orderID}`, {credentials: 'include'})
         .then(res => {
             if (!res.ok) return
             if (res.ok){

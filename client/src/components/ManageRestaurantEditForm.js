@@ -38,8 +38,9 @@ function ManageRestaurantEditForm({restaurantId, onEditRestaurant}) {
             formik.values.restaurantID = restaurantId
             fetch(`${BACKEND_URL}/restaurant`, {
                 method: "PATCH",
+                credentials: 'include',
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(values)
             }).then(res => {

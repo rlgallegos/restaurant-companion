@@ -36,6 +36,7 @@ function ManageAddItemForm({restaurant, setRestaurant, availableAllergies, setAv
         onSubmit: values => {
             fetch(`${BACKEND_URL}/restaurants/${restaurant.id}/items`, {
                 method: "POST",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },

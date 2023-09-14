@@ -28,6 +28,7 @@ function ManageAddedItem({ setRestaurant, newItem, availableAllergies, restauran
 
         fetch(`${BACKEND_URL}/restaurants/${restaurant.id}/items/${newItem.id}`, {
             method: "POST",
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json"
             },

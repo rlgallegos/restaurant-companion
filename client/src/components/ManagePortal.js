@@ -9,7 +9,7 @@ function ManagePortal() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch(`${BACKEND_URL}/check_session`)
+        fetch(`${BACKEND_URL}/check_session`, {credentials: 'include'})
         .then(res => {
             if (res.ok) {
                 return res.json()

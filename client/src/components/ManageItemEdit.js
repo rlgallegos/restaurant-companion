@@ -43,6 +43,7 @@ function ManageItemEdit({menuItem, onUpdateItem}) {
             formik.values.allergies = itemAllergies
             fetch(`${BACKEND_URL}/restaurants/${menuItem.restaurant_id}/items/${menuItem.id}`,{
                 method: "PATCH",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },

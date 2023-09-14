@@ -37,6 +37,7 @@ function ManageSignup() {
         onSubmit: values => {
             fetch(`${BACKEND_URL}/restaurants`, {
                 method: "POST",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },

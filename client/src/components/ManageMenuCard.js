@@ -16,7 +16,8 @@ function ManageMenuCard({menuItem, onUpdateItem, onDeleteItem, availableAllergie
     //Delete Entire MenuItem
     function handleClick() {
         fetch(`${BACKEND_URL}/restaurants/${menuItem.restaurant_id}/items/${menuItem.id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            credentials: 'include',
         }).then(res => {
             if (res.ok) {
                 onDeleteItem(menuItem.id)

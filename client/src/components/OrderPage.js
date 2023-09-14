@@ -31,6 +31,7 @@ function OrderPage({ setFilters, orderList, setOrderList, hasOrdered }) {
             setIsLoading(true)
             fetch(`${BACKEND_URL}/orders`, {
                 method: "POST",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },

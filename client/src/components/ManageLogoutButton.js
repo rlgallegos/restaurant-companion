@@ -10,6 +10,7 @@ function ManageLogoutButton() {
     function handleLogout() {
         fetch(`${BACKEND_URL}/logout`, {
             method: "DELETE",
+            credentials: 'include',
         }).then(res => {
             if (res.ok) {
                 navigate('/welcome')

@@ -8,7 +8,7 @@ function Welcome() {
     const [restaurants, setRestaurants] = useState()
 
     useEffect(() => {
-        fetch(`${BACKEND_URL}/restaurants`)
+        fetch(`${BACKEND_URL}/restaurants`, {credentials: 'include'})
         .then(res => res.json())
         .then(data => setRestaurants(data))
     }, [])

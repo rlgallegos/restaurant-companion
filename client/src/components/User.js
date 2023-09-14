@@ -28,7 +28,7 @@ function User() {
         if (language !== 'en') {
             setIsLoadingTranslation(true)
         }
-        fetch(`${BACKEND_URL}/${params.id}/${language}/items`)
+        fetch(`${BACKEND_URL}/${params.id}/${language}/items`, {credentials: 'include'})
             .then((res) => res.json())
             .then((data) => {
             setIsLoadingTranslation(false)

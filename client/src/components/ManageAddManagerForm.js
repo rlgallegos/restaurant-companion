@@ -32,6 +32,7 @@ function ManageAddManagerForm({setUsers, users}) {
         onSubmit: values => {
             fetch(`${BACKEND_URL}/users`, {
                 method: "POST",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },

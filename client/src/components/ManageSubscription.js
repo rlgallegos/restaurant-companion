@@ -31,6 +31,7 @@ function ManageSubscription({id, setStatus, status}){
         //fetch to the backend to open the portal
         fetch(`${BACKEND_URL}/create-portal-session`, {
             method: "POST",
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json"
             },
