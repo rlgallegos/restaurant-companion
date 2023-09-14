@@ -47,7 +47,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
 
 app.config['CORS_HEADERS'] = 'Content-Type'
-session_interface = SqlAlchemySessionInterface(
+app.session_interface = SqlAlchemySessionInterface(
     app=app,
     db=db,
     table='your_session_table',  # Replace with your desired session table name
@@ -58,7 +58,8 @@ session_interface = SqlAlchemySessionInterface(
 
 
 
-Session(app, session_interface=session_interface)
+# Session(app, session_interface=session_interface)
+Session(app)
 CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
 
 app.json.compact = False
