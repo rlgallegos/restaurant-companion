@@ -39,7 +39,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
-app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
+app.config['SECRET_KEY'] = os.environ.get('FLASK_APP_SECRET_KEY')
 print('app secret key in config.py', app.secret_key)
 
 db.init_app(app)
