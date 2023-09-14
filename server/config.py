@@ -16,8 +16,6 @@ metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
 
-
-
 app = Flask(
     __name__,
     static_url_path='',
@@ -55,8 +53,6 @@ app.session_interface = SqlAlchemySessionInterface(
     use_signer=True,  # Whether to sign the session id cookie or not
     permanent=False  # Whether to use permanent sessions or not
 )
-
-
 
 # Session(app, session_interface=session_interface)
 Session(app)
