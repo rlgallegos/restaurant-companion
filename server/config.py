@@ -34,8 +34,8 @@ load_dotenv()
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# app.config['SESSION_TYPE'] = 'filesystem'
-# app.config['SESSION_INTERFACE'] = 'filesystem'
+db.init_app(app)
+app.config['SESSION_TYPE'] = 'sqlalchemy'  # Use SQLAlchemy as the session interface
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
