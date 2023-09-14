@@ -45,7 +45,7 @@ migrate = Migrate(app, db)
 # app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
 
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.session_interface = SqlAlchemySessionInterface(
+SqlAlchemySessionInterface(
     app=app,
     db=db,
     table='your_session_table',  # Replace with your desired session table name
@@ -55,7 +55,7 @@ app.session_interface = SqlAlchemySessionInterface(
 )
 
 # Session(app, session_interface=session_interface)
-Session(app)
+
 CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
 
 app.json.compact = False
