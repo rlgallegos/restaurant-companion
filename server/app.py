@@ -528,15 +528,12 @@ def customer_portal():
     # Typically this is stored alongside the authenticated user in your database.
     user = User.query.filter(User.id == session['user_id']).first()
 
-    # print(user.to_dict())
-    # print(user.role)
     if not user.role == 'administrator':
         return make_response({'error': "Unauthorized"}, 401)
 
     customer_id = Restaurant.query.filter(
         Restaurant.id == user.restaurant_id
     ).first().stripe_customer_id
-    # print(customer_id)
     
     return_url = 'https://capstone-project-ckbr.onrender.com/#/manage/subscription'
 
