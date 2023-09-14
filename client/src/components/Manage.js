@@ -34,7 +34,7 @@ function Manage() {
       }
 
     useEffect(() => {
-        fetch(`${BACKEND_URL}/restaurant`)
+        fetch(`${BACKEND_URL}/restaurant`, {credentials: 'include'})
         .then(res => {
             if (res.ok) {
                 res.json().then(data => {
