@@ -12,7 +12,7 @@ function ManageWelcome() {
     const tailwindCSSButton = "my-1 text-m flex-grow text-gray-700 border border-gray-400 rounded-md px-4 py-2 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 ease-in-out transform hover:scale-105"
 
     useEffect(() => {
-        fetch(`${BACKEND_URL}/check_session`, {credentials: 'include'})
+        fetch(`${BACKEND_URL}/check_session`)
         .then(res => {
             if (res.ok) {
                 navigate('/manage')
