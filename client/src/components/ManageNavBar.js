@@ -7,7 +7,7 @@ function ManageNavBar({setRestaurant, restaurant}) {
     const tailwindCSSLinkActive = "w-screen md:w-auto flex items-center my-1 text-m text-gray-100 rounded-md py-1 md:py-auto px-auto border-2 border-white bg-opacity-90 hover:bg-gray-100 transition-all duration-200 ease-in-out active:bg-white"
     const tailwindCSSLinkText = "whitespace-nowrap text-gray-700 hover:text-gray-900 active:text-gray-100 text-center w-full px-12"
 
-    const tailwindCSSMenu = 'items-center card items-align-left'
+    const tailwindCSSMenu = 'items-center card items-align-left md:hidden'
 
     const navigate = useNavigate()
     const [isOpenNavBar, setIsOpenNavBar] = useState(
