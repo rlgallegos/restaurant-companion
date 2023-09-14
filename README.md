@@ -3,6 +3,7 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [Technologies](#technologies)
+- [Notes On Testing](#notes-on-testing)
 - [Key Features](#key-features)
 - [Usage](#usage)
 - [Installation](#installation)
@@ -24,6 +25,11 @@ The project leverages a stack of technologies to deliver its functionality:
 - **Payment Integration**: Stripe API
 - **Validation**: Formik, Yup (Frontend), Bcrypt (Backend)
 - **Translation**: Googletrans
+
+## Notes On Testing
+  - All Data is randomly seeded specifically to show functionality, so allergy / dietary information may be incorrect / illogical 
+  as a result (Vegan Ribeye, for example).
+  - To pass test credit card validation via Stripe's API, per their documentation, the credit card entered must be 4242-4242-4242-4242.
 
 ## Key Features
 
