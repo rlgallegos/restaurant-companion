@@ -40,6 +40,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
 app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
+print('app secret key in config.py', app.secret_key)
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 Session(app)
