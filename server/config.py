@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
-from flask_session import Session, Sqlalchemy
+from flask_session import Session
 
 from data_sets import ingredient_names
 
