@@ -1,10 +1,10 @@
 import os
-from flask import Flask, request, make_response, session, redirect, render_template, json, jsonify
+from flask import Flask, request, make_response, redirect, render_template, json, jsonify
 from googletrans import Translator
 from sqlalchemy.orm import noload
 from flask_restful import Api, Resource
 from data_sets import ingredient_names
-from config import app, db
+from config import app, db, session
 from dotenv import load_dotenv
 import stripe
 
@@ -13,7 +13,6 @@ from models import db, Restaurant, MenuItem, Allergy, Order, OrderItem, OrderIte
 load_dotenv()
 stripe.api_key = os.environ.get('STRIPE_API_KEY')
 api = Api(app)
-# app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 
 
 

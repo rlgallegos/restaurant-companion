@@ -43,7 +43,7 @@ app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 print('app secret key in config.py', app.secret_key)
 
 app.config['CORS_HEADERS'] = 'Content-Type'
-Session(app)
+session = Session(app)
 CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
 
 app.json.compact = False
