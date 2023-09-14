@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
-from flask_session import Session
+from flask_session import Session, Sqlalchemy
 
 from data_sets import ingredient_names
 
@@ -48,7 +48,7 @@ CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel
 
 app.json.compact = False
 
-migrate = Migrate(app, db)
 
 db = SQLAlchemy(metadata=metadata)
+migrate = Migrate(app, db)
 db.init_app(app)
