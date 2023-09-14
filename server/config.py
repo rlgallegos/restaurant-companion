@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
-from flask_session import Session, SqlAlchemySessionInterface
+from flask_session import Session, SqlAlchemySessionInterface, FileSystemSessionInterface
 
 from data_sets import ingredient_names
 
@@ -37,24 +37,25 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(metadata=metadata)
 migrate = Migrate(app, db)
 
-# app.config['SESSION_TYPE'] = 'sqlalchemy'  # Use SQLAlchemy as the session interface
-# app.config['SESSION_COOKIE_SAMESITE'] = 'None'
-# app.config['SESSION_COOKIE_SECURE'] = True
-# app.config['SESSION_USE_SIGNER'] = True
-# app.config['SESSION_PERMANENT'] = False
-# app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_INTERFACE'] = 'filesystem'
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_USE_SIGNER'] = True
+app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
 
 app.config['CORS_HEADERS'] = 'Content-Type'
-SqlAlchemySessionInterface(
-    app=app,
-    db=db,
-    table='your_session_table',  # Replace with your desired session table name
-    key_prefix='your_prefix',  # Replace with your desired session key prefix
-    use_signer=True,  # Whether to sign the session id cookie or not
-    permanent=False  # Whether to use permanent sessions or not
-)
+# SqlAlchemySessionInterface(
+#     app=app,
+#     db=db,
+#     table='your_session_table',  # Replace with your desired session table name
+#     key_prefix='your_prefix',  # Replace with your desired session key prefix
+#     use_signer=True,  # Whether to sign the session id cookie or not
+#     permanent=False  # Whether to use permanent sessions or not
+# )
 
-# Session(app, session_interface=session_interface)
+Session(app)
 
 CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
 
