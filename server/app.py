@@ -14,9 +14,6 @@ load_dotenv()
 stripe.api_key = os.environ.get('STRIPE_API_KEY')
 api = Api(app)
 
-
-
-
 # Basic Route for setup 
 # @app.route('/')
 # @app.route('/<int:id>')
