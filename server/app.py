@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, make_response, redirect, render_template, json, jsonify, session
+from flask_session import Session
 from googletrans import Translator
 from sqlalchemy.orm import noload
 from flask_restful import Api, Resource
@@ -15,6 +16,7 @@ stripe.api_key = os.environ.get('STRIPE_API_KEY')
 api = Api(app)
 app.secret_key = os.environ.get('FLASK_APP_SECRET_KEY')
 print('app secret key in app.py', app.secret_key)
+Session(app)
 
 
 
