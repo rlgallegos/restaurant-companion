@@ -16,7 +16,6 @@ metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
 
-db = SQLAlchemy(metadata=metadata)
 
 
 app = Flask(
@@ -26,18 +25,19 @@ app = Flask(
     template_folder='../client/build'
 )
 
-migrate = Migrate(app, db)
 
 bcrypt = Bcrypt(app)
 
 load_dotenv()
 
 app.config['SECRET_KEY'] = os.environ.get('FLASK_APP_SECRET_KEY')
-print('app secret key in config.py', app.secret_key)
+# print('app secret key in config.py', app.secret_key)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db = SQLAlchemy(metadata=metadata)
+migrate = Migrate(app, db)
 
 # app.config['SESSION_TYPE'] = 'sqlalchemy'  # Use SQLAlchemy as the session interface
 # app.config['SESSION_COOKIE_SAMESITE'] = 'None'
