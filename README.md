@@ -5,7 +5,6 @@
 - [Technologies](#technologies)
 - [Notes On Testing](#notes-on-testing)
 - [Key Features](#key-features)
-- [Usage](#usage)
 - [Installation](#installation)
 - [Contributing](#contributing)
 - [License](#license)
@@ -30,6 +29,9 @@ The project leverages a stack of technologies to deliver its functionality:
   - All Data is randomly seeded specifically to show functionality, so allergy / dietary information may be incorrect / illogical 
   as a result (Vegan Ribeye, for example).
   - To pass test credit card validation via Stripe's API, per their documentation, the credit card entered must be 4242-4242-4242-4242.
+  - There is an additional path intentionally separated from the main app at path "/server". This path is intended to be used by servers 
+  who have access to it behind the scenes in the form of a QR Code. There, the server can input the code provided to the guest upon them submitting 
+  their order for translation. The server receives at this path, using this code, the translated version of the guests' order.
 
 ## Key Features
 
@@ -65,10 +67,6 @@ Contributions and issue reports are welcome! You can contribute to the project o
 ## License
 
 This project is open-source and currently has no licensing agreement. You are free to explore, modify, and distribute the code as needed.
-
-## Known Issues and Limitations
-
-While **The Restaurant Companion** offers a seamless experience, there is a minor glitch where the video that executes during language translation may not start. This issue is being actively addressed.
 
 ## Contact Information
 
