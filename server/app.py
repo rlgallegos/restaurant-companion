@@ -20,8 +20,6 @@ api = Api(app)
 # def index(id=0):
 #     return render_template("index.html")
 
-
-
 # Manager / Restaurant Routes (RESTful)
 
 # Restaurant Routes
