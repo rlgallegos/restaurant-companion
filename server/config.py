@@ -47,15 +47,6 @@ app.config['SESSION_COOKIE_NAME'] = 'manage_cookie'
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-# SqlAlchemySessionInterface(
-#     app=app,
-#     db=db,
-#     table='your_session_table',  # Replace with your desired session table name
-#     key_prefix='your_prefix',  # Replace with your desired session key prefix
-#     use_signer=True,  # Whether to sign the session id cookie or not
-#     permanent=False  # Whether to use permanent sessions or not
-# )
-
 Session(app)
 
 CORS(app, supports_credentials=True, origin='https://restaurant-companion.vercel.app')
