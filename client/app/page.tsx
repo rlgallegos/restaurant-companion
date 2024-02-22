@@ -12,7 +12,7 @@ const Home: React.FC = () => {
         <div className="h-1/2 w-1/2 px-6 flex items-center justify-center">
             <nav className="flex justify-evenly items-center w-full">
                 <Link href='/'>Manage Portal</Link>
-                <Link href='/'>User Portal</Link>
+                <Link href='/restaurants'>User Portal</Link>
             </nav>
         </div>
 

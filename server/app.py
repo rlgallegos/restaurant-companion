@@ -30,6 +30,7 @@ class Restaurants(Resource):
         restaurant_list = [restaurant.to_dict(
             only=('id', 'name', 'url')
         ) for restaurant in restaurants]
+        restaurant_list.sort(key=lambda r: r['name'])
         return make_response(restaurant_list, 200)
 
 
